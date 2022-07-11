@@ -1,0 +1,83 @@
+	
+	.fs16{
+		font-size: 16px;
+	}
+	.fs12{
+		font-size: 12px;
+	}
+	.title{
+		color: #aaa;
+		font-size: 12px;
+	}
+	.delete{
+		color: blue;
+		cursor: pointer;
+	}
+	.msg{
+		margin: 0 auto 15px;
+		width: 300px;
+		font-weight: bold;
+		line-height: 2;
+		text-align: center;
+		font-size: 16px;
+		border-radius: 5px;
+	}
+	.success{
+		background: #4caf50;
+		color: white;
+	}
+	.error{
+		background: #f44336;
+		color: white;
+	}
+		.place{
+		display: none;
+	}
+	label.fs12{
+		font-size: 12px;
+	}
+	#caution{
+		font-size: 10px;
+	}
+	@media print{
+		body{
+			margin: 0;
+		}
+		#menu {
+			display:none;
+		}
+		ul.navbar{
+			display:none;
+		}
+		span.epi{
+			display:none;		
+		}
+	}
+	.content{
+		padding-left: 20px;
+	}
+	ul.nav li.dropdown:hover > ul.dropdown-menu {
+		display: block;    
+	}	
+	
+	ul.nav{
+//		margin-top: 15px;
+	}
+	input.num{
+		width: 60px;
+	}
+	span.epi{
+		font-size: 8px;
+		font-weight: bold;
+		background: #ff0000;
+		border: 1px solid #ff0000;
+		border-radius: 3px;
+		color: #ffffff;
+		padding: 2px;
+	}
+	table.submission_table th,
+	table.submission_table td
+	{
+		padding: 1px 5px!important;
+	}
+	
