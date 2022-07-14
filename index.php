@@ -19,33 +19,34 @@ $title = '新トップ';
 		<div class="row justify-content-center">
 			<h1>OTC管理画面</h1>
 
-			<div class="col-3">
+			<div class="col-sm-4 col-md-3">
 				<h3>追加登録</h3>
 				<div class="d-grid gap-4">
-					<a href="new_otc.php" class="btn btn-primary p-3 rounded-pill fs-4" type="button">OTC新規登録</a>
-					<a href="warehousing.php" class="btn btn-primary p-3 rounded-pill fs-4" type="button">入庫登録(BarCode)</a>
-					<a href="proceeds.php" class="btn btn-primary p-3 rounded-pill fs-4" type="button">売上登録</a>
+					<a href="new_otc.php" class="btn btn-outline-primary p-3 rounded-pill fs-5" type="button"><i class="bi bi-file-earmark-plus"></i> OTC新規登録</a>
+					<a href="warehousing.php" class="btn btn-outline-primary p-3 rounded-pill fs-5" type="button"><i class="bi bi-arrow-right"></i><i class="bi bi-shop-window"></i> 入庫登録</a>
+					<a href="proceeds.php" class="btn btn-outline-primary p-3 rounded-pill fs-5" type="button"><i class="bi bi-arrow-right"></i><i class="bi bi-person-fill"></i> 売上登録</a>
+					<a href="returned.php" class="btn btn-outline-primary p-3 rounded-pill fs-5" type="button"><i class="bi bi-reply-fill"></i> 返品登録</a>
 				</div>
 			</div>
-			<div class="col-3">
+			<div class="col-sm-4 col-md-3">
 				<h3>一覧表示</h3>
 				<div class="d-grid gap-2">
-					<a href="otc_list_2.php" class="btn btn-warning p-3 rounded-pill fs-4" type="button">OTC一覧</a>
-					<a href="otc_list_new.php" class="btn btn-warning p-3 rounded-pill fs-4" type="button">OTC一覧【入荷順】</a>
-					<a href="calendar.php" class="btn btn-warning p-3 rounded-pill fs-4" type="button">販売一覧</a>
-					<a href="warehousing_list.php" class="btn btn-warning p-3 rounded-pill fs-4" type="button">OTC新規登録</a>
-					<a href="otc_list_new.php" class="btn btn-warning p-3 rounded-pill fs-4" type="button">入庫一覧</a>
-					<a href="sales_calendar.php" class="btn btn-warning p-3 rounded-pill fs-4" type="button">月間売上</a>
+					<a href="otc_list_2.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> OTC一覧</a>
+					<a href="otc_list_new.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-stars"></i> 新入荷一覧</a>
+					<a href="calendar.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-calendar-week"></i> 販売一覧</a>
+					<a href="warehousing_list.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button">OTC新規登録</a>
+					<a href="otc_list_new.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button">入庫一覧</a>
+					<a href="sales_calendar.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-currency-yen"></i> 月間売上</a>
 				</div>
 			</div>
-			<div class="col-3">
+			<div class="col-sm-4 col-md-3">
 				<h3>修正一覧</h3>
 				<div class="d-grid gap-2">
-					<a href="otc_list.php" class="btn btn-success p-3 rounded-pill fs-4" type="button">OTC編集</a>
+					<a href="otc_list.php" class="btn btn-outline-success p-3 rounded-pill fs-5" type="button"><i class="bi bi-pencil-square"></i> OTC編集</a>
 				</div>
 				<hr>
 				<div class="d-grid gap-2">
-					<a href="setting.php" class="btn btn-danger p-3 rounded-pill fs-4" type="button">設定</a>
+					<a href="setting.php" class="btn btn-outline-danger p-3 rounded-pill fs-5" type="button"><i class="bi bi-gear"></i> 設定</a>
 				</div>
 
 			</div>
