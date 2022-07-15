@@ -30,151 +30,134 @@ $title = 'OTC新規登録画面';
 	<?php include('template/navber.php'); ?>
 	<div class="container">
 
-  	<div class="row">
+	<form method="post" action="" enctype="multipart/form-data" id="myform" class="g-3 needs-validation" novalidate>
+
+  	<div class="row justify-content-center">
 		<h1>OTC新規作成画面</h1>
 
-		<form method="post" action="" enctype="multipart/form-data" id="myform" class="g-3 needs-validation" novalidate>
-			<div class="row g-3 mb-3 align-items-center">
-				<div class="col-auto">
-					<label for="inputName" class="col-form-label">OTC名</label>
-				</div>
-				<div class="col-auto">
-					<input type="text" id="inputName" class="form-control"  name="name" placeholder="名前" required>
-					<div class="invalid-feedback">OTCの名前を入力してください!</div>
-				</div>
-			</div>
 
-			<div class="row g-3 mb-3 align-items-center">
-				<div class="col-auto">
-					<label for="inputKana" class="col-form-label">かな名</label>
-				</div>
-				<div class="col-auto">
-					<input type="text" id="inputKana" class="form-control"  name="kana" placeholder="かな名" required>
-					<div class="invalid-feedback">かな名を入力してください!</div>
-				</div>
-			</div>
-
-			<div class="row g-3 mb-3 align-items-center">
-				<div class="col-auto">
-					<label for="inputJan" class="col-form-label">JANコード</label>
-				</div>
-				<div class="col-auto">
-					<input type="text" id="inputJan" class="form-control"  name="jan" placeholder="JANコード(半角英数字)" required>
-					<div class="invalid-feedback">JANコードを入力してください!</div>
-				</div>
-			</div>
-
-			<div class="row g-3 mb-3 align-items-center">
-				<div class="col-auto">
-					<label for="inputNums" class="col-form-label">個数</label>
-				</div>
-				<div class="col-auto">
-					<input type="text" id="inputNums" class="form-control" name="stock_nums" placeholder="個数(半角英数字)" required>
-					<div class="invalid-feedback">JANコードを入力してください!</div>
-				</div>
-				<div class="col-auto">個 <small>（単位なしで入力）</small></div>
-			</div>
-
-		
-
-
-
-
-
-
-
-
-
-
-
-			<div class="col-sm-7">
-				<div class="form-group row">
-					<label for="inputName" class="col-sm-3 text-end">OTC名</label>
-					<div class="col-sm-7">
-						<input type="text" class="form-control" id="inputName" name="name" placeholder="名前">
+			<div class="col-8">
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputName" class="col-form-label">OTC名</label>
+					</div>
+					<div class="col-auto">
+						<input type="text" id="inputName" class="form-control"  name="name" placeholder="名前" required>
+						<div class="invalid-feedback">OTCの名前を入力してください!</div>
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label for="inputName" class="col-sm-3 text-end">かな名</label>
-					<div class="col-sm-7">
-						<input type="text" class="form-control" id="inputName" name="kana" placeholder="かな入力(ひらがな)">
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputKana" class="col-form-label">かな名</label>
+					</div>
+					<div class="col-auto">
+						<input type="text" id="inputKana" class="form-control"  name="kana" placeholder="かな名" required>
+						<div class="invalid-feedback">かな名を入力してください!</div>
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label for="inputJan" class="col-sm-3 text-end">JANコード</label>
-					<div class="col-sm-7">
-						<input type="text" class="form-control" id="inputJan" name="jan" placeholder="JANコード(半角英数字)">
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputJan" class="col-form-label">JANコード</label>
+					</div>
+					<div class="col-auto">
+						<input type="text" id="inputJan" class="form-control"  name="jan" placeholder="JANコード(半角英数字)" required>
+						<div class="invalid-feedback">JANコードを入力してください!</div>
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label for="inputNums" class="col-xs-3 text-end">個数</label>
-					<div class="col-xs-3">
-						<input type="text" class="form-control text-end" id="inputNums" name="stock_nums" placeholder="個数(半角英数字)">
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputNums" class="col-form-label">個数</label>
 					</div>
-					<div class="col-xs-6">
-						個 <small>（単位なしで入力）</small>
+					<div class="col-auto">
+						<input type="text" id="inputNums" class="form-control" name="stock_nums" placeholder="個数(半角英数字)" required>
+						<div class="invalid-feedback">個数を入力してください!</div>
+					</div>
+					<div class="col-auto">個 <small>（単位なしで入力）</small></div>
+				</div>
+
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputSize" class="col-form-label">規格サイズ</label>
+					</div>
+					<div class="col-auto">
+						<input type="text" id="inputSize" class="form-control" name="size" placeholder="規格サイズ(錠数など)" required>
+						<div class="invalid-feedback">規格を入力してください!</div>
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label for="inputSize" class="col-sm-3 text-end">規格サイズ</label>
-					<div class="col-sm-7">
-						<input type="text" class="form-control" id="inputSize" name="size" placeholder="規格サイズ(錠数など)">
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputPurchase_price" class="col-form-label">入値</label>
 					</div>
+					<div class="col-auto">
+						<input type="text" id="inputPurchase_price" class="form-control" name="purchase_price" placeholder="入値(半角英数字)" required>
+						<div class="invalid-feedback">入値を入力してください!</div>
+					</div>
+					<div class="col-auto">円 <small>（単位なしで入力）</small></div>
 				</div>
 
-				<div class="form-group row">
-					<label for="inputPurchase_price" class="col-xs-3 text-end">入値</label>
-					<div class="col-xs-5">
-						<input type="text" class="form-control text-end" id="inputPurchase_price" name="purchase_price" placeholder="入値(半角英数字)">
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputSelling_price" class="col-form-label">売価</label>
 					</div>
-					<div class="col-xs-4">
-						円
+					<div class="col-auto">
+						<input type="text" id="inputSelling_price" class="form-control" name="selling_price" placeholder="売価(半角英数字)" required>
+						<div class="invalid-feedback">売値を入力してください!</div>
 					</div>
-			</div>
-
-			<div class="form-group row">
-				<label for="inputSelling_price" class="col-xs-3 text-end">売価</label>
-				<div class="col-xs-5">
-					<input type="text" class="form-control text-end" id="inputSelling_price" name="selling_price" placeholder="売価(半角英数字)">
+					<div class="col-auto">円 <small>（単位なしで入力）</small></div>
 				</div>
-				<div class="col-xs-4">
-					円
-				</div>
-			</div>
 
-
-			<div class="form-group row">
-				<label class="col-sm-3 text-right">種類</label>
-				<div class="col-sm-7">
-					<select class="form-control" name="class">
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputClass" class="col-form-label">種類</label>
+					</div>
+					<div class="col-auto">
+						<select class="form-select" name="class" id="inputClass">
 						<?php foreach($class_name as $c_n): ?>
 							<option value="<?= h($c_n->id); ?>"><?= h($c_n->class_name); ?></option>
 						<?php endforeach; ?>
-					</select>
+						</select>
+					</div>
+				</div>
 
+				<div class="row g-3 mb-3 align-items-center">
+					<div class="col-auto">
+						<label for="inputWholesale" class="col-form-label">取引卸</label>
+					</div>
+					<div class="col-auto">
+						<select class="form-control" name="wholesale" id="inputWholesale">
+							<?php foreach($wholesale_name as $w_name): ?>
+								<option value="<?= h($w_name->id); ?>"><?= h($w_name->name); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</div>
 				</div>
 			</div>
 
-			<div class="form-group row">
-				<label class="col-sm-3 text-right">取引卸</label>
-				<div class="col-sm-7">
-					<select class="form-control" name="wholesale">
-						<?php foreach($wholesale_name as $w_name): ?>
-							<option value="<?= h($w_name->id); ?>"><?= h($w_name->name); ?></option>
-						<?php endforeach; ?>
-					</select>
-
+			<div class="col-3">
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSelfMed" name="self_med">
+					<label class="form-check-label" for="flexSelfMed">セルフメディケーション対象医薬品</label>
 				</div>
+
+				<div class="form-check form-switch">
+					<input class="form-check-input" type="checkbox" id="flexSelfMed" name="hygiene">
+					<label class="form-check-label" for="flexSelfMed">衛生用品</label>
+				</div>
+
 			</div>
 
 
+		<hr>
 
-			</div>
-			<div class="col-sm-5">
+
+
+
+
+
 				<div class="form-group row">
 					<label for="inputFile" class="col-sm-12">イメージファイル</label>
 					<div class="col-sm-12">
@@ -207,7 +190,6 @@ $title = 'OTC新規登録画面';
 					<button type="submit" class="btn btn-danger">登録</button>
 				</p>
 
-			</div>
 		</form>
     </row>
     <!-- row -->
