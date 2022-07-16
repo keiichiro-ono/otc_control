@@ -40,11 +40,11 @@ $title = '新トップ';
 				</div>
 			</div>
 			<div class="col-sm-4 col-md-3">
-				<h3>修正一覧</h3>
-				<div class="d-grid gap-2">
+				<h3>設定</h3>
+				<!-- <div class="d-grid gap-2">
 					<a href="otc_list.php" class="btn btn-outline-success p-3 rounded-pill fs-5" type="button"><i class="bi bi-pencil-square"></i> OTC編集</a>
 				</div>
-				<hr>
+				<hr> -->
 				<div class="d-grid gap-2">
 					<a href="setting.php" class="btn btn-outline-danger p-3 rounded-pill fs-5" type="button"><i class="bi bi-gear"></i> 設定</a>
 				</div>

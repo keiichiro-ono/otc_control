@@ -6,16 +6,17 @@ $app = new \MyApp\Warehousing();
 
 $thisYear = date("Y");
 
-$title = '入庫登録画面';
-$today = date("Y-m-d");
-
-
 ?>
-<?php include('template/header.php'); ?>
-
-
-<body>
-	<?php include('template/navber.php'); ?>
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>入庫画面</title>
+	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
+	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
+	<link rel="stylesheet" href="lib/js/styles.css">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 	<style>
 	.deleteSubRow, .deleteRow{
 		color: red;
@@ -33,37 +34,43 @@ $today = date("Y-m-d");
 		width: 50px;
 	}
 	</style>
-	<div class="container mt-3">
+</head>
+<body>
+	<?php include('nav.php'); ?>
+
+	<div class="container">
 		<div class="row">
 			<div class="col-sm-7">
 				<div class="page-header">
 					<div class="btn-group" role="group">
-						<a href="warehousing.php" class="btn btn-sm btn-primary" disabled>入庫</a>
-						<a href="proceeds.php" class="btn btn-sm btn-outline-primary">出庫</a>
-						<a href="returned.php" class="btn btn-sm btn-outline-primary">返品</a>
+						<a href="warehousing.php" class="btn btn-info" disabled>入庫</a>
+						<a href="proceeds.php" class="btn btn-info">出庫</a>
+						<a href="returned.php" class="btn btn-info">返品</a>
 					</div>
-				  <h1>入庫入力画面 <i class="bi bi-arrow-right" style="font-size: 3rem; color: cornflowerblue;"></i><i class="bi bi-shop-window" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
+				  <h1>入庫入力画面 <small><i class="fa fa-sign-out fa-3x" aria-hidden="true"></i><i class="fa fa-home fa-3x" aria-hidden="true"></i></small></h1>
 				</div>
-				<div class="p-5 mb-4 bg-light">
-					<div class="row justify-content-center">
-						<div class="col-auto">
+				<div class="jumbotron">
+					<div class="row">
+						<div class="col-xs-2 text-right">
 							売上日:
 						</div>
-						<div class="col-auto">
-							<input type="date" class="form-control" id="inputDate" name="date" placeholder="日付を入力" value="<?= h($today); ?>">
+						<div class="col-xs-5">
+							<input type="text" class="form-control" id="inputDate" name="date" placeholder="日付を入力">
 						</div>
-						<div class="col-auto">
-							<button class="btn btn-sm btn-primary" id="today">本日</button>
+						<div class="col-xs-2">
+							<button class="btn btn-primary" id="today">本日</button>
 						</div>
 					</div>
 				</div>
 
-				<div class="form-group row justify-content-center mb-5">
+				<div class="form-group row">
 					<label for="inputJan" class="col-sm-3 text-right">JANコード入力</label>
 					<div class="col-sm-5">
 						<input type="text" class="form-control" id="inputJan" name="jan" placeholder="JANコード(半角英数字)">
 					</div>
 				</div>
+
+				<hr>
 
 				<table class="table">
 					<thead>
@@ -96,12 +103,14 @@ $today = date("Y-m-d");
 		</div>
 
 		<!-- Modal -->
-		<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog modal-lg" role="document">
+		<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">検索結果</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
 					<div class="modal-body">
 						<table class="table table-hover">
@@ -110,7 +119,6 @@ $today = date("Y-m-d");
 								<th>名前</th>
 								<th>入値</th>
 								<th>入庫数</th>
-								<th></th>
 							</thead>
 							<tbody id="subTable">
 							</tbody>
@@ -121,10 +129,6 @@ $today = date("Y-m-d");
 				</div>
 			</div>
 		</div><!-- モーダル -->
-
-		
-
-
 
 		<!-- Modal2 -->
 		<div class="modal fade" id="limitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -176,6 +180,10 @@ $today = date("Y-m-d");
 
 	</div>
   <!-- container -->
+<script src="lib/js/jquery-3.2.1.min.js"></script>
+<script src="lib/js/bootstrap.min.js"></script>
+<script src="lib/js/jquery.uploadThumbs.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 <script>
 $(function(){
@@ -184,22 +192,20 @@ $(function(){
 
 	$('tfoot').hide();
 
+	$('#inputDate').datepicker({dateFormat: 'yy/mm/dd'});
 	$('#today').click(function(){
-		let today = new Date();
-		let y = today.getFullYear();
-		let m = today.getMonth()+1;
-		if(m<10){
-			m = '0'+m.toString();
-		}
-		let d = today.getDate();
-		let ymd = y+"-"+m+"-"+d;
+		var today = new Date;
+		var y = today.getFullYear();
+		var m = today.getMonth()+1;
+		var d = today.getDate();
+		var ymd = y+"/"+m+"/"+d;
 		$('#inputDate').val(ymd);
 	});
 
 	$('#inputJan').keypress(function(e){
 		if(e.which==13){
-			let jan = $('#inputJan').val();
-			let res = validate(jan);
+			var jan = $('#inputJan').val();
+			var res = validate(jan);
 			if(!validate(jan)){
 				$(this).focus().select();
 				return false;
@@ -221,7 +227,7 @@ $(function(){
 		}, function(res){
 			if(res){
 				$('#subTable').empty();
-				$('#searchModal').modal('show');
+				$('#searchModal').modal();
 				var s = '<tr id="otc_id_'+res['id']+'" data-id="'+res['id']+'">'+
 								'<td>' + res['id'] + '</td>' +
 								'<td>' + res['name'] + '</td>' +
@@ -246,7 +252,7 @@ $(function(){
 	}
 
 	$('#searchModal').on('click', '.inputLimit', function(){
-		$('#limitModal').modal('show');
+		$('#limitModal').modal();
 
 	});
 

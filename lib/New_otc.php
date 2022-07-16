@@ -6,14 +6,12 @@ class New_otc extends Controller{
 
   public function postprocess(){
     try{
-      // var_dump($_POST);exit;
       $this->_validate();
-      $id = $this->_save();
+      $this->_save();
     }catch(\Exception $e){
       echo $e->getMessage();
       exit;
     }
-    return $id;
   }
 
   public function class_name(){
@@ -57,6 +55,13 @@ class New_otc extends Controller{
     $res = $stmt->fetchColumn();
     if($res === "1"){
       throw new \Exception("同じJANコードがありますよ");
+    }
+
+    if(
+      !isset($_POST['class']) || empty($_POST['class']) ||
+      !isset($_POST['wholesale']) || empty($_POST['wholesale'])      
+    ){
+      throw new \Exception("selectが選択されていません");
     }
   }
 
