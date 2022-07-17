@@ -2,7 +2,7 @@
 
 require_once('config/config.php');
 
-$app = new \MyApp\Otc_list_2();
+$app = new \MyApp\Otc_list_alp();
 if(isset($_GET['sort']) && !empty($_GET['sort'])){
 	$items = $app->sortItem();
 } else {
@@ -14,70 +14,66 @@ if(isset($_GET['sort']) && !empty($_GET['sort'])){
 	}
 }
 
-?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>OTC一覧表示</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
-	<style media="screen">
-		img{
-			width: 50px;
-			height: auto;
-		}
-		td {
-		  vertical-align: middle!important;
-		}
-		.edit, .link{
-			color: blue;
-			cursor: pointer;
-		}
-		.gray{
-			background: #eee;
-		}
-	</style>
-</head>
-<body>
-	<?php include('nav.php'); ?>
+$title = 'OTC一覧画面(50音)';
 
-	<div class="container">
+
+?>
+<style media="screen">
+	img{
+		width: 50px;
+		height: auto;
+	}
+	td {
+		vertical-align: middle!important;
+	}
+	.edit, .link{
+		color: blue;
+		cursor: pointer;
+	}
+	.gray{
+		background: #eee;
+	}
+</style>
+
+<?php include('template/header.php'); ?>
+
+<body>
+	<?php include('template/navber.php'); ?>
+
+	<div class="container mt-3">
 		<div class="page-header">
-			<h1>OTC一覧画面</h1>
-			<button type="button" class="btn btn-default active" id="all_dis">全表示</button>
+			<h1>OTC一覧画面 【50音】 <i class="bi bi-list-columns-reverse" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
+			<button type="button" class="btn btn-secondary active" id="all_dis">全表示</button>
 			<div class="btn-group" role="group" id="mokuji">
-				<button type="button" class="btn btn-default" id="a_dis" data-chara="a">あ行</button>
-				<button type="button" class="btn btn-default" id="ka_dis" data-chara="ka">か行</button>
-				<button type="button" class="btn btn-default" id="sa_dis" data-chara="sa">さ行</button>
-				<button type="button" class="btn btn-default" id="ta_dis" data-chara="ta">た行</button>
-				<button type="button" class="btn btn-default" id="na_dis" data-chara="na">な行</button>
-				<button type="button" class="btn btn-default" id="ha_dis" data-chara="ha">は行</button>
-				<button type="button" class="btn btn-default" id="ma_dis" data-chara="ma">ま行</button>
-				<button type="button" class="btn btn-default" id="ya_dis" data-chara="ya">や行</button>
-				<button type="button" class="btn btn-default" id="ra_dis" data-chara="ra">ら行</button>
-				<button type="button" class="btn btn-default" id="wa_dis" data-chara="wa">わ行</button>
+				<button type="button" class="btn btn-secondary" id="a_dis" data-chara="a">あ行</button>
+				<button type="button" class="btn btn-secondary" id="ka_dis" data-chara="ka">か行</button>
+				<button type="button" class="btn btn-secondary" id="sa_dis" data-chara="sa">さ行</button>
+				<button type="button" class="btn btn-secondary" id="ta_dis" data-chara="ta">た行</button>
+				<button type="button" class="btn btn-secondary" id="na_dis" data-chara="na">な行</button>
+				<button type="button" class="btn btn-secondary" id="ha_dis" data-chara="ha">は行</button>
+				<button type="button" class="btn btn-secondary" id="ma_dis" data-chara="ma">ま行</button>
+				<button type="button" class="btn btn-secondary" id="ya_dis" data-chara="ya">や行</button>
+				<button type="button" class="btn btn-secondary" id="ra_dis" data-chara="ra">ら行</button>
+				<button type="button" class="btn btn-secondary" id="wa_dis" data-chara="wa">わ行</button>
 			</div>
 			<div class="btn-group" role="group" id="tax_btn">
-				<button type="button" class="btn btn-default" id="tax_8" data-num="8">8%</button>
-				<button type="button" class="btn btn-default" id="tax_10" data-num="10">10%</button>
+				<button type="button" class="btn btn-secondary" id="tax_8" data-num="8">8%</button>
+				<button type="button" class="btn btn-secondary" id="tax_10" data-num="10">10%</button>
 			</div>
 			<div class="btn-group" role="group" id="exist_btn">
-				<button type="button" class="btn btn-default" id="all_item">全表示</button>
-				<button type="button" class="btn btn-default" id="exist_item">在庫あり</button>
+				<button type="button" class="btn btn-secondary" id="all_item">全表示</button>
+				<button type="button" class="btn btn-secondary" id="exist_item">在庫あり</button>
 			</div>
 
 		</div>
 
-		<p class="text-right">消費税は2019年10月～の割合</p>
+		<p class="text-end">消費税は2019年10月以降の割合</p>
 
 		<div class="row">
-			<table class="table table-bordered table-condensed">
+			<table class="table table-bordered table-sm table-hover">
 				<thead>
 					<tr>
 						<th class="text-center link" data-name="mainId">ID</th>
-						<!-- <th class="text-center">写真</th> -->
 						<th class="text-center link" data-name="kana">名前</th>
 						<th class="text-center link" data-name="jan">JAN</th>
 						<th class="text-center link" data-name="wholesale">取引卸</th>
@@ -95,16 +91,6 @@ if(isset($_GET['sort']) && !empty($_GET['sort'])){
 				<?php foreach($items as $item): ?>
 					<tr data-id="<?= h($item->mainId); ?>" class="<?= h($item->stock_nums<=0 ? "gray": ""); ?>">
 						<td class="text-right"><?= h($item->mainId); ?></td>
-						<!-- <td class="text-center">
-						<?php if(!empty($item->img)): ?>
-							<img src="img/<?= h($item->img); ?>" alt="">
-						<?php else: ?>
-							<span class="fa-stack fa-2x">
-								<i class="fa fa-camera fa-stack-1x"></i>
-								<i class="fa fa-ban fa-stack-2x text-danger"></i>
-							</span>
-						<?php endif; ?>
-						</td> -->
 						<td>
 							<?= h($app->check_self_med($item->self_med)); ?>
 							<a href="inout.php?id=<?= h($item->mainId); ?>"><?= h($item->otcName); ?></a>
@@ -147,8 +133,6 @@ if(isset($_GET['sort']) && !empty($_GET['sort'])){
 		<!-- row -->
 	</div>
   <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
 <script>
 $(function(){
 	$('#exist_item').addClass('active');
@@ -209,7 +193,7 @@ $(function(){
 	});
 
 	$('#all_dis').click(function(){
-		location.href = "otc_list_2.php";
+		location.href = "otc_list_alp.php";
 	});
 
 	$('#all_item').click(function(){

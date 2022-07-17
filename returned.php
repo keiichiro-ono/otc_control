@@ -3,61 +3,53 @@
 require_once('config/config.php');
 
 $app = new \MyApp\Returned();
+$title = '返品登録画面';
+$today = date("Y-m-d");
+$data = $app->threeDay();
+
 
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>返品登録</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
-	<link rel="stylesheet" href="lib/js/styles.css">
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<?php include('template/header.php'); ?>
 	<style>
 	.deleteRow{
 		color: red;
 		cursor: pointer
 	}
 	</style>
-</head>
 <body>
-	<?php include('nav.php'); ?>
+	<?php include('template/navber.php'); ?>
 
-	<div class="container">
+	<div class="container mt-3">
 		<div class="row">
 			<div class="col-sm-7">
 				<div class="page-header">
 					<div class="btn-group" role="group">
-						<a href="warehousing.php" class="btn btn-info">入庫</a>
-						<a href="proceeds.php" class="btn btn-info">出庫</a>
-						<a href="returned.php" class="btn btn-info" disabled>返品</a>
+						<a href="warehousing.php" class="btn btn-sm btn-outline-primary">入庫</a>
+						<a href="proceeds.php" class="btn btn-sm btn-outline-primary" >出庫</a>
+						<a href="returned.php" class="btn btn-sm btn-primary" disabled>返品</a>
 					</div>
-				  <h1>返品入力画面 <small><i class="fa fa-reply fa-3x"></i></small></h1>
+				  <h1>返品入力画面 <i class="bi bi-reply-fill" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
 				</div>
-				<div class="jumbotron">
-					<div class="row">
-						<div class="col-xs-2 text-right">
+				<div class="p-5 mb-4 bg-light">
+					<div class="row justify-content-center">
+						<div class="col-auto">
 							返品日:
 						</div>
-						<div class="col-xs-5">
-							<input type="text" class="form-control" id="inputDate" name="date" placeholder="日付を入力">
+						<div class="col-auto">
+							<input type="date" class="form-control" id="inputDate" name="date" placeholder="日付を入力" value="<?= h($today); ?>">
 						</div>
-						<div class="col-xs-2">
-							<button class="btn btn-primary" id="today">本日</button>
+						<div class="col-auto">
+							<button class="btn btn-primary btn-sm" id="today">本日</button>
 						</div>
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label for="inputJan" class="col-sm-3 text-right">JANコード入力</label>
+				<div class="form-group row justify-content-center mb-5">
+					<label for="inputJan" class="col-sm-3 text-end">JANコード入力</label>
 					<div class="col-sm-5">
 						<input type="text" class="form-control" id="inputJan" name="jan" placeholder="JANコード(半角英数字)">
 					</div>
 				</div>
-
-				<hr>
 
 				<table class="table">
 					<thead>
@@ -74,47 +66,66 @@ $app = new \MyApp\Returned();
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="5"></td>
-							<td>
-								<button id="inputDb" class="btn btn-danger">確定</button>
+							<td colspan="3"></td>
+							<td colspan="2" class="text-end">
+								<button id="inputDb" class="btn btn-success">DBへ登録</button>
 							</td>
 						</tr>
 					</tfoot>
 				</table>
 			</div>
 			<div class="col-sm-5">
-				<?php include('returnedSub.php'); ?>
+				<h3>60日分のデ－タ(返品)</h3>
+				<table class="table table-sm">
+					<thead>
+						<tr>
+							<th>日付</th>
+							<th>商品名</th>
+							<th>数量</th>
+						</tr>
+					</thead>
+					<tbody id="subClumnTable">
+					<?php foreach($data as $d): ?>
+						<tr>
+							<td><?= h(date('m/d', strtotime($d->date))); ?></td>
+							<td>
+								<a href="inout.php?id=<?= h($d->otc_id); ?>">
+									<?= h($d->name); ?>
+								</a>
+							</td>
+							<td><?= h($d->nums); ?></td>
+						</tr>
+					<?php endforeach; ?>
+
+					</tbody>
+				</table>
 			</div>
 
 		</div>
 
 	</div>
-  <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
-<script src="lib/js/jquery.uploadThumbs.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
 <script>
 $(function(){
 	$('#inputJan').focus();
 
 	$('tfoot').hide();
 
-	$('#inputDate').datepicker({dateFormat: 'yy/mm/dd'});
 	$('#today').click(function(){
-		var today = new Date;
-		var y = today.getFullYear();
-		var m = today.getMonth()+1;
-		var d = today.getDate();
-		var ymd = y+"/"+m+"/"+d;
+		let today = new Date();
+		let y = today.getFullYear();
+		let m = today.getMonth()+1;
+		if(m<10){
+			m = '0'+m.toString();
+		}
+		let d = today.getDate();
+		let ymd = y+"-"+m+"-"+d;
 		$('#inputDate').val(ymd);
 	});
 
 	$('#inputJan').keypress(function(e){
 		if(e.which==13){
-			var jan = $('#inputJan').val();
-			var res = validate(jan);
+			let jan = $('#inputJan').val();
+			let res = validate(jan);
 			if(!validate(jan)){
 				$(this).focus().select();
 				return false;
@@ -125,21 +136,22 @@ $(function(){
 	});
 
 	function validate(jan){
-		var res = jan.search(/^[0-9]+$/);
+		let res = jan.search(/^[0-9]+$/);
 		return res==0 ? true : false;
 	}
 
 	function ajax_search(jan){
-		$.post("_ajax_returned.php", {
+		$.post("_ajax.php", {
+			url: 'returned',
 			jan: jan,
 			mode: "search"
 		}, function(res){
 			if(res){
-				var s = '<tr id="otc_id_'+res['id']+'">'+
+				let s = '<tr id="otc_id_'+res['id']+'">'+
 								'<td>' + res['id'] + '</td>' +
 								'<td>' + res['name'] + '</td>' +
-								'<td><input type="text" class="text-right" name="price" size="4" value="' + res['purchase_price'] + '"></td>'+
-								'<td><input type="number" value="1" class="inputNums text-right" name="nums" size="3">個'+
+								'<td><input type="text" class="text-end form-control" name="price" value="' + res['purchase_price'] + '"></td>'+
+								'<td><input type="number" value="1" class="inputNums form-control text-end" name="nums"></td>'+
 								'<td class="deleteRow">[削除]</td>'
 								'</tr>';
 				$("#tb").append(s);
@@ -168,13 +180,13 @@ $(function(){
 	$('#tb').on('click', '.deleteRow', function(){
 		$(this).parent('tr').fadeOut(800, function(){
 			$(this).remove();
-			var cnt = $('tbody#tb').children().length;
+			let cnt = $('tbody#tb').children().length;
 			if(cnt===0) $('tfoot').hide();
 		});
 	});
 
 	$('#tb').on('click', '.registRow', function(){
-		var jan = $('#noJan').text();
+		let jan = $('#noJan').text();
 		window.location.href="new_otc.php?jan="+jan;
 	});
 
@@ -185,14 +197,14 @@ $(function(){
 			return false;
 		}
 
-		var cnt = $('tbody#tb').children().length;
-		var data = [];
+		let cnt = $('tbody#tb').children().length;
+		let data = [];
 		while(cnt > 0){
-			var $tr = $('tbody#tb').children('tr:eq(0)');
-			var ymd = $("#inputDate").val();
-			var id = $tr.children('td:eq(0)').text();
-			var price = $tr.children('td:eq(2)').children('input').val();
-			var nums = $tr.children('td:eq(3)').children('input').val();
+			let $tr = $('tbody#tb').children('tr:eq(0)');
+			let ymd = $("#inputDate").val();
+			let id = $tr.children('td:eq(0)').text();
+			let price = $tr.children('td:eq(2)').children('input').val();
+			let nums = $tr.children('td:eq(3)').children('input').val();
 			if(nums=="" || price==""){
 				alert("空欄があります！");
 				return false;
@@ -209,11 +221,12 @@ $(function(){
 	});
 
 	function inputDb(data){
-		for(var i=0; data.length>i; i++){
-			var ymd = data[i][3];
-			var nums = data[i][2];
+		for(let i=0; data.length>i; i++){
+			let ymd = data[i][3];
+			let nums = data[i][2];
 
 			$.post('_ajax_returned.php', {
+				url: 'returned',
 				mode: 'inputDb',
 				id: data[i][0],
 				price: data[i][1],
@@ -223,7 +236,7 @@ $(function(){
 				$('tbody#tb tr[i]').fadeOut(800, function(){
 					$(this).remove();
 				});
-				var e = $(
+				let e = $(
 					'<tr>'+
 					'<td>'+ ymd.substr(5,9)+ '</td>'+
 					'<td>'+ res+ '</td>'+

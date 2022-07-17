@@ -5,20 +5,11 @@ require_once('config/config.php');
 $app = new \MyApp\Kiki_list();
 $items = $app->allItem();
 
+$title = '医療機器一覧表示';
+
+
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>医療機器一覧表示</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
 	<style media="screen">
-		img{
-			width: 50px;
-			height: auto;
-		}
 		td {
 		  vertical-align: middle!important;
 		}
@@ -30,23 +21,25 @@ $items = $app->allItem();
 			background: #eee;
 		}
 	</style>
-</head>
-<body>
-	<?php include('nav.php'); ?>
+<?php include('template/header.php'); ?>
 
-	<div class="container">
+<body>
+	<?php include('template/navber.php'); ?>
+
+
+	<div class="container mt-3">
 		<div class="page-header">
-			<h1>医療機器一覧画面</h1>
+			<h1>医療機器一覧画面 <i class="bi bi-list-columns-reverse" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
 
 			<div class="btn-group" role="group" id="exist_btn">
-				<button type="button" class="btn btn-default" id="all_item">全表示</button>
-				<button type="button" class="btn btn-default" id="exist_item">在庫あり</button>
+				<button type="button" class="btn btn-secondary" id="all_item">全表示</button>
+				<button type="button" class="btn btn-secondary" id="exist_item">在庫あり</button>
 			</div>
 
 		</div>
 
 		<div class="row">
-			<table class="table table-bordered table-condensed">
+			<table class="table table-bordered table-sm table-hover">
 				<thead>
 					<tr>
 						<th class="text-center" data-name="mainId">ID</th>
@@ -66,7 +59,7 @@ $items = $app->allItem();
 				<tbody id="tb">
 				<?php foreach($items as $item): ?>
 					<tr data-id="<?= h($item->mainId); ?>" class="<?= h($item->stock_nums<=0 ? "gray": ""); ?>">
-						<td class="text-right"><?= h($item->mainId); ?></td>
+						<td class="text-end"><?= h($item->mainId); ?></td>
 						<td>
 							<?= h($app->check_self_med($item->self_med)); ?>
 							<a href="inout.php?id=<?= h($item->mainId); ?>"><?= h($item->otcName); ?></a>
@@ -75,13 +68,13 @@ $items = $app->allItem();
 						<td><?= h($item->wholesaleName); ?></td>
 						<td><?= h($item->class_name); ?></td>
 						<td><?= h($item->size); ?></td>
-						<td class="text-right">
-							<?= h(number_format($item->purchase_price, 2)); ?>円
+						<td class="text-end">
+							<?= h(number_format($item->purchase_price, 0)); ?>円
 						</td>
-						<td class="text-right">
+						<td class="text-end">
 							<?= h(number_format($item->selling_price, 0)); ?>円
 						</td>
-						<td class="text-right">
+						<td class="text-end">
 							<?php
 								if(
 									$item->tax==10 &&
@@ -93,10 +86,10 @@ $items = $app->allItem();
 								<?= h(number_format($item->tax_include_price, 0)); ?>円
 							<?php endif; ?>
 						</td>
-						<td class="text-right">
+						<td class="text-end">
 							<?= h($item->tax); ?>％
 						</td>
-						<td class="text-right">
+						<td class="text-end">
 							<?= h($item->stock_nums); ?>個
 						</td>
 						<td class="text-center edit">[編集]</td>
@@ -109,8 +102,6 @@ $items = $app->allItem();
 		<!-- row -->
 	</div>
   <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
 <script>
 $(function(){
 	$('#exist_item').addClass('active');

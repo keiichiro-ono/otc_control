@@ -48,7 +48,7 @@ $data = $app->threeDay();
 				</div>
 				<div class="p-5 mb-4 bg-light">
 					<div class="row justify-content-center">
-						<div class="col-auto">
+						<div class="col-auto text-end">
 							売上日:
 						</div>
 						<div class="col-auto">
@@ -61,7 +61,7 @@ $data = $app->threeDay();
 				</div>
 
 				<div class="form-group row justify-content-center mb-5">
-					<label for="inputJan" class="col-sm-3 text-right">JANコード入力</label>
+					<label for="inputJan" class="col-sm-3 text-end">JANコード入力</label>
 					<div class="col-sm-5">
 						<input type="text" class="form-control" id="inputJan" name="jan" placeholder="JANコード(半角英数字)">
 					</div>
@@ -83,9 +83,9 @@ $data = $app->threeDay();
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="5"></td>
-							<td>
-								<button id="inputDb" class="btn btn-success">確定</button>
+							<td colspan="4"></td>
+							<td colspan="4" class="text-end">
+								<button id="inputDb" class="btn btn-success">DBへ登録</button>
 							</td>
 						</tr>
 					</tfoot>

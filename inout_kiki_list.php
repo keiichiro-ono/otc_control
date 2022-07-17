@@ -21,43 +21,30 @@ if($warehousing || $saledata){
 	array_multisort($total_sort, SORT_DESC, $total);
 }
 
-?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>【出入庫】高度、特定保守医療機器一覧</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
-	<link rel="stylesheet" href="lib/js/styles.css">
-	<style>
-	img{
-		width: 40px;
-		height: auto;
-	}
-	.date{
-		color: blue;
-		cursor: pointer;
-	}
-	</style>
-</head>
-<body>
-	<?php include('nav.php'); ?>
+$title = '【出入庫】高度、特定保守医療機器一覧';
 
-	<div class="container">
+?>
+<?php include('template/header.php'); ?>
+
+<body>
+	<?php include('template/navber.php'); ?>
+
+	<div class="container mt-3">
 
 		<div class="page-header">
 		  <h1>【出入庫】高度、特定保守医療機器一覧</h1>
-			<div class="text-right">
-				<a href="warehousing_kiki_list.php" class="btn btn-default">入庫</a>
-				<a href="sale_kiki_list.php" class="btn btn-default">出庫</a>
+			<div class="text-end">
+				<div class="btn-group" role="group">
+					<a href="inout_kiki_list.php" class="btn btn-secondary">出入庫</a>
+					<a href="warehousing_kiki_list.php" class="btn btn-outline-secondary">入庫</a>
+					<a href="sale_kiki_list.php" class="btn btn-outline-secondary">出庫</a>
+				</div>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-sm-12">
-				<table class="table">
+				<table class="table table-hover table-sm">
 					<thead>
 						<tr>
 							<th>年月日</th>
@@ -79,52 +66,16 @@ if($warehousing || $saledata){
 							<td>
 								<?= $data[0]=='saledata' ? h($data['nums']).'個' : ''; ?>
 							</td>
-							<td><?= h(number_format($data['actual_price'], 0)); ?>円</td>
-							<td>
+							<td class="text-end"><?= h(number_format($data['actual_price'], 0)); ?>円</td>
+							<td class="text-end">
 								<?= h(number_format($data['nums']*$data['actual_price'], 0)); ?>円
 							</td>
 						</tr>
 					<?php endforeach; ?>
 					<tbody>
-
-
+				</table>
 			</div>
-
 		</div>
-
-
-
 	</div>
-  <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
-<script src="lib/js/jquery.uploadThumbs.js"></script>
-<script>
-$(function(){
-	$('td>button').click(function(){
-		var id = $(this).parent('td').data('id');
-		var e = '<input type="text"><input type="button" class="regist" value="登録">';
-		$(this).parent().empty().append(e);
-	});
-
-	$('#tb').on('click', 'input.regist', function(){
-		var id = $(this).parent('td').data('id');
-		var text = $(this).parent('td').children('input:eq(0)').val();
-		if(text==""){
-			alert('入力されていません！');
-			return false;
-		} else {
-			$.post('_ajax_warehousing_kiki_list.php', {
-				id: id,
-				lot: text
-			}, function(res){
-				$("#wh_"+res.id).empty().text(res.lot);
-			});
-		}
-	});
-
-});
-</script>
-
 </body>
 </html>

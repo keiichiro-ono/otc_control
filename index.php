@@ -31,11 +31,11 @@ $title = '新トップ';
 			<div class="col-sm-4 col-md-3">
 				<h3>一覧表示</h3>
 				<div class="d-grid gap-2">
-					<a href="otc_list_2.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> OTC一覧</a>
+					<a href="otc_list_alp.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> OTC一覧</a>
+					<a href="kiki_list.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> 医療機器一覧</a>
+					<a href="hygiene_list.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> 衛生用品一覧</a>
 					<a href="otc_list_new.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-stars"></i> 新入荷一覧</a>
 					<a href="calendar.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-calendar-week"></i> 販売一覧</a>
-					<a href="warehousing_list.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button">OTC新規登録</a>
-					<a href="otc_list_new.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button">入庫一覧</a>
 					<a href="sales_calendar.php" class="btn btn-outline-warning p-3 rounded-pill fs-5" type="button"><i class="bi bi-currency-yen"></i> 月間売上</a>
 				</div>
 			</div>

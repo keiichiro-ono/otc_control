@@ -20,62 +20,18 @@ $next = date("Ym", mktime(0,0,0,date('m',$timeStamp)+1,1,date('Y',$timeStamp)));
 
 $yearMonth = substr($ym, 0, 4).'-'. substr($ym, 4, 2);
 $ymWa = substr($yearMonth, 0, 4).'年'.substr($yearMonth, 5, 2).'月';
-// $days = $app->getSaleDate($yearMonth);
-// $saleData = $app->getSaleData($yearMonth);
-// $salePrice = $app->getSalePrice($yearMonth);
 
 //カレンダー作成
 $lastDay = date("t", $timeStamp);
 $youbi = date("w", mktime(0,0,0,date('m',$timeStamp),1,date('Y',$timeStamp)));
-//
-// $weeks = array();
-// $week = '';
-//
-// $week .= str_repeat('<td></td>', $youbi);
-//
-// $includeDay = array();
-//
-// foreach($days as $day){
-// 	array_push($includeDay, mb_substr($day->date, -2));
-// }
-//
-// for($day=1; $day<=$lastDay; $day++, $youbi++){
-// 	$d = $day<10 ? "0".$day : $day;
-// 	if(in_array($day, $includeDay)){
-// 		if($ym.$d==date('Ymd', time())){
-// 			$week .= sprintf('<td class="youbi_%d on today" data-date="'.$ym.$d.'">%d</td>', $youbi%7, $day);
-// 		} else {
-// 			$week .= sprintf('<td class="youbi_%d on" data-date="'.$ym.$d.'">%d</td>', $youbi%7, $day);
-// 		}
-// 	} else {
-// 		if($ym.$d==date('Ymd', time())){
-// 			$week .= sprintf('<td class="youbi_%d today">%d</td>', $youbi%7, $day);
-// 		} else {
-// 			$week .= sprintf('<td class="youbi_%d">%d</td>', $youbi%7, $day);
-// 		}
-// 	}
-//
-// 	if($youbi%7 == 6 OR $day == $lastDay){
-// 		if($day == $lastDay){
-// 			$week .= str_repeat('<td></td>', 6-($youbi%7));
-// 		}
-//
-// 		$weeks[] = '<tr>' .$week. '</tr>';
-// 		$week = '';
-// 	}
-// }
-//
-//
+
+$title = '月間売上';
 
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>月間売上</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<link rel="stylesheet" href="config/styles.css">
+
+<?php include('template/header.php'); ?>
+<body>
+	<?php include('template/navber.php'); ?>
 	<style>
     .youbi_0{
       color: red;
@@ -86,15 +42,6 @@ $youbi = date("w", mktime(0,0,0,date('m',$timeStamp),1,date('Y',$timeStamp)));
 		.youbi_tr_0{
 			background-color: #FCC
 		}
-    .on {
-      background-color: orange;
-      font-weight: bold;
-			cursor: pointer;
-    }
-		.today{
-			font-weight: bold;
-			font-size: 18px;
-		}
 		th, td{
 			text-align: center;
 		}
@@ -102,41 +49,32 @@ $youbi = date("w", mktime(0,0,0,date('m',$timeStamp),1,date('Y',$timeStamp)));
 			background-color: orange;
 			cursor: pointer;
 		}
-
-
-
 	</style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-</head>
-<body>
-	<?php include('nav.php'); ?>
-
-	<div class="container">
-
-  	<div class="row">
-      <div class="col-sm-6">
-				<h2>売上一覧</h2>
-        <table class="table table-sm table-hover" id="calen">
-          <thead>
+	<div class="container mt-3">
+		<h1>売上一覧 <i class="bi bi-currency-yen" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
+		<div class="row">
+			<div class="col-sm-6">
+				<table class="table table-sm table-hover" id="calen">
+					<thead>
 						<tr>
 							<th>
-                <a href="?ym=<?= h($prev); ?>">&lt;前月</a>
-              </th>
-              <th colspan="3" class="text-center">
+								<a href="?ym=<?= h($prev); ?>" class="btn btn-success btn-sm">&lt;</a>
+							</th>
+							<th colspan="3" class="text-center">
 								<?= h(substr($ym,0,4)."年".substr($ym,4,2)."月"); ?>
 							</th>
-              <th>
-                <a href="?ym=<?= h($next); ?>">翌月&gt;</a>
-              </th>
+							<th>
+								<a href="?ym=<?= h($next); ?>" class="btn btn-success btn-sm">&gt;</a>
+							</th>
 						</tr>
-            <tr>
-              <th>日付</th>
+						<tr>
+							<th>日付</th>
 							<th>入金（販売）</th>
 							<th>入金（返品）</th>
 							<th>支出（仕入れ）</th>
 							<th>小計</th>
-            </tr>
-          </thead>
+						</tr>
+					</thead>
 					<tbody id="mainTable">
 						<?php
 							$totalSale=0;
@@ -186,20 +124,20 @@ $youbi = date("w", mktime(0,0,0,date('m',$timeStamp),1,date('Y',$timeStamp)));
 					<tfoot>
 						<tr>
 							<th></th>
-							<th class="text-right"><?= h(number_format($totalSale, 0)); ?>円</th>
-							<th class="text-right"><?= h(number_format($totalReturned, 0)); ?>円</th>
-							<th class="text-right"><?= h(number_format($totalWare, 0)); ?>円</th>
-							<th class="text-right"><?= h(number_format($totalSum, 0)); ?>円</th>
+							<th class="text-end"><?= h(number_format($totalSale, 0)); ?>円</th>
+							<th class="text-end"><?= h(number_format($totalReturned, 0)); ?>円</th>
+							<th class="text-end"><?= h(number_format($totalWare, 0)); ?>円</th>
+							<th class="text-end"><?= h(number_format($totalSum, 0)); ?>円</th>
 						</tr>
 					</tfoot>
-        </table>
+				</table>
 
 			</div>
 			<div class="col-sm-6">
-				<div class="jumbotron">
-				<table class="table table-sm">
+				<div class="p-3 mb-4 bg-light">
+					<table class="table table-sm">
 					<h3 id="status">販売一覧</h3>
-						<h4 class="display-4" id="dayTitle"><?= h(date("Y"."年"."m"."月"."d"."日")); ?></h4>
+						<h5 class="display-6" id="dayTitle"><?= h(date("Y"."年"."m"."月"."d"."日")); ?></h4>
 						<thead>
 							<tr>
 								<th>商品名</th>
@@ -212,12 +150,9 @@ $youbi = date("w", mktime(0,0,0,date('m',$timeStamp),1,date('Y',$timeStamp)));
 
 						</tbody>
 					</table>
-
-					</div>
-
-
+				</div>
 			</div>
-    </div>
+		</div>
 
   </div>
 
@@ -225,7 +160,6 @@ $youbi = date("w", mktime(0,0,0,date('m',$timeStamp),1,date('Y',$timeStamp)));
 
 
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script>
 $(function(){
 	$('table#calen tbody tr td').click(function(){

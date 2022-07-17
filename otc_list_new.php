@@ -5,15 +5,9 @@ require_once('config/config.php');
 $app = new \MyApp\Otc_list_new();
 $items = $app->allItem();
 
+$title = '新入荷OTC一覧表示';
+
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>OTC一覧表示【入荷順】</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
 	<style media="screen">
 		td {
 		  vertical-align: middle!important;
@@ -27,13 +21,15 @@ $items = $app->allItem();
 			font-size: 1.3em;
 		}
 	</style>
-</head>
-<body>
-	<?php include('nav.php'); ?>
+<?php include('template/header.php'); ?>
 
-	<div class="container">
+<body>
+	<?php include('template/navber.php'); ?>
+
+
+	<div class="container mt-3">
 		<div class="page-header">
-			<h1>OTC一覧画面【登録順】</h1>
+			<h1>新入荷OTC一覧表示 <i class="bi bi-stars" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
 			<p>赤：１５日以内に登録<br>黄：３０日以内に登録</p>
 		</div>
 
@@ -43,7 +39,7 @@ $items = $app->allItem();
 					<tr>
 						<th class="text-center">登録日</th>
 						<th class="text-center">名前</th>
-						<!-- <th class="text-center">取引卸</th> -->
+						<th class="text-center">取引卸</th>
 						<th class="text-center">分類</th>
 						<th class="text-center">規格</th>
 						<th class="text-center">税込み価格</th>
@@ -71,7 +67,7 @@ $items = $app->allItem();
 							<?= h($app->check_self_med($item->self_med)); ?>
 							<a href="inout.php?id=<?= h($item->mainId); ?>"><?= h($item->otcName); ?></a>
 						</td>
-						<!-- <td><?= h($item->wholesaleName); ?></td> -->
+						<td><?= h($item->wholesaleName); ?></td>
 						<td><?= h($item->class_name); ?></td>
 						<td><?= h($item->size); ?></td>
 						<td class="text-right">
@@ -98,8 +94,6 @@ $items = $app->allItem();
 		<!-- row -->
 	</div>
   <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
 <script>
 $(function(){
 

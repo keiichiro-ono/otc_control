@@ -13,19 +13,36 @@ class Correct_otc extends Controller{
 
   public function check_self_med($num){
     if($num==="1"){
-      return '<mark><i class="fa fa-star fa-spin fa-fw text-warning"></i></mark>';
+      return '<mark><i class="bi bi-star text-warning"></i> checked!</mark>';
     } else {
-      return "<mark>なし</mark>";
+      return "<mark>no checked</mark>";
     }
   }
 
   public function check_hygiene($num){
     if($num==="1"){
-      return '<mark><i class="fa fa-star fa-spin fa-fw text-warning"></i></mark>';
+      return '<mark>checked!</mark>';
     } else {
-      return "<mark>なし</mark>";
+      return "<mark>no checked</mark>";
     }
   }
+
+  public function check_tax($num){
+    if($num==="8"){
+      return '<mark>8% checked!</mark>';
+    } else {
+      return "<mark>10% no check</mark>";
+    }
+  }
+
+  public function check_tokutei_kiki($num){
+    if($num==="1"){
+      return '<mark>特定医療管理機器 checked!</mark>';
+    } else {
+      return "<mark>no check</mark>";
+    }
+  }
+
 
   public function class_name(){
     $sql = "select * from otc_class";

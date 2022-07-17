@@ -4,64 +4,58 @@ require_once('config/config.php');
 
 $app = new \MyApp\Proceeds();
 
+$title = '出庫登録画面';
+$today = date("Y-m-d");
+$data = $app->threeDay();
+
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>売上登録</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-	<link rel="stylesheet" href="lib/js/styles.css">
-	<style>
+<?php include('template/header.php'); ?>
+<style>
 	table#mainTable>tbody#tb>tr>td.delete, td.deleteSubRow{
 		color: red;
 		cursor: pointer!important;
 	}
-	</style>
-</head>
-<body>
-	<?php include('nav.php'); ?>
+</style>
 
-	<div class="container">
+
+<body>
+	<?php include('template/navber.php'); ?>
+
+	<div class="container mt-3">
 		<div class="row">
 			<div class="col-sm-7">
 				<div class="page-header">
 					<div class="btn-group" role="group">
-						<a href="warehousing.php" class="btn btn-info">入庫</a>
-						<a href="proceeds.php" class="btn btn-info" disabled>出庫</a>
-						<a href="returned.php" class="btn btn-info">返品</a>
+						<a href="warehousing.php" class="btn btn-sm btn-outline-primary">入庫</a>
+						<a href="proceeds.php" class="btn btn-sm btn-primary" disabled>出庫</a>
+						<a href="returned.php" class="btn btn-sm btn-outline-primary">返品</a>
 					</div>
-				  <h1>売上登録画面 <small><i class="fa fa-sign-out fa-3x" aria-hidden="true"></i><i class="fa fa-user fa-3x" aria-hidden="true"></i></small></h1>
+				  <h1>売上登録画面 <i class="bi bi-arrow-right" style="font-size: 3rem; color: cornflowerblue;"></i><i class="bi bi-person-fill" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
 				</div>
 
-				<div class="jumbotron">
-					<div class="row">
-						<div class="col-xs-2 text-right">
+				<div class="p-5 mb-4 bg-light">
+					<div class="row justify-content-center">
+						<div class="col-auto">
 							売上日:
 						</div>
-						<div class="col-xs-5">
-							<input type="text" class="form-control" id="inputDate" name="date" placeholder="日付を入力">
+						<div class="col-auto">
+							<input type="date" class="form-control" id="inputDate" name="date" placeholder="日付を入力" value="<?= h($today); ?>">
 						</div>
-						<div class="col-xs-2">
-							<button class="btn btn-primary" id="today">本日</button>
+						<div class="col-auto">
+							<button class="btn btn-primary btn-sm" id="today">本日</button>
 						</div>
 					</div>
 				</div>
 
-				<div class="form-group row">
-					<label for="search" class="col-xs-3 text-right">商品検索</label>
-					<div class="col-xs-5">
+				<div class="form-group row justify-content-center mb-5">
+					<label for="search" class="col-sm-3 text-end">商品検索</label>
+					<div class="col-sm-5">
 						<input type="text" class="form-control" id="search" name="search" placeholder="かなを入力してください">
 					</div>
-					<div class="col-xs-4">
-						<button class="btn btn-warning" id="searchBtn">Search!</button>
+					<div class="col-sm-4">
+						<button class="btn btn-warning rounded-pill px-4" id="searchBtn">Search!</button>
 					</div>
 				</div>
-
-				<hr>
 
 				<table class="table" id="mainTable">
 					<thead>
@@ -79,8 +73,8 @@ $app = new \MyApp\Proceeds();
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="5"></td>
-							<td>
+							<td colspan="4"></td>
+							<td colspan="2" class="text-end">
 								<button id="inputDb" class="btn btn-success">DBへ登録</button>
 							</td>
 						</tr>
@@ -88,23 +82,43 @@ $app = new \MyApp\Proceeds();
 				</table>
 			</div>
 			<div class="col-sm-5">
-				<?php include('proceedsSub.php'); ?>
+				<h3>3日分のデ－タ(販売記録)</h3>
+				<table class="table table-sm">
+					<thead>
+						<tr>
+							<th>日付</th>
+							<th>商品名</th>
+							<th>数量</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody id="subClumnTable">
+					<?php foreach($data as $d): ?>
+						<tr data-id="<?= h($d->mainId); ?>" id="warehousingId_<?= h($d->mainId); ?>" data-otc-id="<?= h($d->otc_id); ?>">
+							<td><?= h(date('m/d', strtotime($d->date))); ?></td>
+								<td>
+									<a href="inout.php?id=<?= h($d->otc_id); ?>">
+										<?= h($d->name); ?>
+									</a>(<?= h($d->stock_nums); ?>)
+								</td>
+							<td><?= h($d->nums); ?></td>
+							<td class="deleteSubRow">[削除]</td>
+						</tr>
+					<?php endforeach; ?>
+
+					</tbody>
+				</table>
 			</div>
 		</div>
-		<!-- row -->
-
 	</div>
-  <!-- container -->
 
 	<!-- Modal -->
-	<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+	<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">検索結果</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<table class="table table-hover">
@@ -128,26 +142,20 @@ $app = new \MyApp\Proceeds();
 
 
 
-
-
-
-
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
-<script src="lib/js/jquery.uploadThumbs.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script>
 $(function(){
 
-	$('#inputDb').hide();
+	$('#mainTable tfoot').hide();
 
-	$('#inputDate').datepicker({dateFormat: 'yy/mm/dd'});
 	$('#today').click(function(){
-		var today = new Date;
-		var y = today.getFullYear();
-		var m = today.getMonth()+1;
-		var d = today.getDate();
-		var ymd = y+"/"+m+"/"+d;
+		let today = new Date();
+		let y = today.getFullYear();
+		let m = today.getMonth()+1;
+		if(m<10){
+			m = '0'+m.toString();
+		}
+		let d = today.getDate();
+		let ymd = y+"-"+m+"-"+d;
 		$('#inputDate').val(ymd);
 	});
 
@@ -158,16 +166,17 @@ $(function(){
 			return false;
 		}
 
-		$.post("_ajax_search.php",{
+		$.post("_ajax.php",{
+			url: 'proceeds',
 			mode: 'search',
 			word: $.trim( $("#search").val() )
 		}, function(res){
 			if(res){
 				$('#subTable').empty();
-				$('#searchModal').modal();
-				for(var i=0; i<res.length; i++){
-					var stock = (res[i].stock_nums<=0) ? 'danger' : 'default';
-					var e = $(
+				$('#searchModal').modal('show');
+				for(let i=0; i<res.length; i++){
+					let stock = (res[i].stock_nums<=0) ? 'danger' : 'default';
+					let e = $(
 						'<tr data-id="'+res[i].id+'" class="preSearch text-'+stock+'">'+
 						'<td>'+ res[i].name + '</td>' +
 						'<td class="text-right">'+ res[i].stock_nums + '</td>' +
@@ -185,13 +194,14 @@ $(function(){
 	});
 
 	$("#subTable").on('dblclick', 'tr', function(){
-		var id = $(this).data('id');
-		$.post('_ajax_search.php', {
-			'mode': 'choice',
+		let id = $(this).data('id');
+		$.post('_ajax.php', {
+			url: 'proceeds',
+			mode: 'choice',
 			id: id
 		}, function(res){
 			$('#searchModal').modal('toggle');
-			var e = $(
+			let e = $(
 				'<tr>'+
 				'<td>'+ res.id+ '</td>'+
 				'<td>'+ res.name+ '</td>'+
@@ -203,7 +213,7 @@ $(function(){
 			);
 			$("#mainTable").append(e.fadeIn(800));
 			$("#search").val("").focus();
-			$("#inputDb").show();
+			$("#mainTable tfoot").show();
 		});
 	});
 
@@ -215,7 +225,7 @@ $(function(){
 
 	$("#mainTable").on('click', '.delete>button', function(){
 		if($("#mainTable").children('tbody').children('tr').length==1){
-			$("#inputDb").hide(800);
+			$("#mainTable tfoot").hide(800);
 		}
 		$(this).parent().parent().hide(800,function(){
 			$(this).remove();
@@ -227,22 +237,23 @@ $(function(){
 		if($("#tb").children('tr')){
 			if(checkNum()){
 				$("#tb").children('tr').each(function(){
-					var $tr = $(this);
-					var id = $tr.children('td:eq(0)').text();
-					var actual_price = $tr.children('td').children('input:eq(0)').val();
-					var nums = $tr.children('td').children('input:eq(1)').val();
-					var ymd = $("#inputDate").val();
-					$.post('_ajax_search.php', {
-						'mode': 'dbInsert',
-						'id': id,
-						'actual_price': actual_price,
-						'nums': nums,
-						'ymd': ymd
+					let $tr = $(this);
+					let id = $tr.children('td:eq(0)').text();
+					let actual_price = $tr.children('td').children('input:eq(0)').val();
+					let nums = $tr.children('td').children('input:eq(1)').val();
+					let ymd = $("#inputDate").val();
+					$.post('_ajax.php', {
+						url: 'proceeds',
+						mode: 'dbInsert',
+						id: id,
+						actual_price: actual_price,
+						nums: nums,
+						ymd: ymd
 					}, function(res){
 						$tr.fadeOut(800, function(){
 							$(this).remove();
 						});
-						var e = $(
+						let e = $(
 							'<tr>'+
 							'<td>'+ ymd.substr(5,9)+ '</td>'+
 							'<td><a href="inout.php?id='+ id +'">'+ res.name+ '</a>('+res.stock_nums+')</td>'+
@@ -253,7 +264,7 @@ $(function(){
 						$("#subClumnTable").prepend(e.fadeIn(800));
 					});
 				});
-				$("#inputDb").hide(800);
+				$("#mainTable tfoot").hide(800);
 			} else {
 				alert('数量に0以下の数値が入力されています。');
 			}
@@ -263,22 +274,23 @@ $(function(){
 	});
 
 	function checkNum(){
-		var a = 0;
+		let a = 0;
 		$("#tb").children('tr').each(function(){
-			var num = $(this).children('td').children('input').val();
+			let num = $(this).children('td').children('input').val();
 			if(num<=0) a++;
 		});
 		return a==0 ? true : false;
 	}
 
 	$("#subClumnTable").on('click', '.deleteSubRow', function(){
-		var day = $.trim($(this).parent('tr').children('td:eq(0)').text());
-		var name = $.trim($(this).parent('tr').children('td:eq(1)').text());
-		var nums = $.trim($(this).parent('tr').children('td:eq(2)').text());
-		var id = $(this).parent('tr').data('id');
-		var otc_id = $(this).parent('tr').data('otc-id');
+		let day = $.trim($(this).parent('tr').children('td:eq(0)').text());
+		let name = $.trim($(this).parent('tr').children('td:eq(1)').text());
+		let nums = $.trim($(this).parent('tr').children('td:eq(2)').text());
+		let id = $(this).parent('tr').data('id');
+		let otc_id = $(this).parent('tr').data('otc-id');
 		if(confirm(day+'「'+name+'」 '+nums+'個\n削除してもよろしいですか')){
-			$.post('_ajax_search.php', {
+			$.post('_ajax.php', {
+				url: 'proceeds',
 				id: id,
 				nums: nums,
 				otc_id: otc_id,

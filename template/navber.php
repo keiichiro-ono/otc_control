@@ -11,10 +11,10 @@
             登録 
             </a>
             <ul class="dropdown-menu">
-            <li><a href="new_otc.php" class="dropdown-item"><i class="bi bi-file-earmark-plus"></i>新規登録</a></li>
-            <li><a href="warehousing.php" class="dropdown-item"><i class="bi bi-arrow-right"></i><i class="bi bi-shop-window"></i>入庫入力</a></li>
-            <li><a href="proceeds.php" class="dropdown-item"><i class="bi bi-arrow-right"></i><i class="bi bi-person-fill"></i>売上登録</a></li>
-            <li><a href="returned.php" class="dropdown-item"><i class="bi bi-reply-fill"></i>返品登録</a></li>
+            <li><a href="new_otc.php" class="dropdown-item"><i class="bi bi-file-earmark-plus"></i> 新規登録</a></li>
+            <li><a href="warehousing.php" class="dropdown-item"><i class="bi bi-arrow-right"></i><i class="bi bi-shop-window"></i> 入庫入力</a></li>
+            <li><a href="proceeds.php" class="dropdown-item"><i class="bi bi-arrow-right"></i><i class="bi bi-person-fill"></i> 売上登録</a></li>
+            <li><a href="returned.php" class="dropdown-item"><i class="bi bi-reply-fill"></i> 返品登録</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
@@ -22,19 +22,18 @@
             一覧表示 
             </a>
             <ul class="dropdown-menu">
-              <li><a href="otc_list_2.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i>OTC一覧</a></li>
-              <li><a href="otc_list_new.php" class="dropdown-item"><i class="bi bi-stars"></i>新入荷一覧</a></li>
-              <li><a href="kiki_list.php" class="dropdown-item">医療機器一覧</a></li>
-              <li><a href="hygiene_list.php" class="dropdown-item">衛生用品一覧</a></li>
+              <li><a href="otc_list_alp.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> OTC一覧</a></li>
+              <li><a href="otc_list_new.php" class="dropdown-item"><i class="bi bi-stars"></i> 新入荷一覧</a></li>
+              <li><a href="kiki_list.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> 医療機器一覧</a></li>
+              <li><a href="hygiene_list.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> 衛生用品一覧</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a href="warehousing_kiki_list.php" class="dropdown-item">【入庫】高度、特定保守一覧</a></li>
               <li><a href="sale_kiki_list.php" class="dropdown-item">【出庫】高度、特定保守一覧</a></li>
               <li><a href="inout_kiki_list.php" class="dropdown-item">【出入庫】高度、特定保守一覧</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a href="calendar.php" class="dropdown-item"><i class="bi bi-calendar-week"></i>販売一覧</a></li>
-              <li><a href="sales_calendar.php" class="dropdown-item"><i class="bi bi-currency-yen"></i>月間売上</a></li>
-              <li><a href="warehousing_list.php" class="dropdown-item">入庫一覧</a></li>
-              <li><a href="expiration.php" class="dropdown-item">期限一覧</a></li>
+              <li><a href="calendar.php" class="dropdown-item"><i class="bi bi-calendar-week"></i> 販売一覧</a></li>
+              <li><a href="sales_calendar.php" class="dropdown-item"><i class="bi bi-currency-yen"></i> 月間売上</a></li>
+              <li><a href="expiration.php" class="dropdown-item"><i class="bi bi-hourglass"></i> 期限一覧</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">

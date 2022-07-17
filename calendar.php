@@ -65,17 +65,13 @@ for($day=1; $day<=$lastDay; $day++, $youbi++){
 	}
 }
 
+$title = '売上カレンダー';
+
 
 
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>売上カレンダー</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-	<link rel="stylesheet" href="config/styles.css">
+<?php include('template/header.php'); ?>
+
 	<style>
     .youbi_0{
       color: red;
@@ -84,7 +80,7 @@ for($day=1; $day<=$lastDay; $day++, $youbi++){
       color: blue;
     }
     .on {
-      background-color: orange;
+      background-color: orange!important;
       font-weight: bold;
 			cursor: pointer;
     }
@@ -96,41 +92,40 @@ for($day=1; $day<=$lastDay; $day++, $youbi++){
 			text-align: center;
 		}
 	</style>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-</head>
 <body>
-	<?php include('nav.php'); ?>
+	<?php include('template/navber.php'); ?>
+	<div class="container mt-3">
+		<h1>販売一覧 <i class="bi bi-calendar-week" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
 
-	<div class="container">
-
-  	<div class="row">
-      <div class="col-sm-6">
-				<h2>売上</h2>
-        <table class="table" id="calen">
-          <thead>
-            <tr>
-              <th>
-                <a href="?ym=<?= h($prev); ?>">&lt;</a>
-              </th>
-              <th colspan="5" class="text-center"><?= h($ym); ?></th>
-              <th>
-                <a href="?ym=<?= h($next); ?>">&gt;</a>
-              </th>
-            </tr>
-            <tr>
-              <th class="youbi_0">日</th>
-              <th>月</th>
-              <th>火</th>
-              <th>水</th>
-              <th>木</th>
-              <th>金</th>
-              <th class="youbi_7">土</th>
-            </tr>
-          </thead>
+		<div class="row">
+			<div class="col-sm-6">
+				<table class="table" id="calen">
+					<thead>
+						<tr>
+							<th>
+								<a href="?ym=<?= h($prev); ?>" class="btn btn-success btn-sm">&lt;</a>
+							</th>
+							<th colspan="5" class="text-center">
+								<?= h($ymWa); ?>
+							</th>
+							<th>
+								<a href="?ym=<?= h($next); ?>" class="btn btn-success btn-sm">&gt;</a>
+							</th>
+							</tr>
+							<tr>
+							<th class="youbi_0">日</th>
+							<th>月</th>
+							<th>火</th>
+							<th>水</th>
+							<th>木</th>
+							<th>金</th>
+							<th class="youbi_7">土</th>
+						</tr>
+					</thead>
 					<tbody>
-						<?php foreach($weeks as $week): ?>
-	            <?= $week; ?>
-	          <?php endforeach; ?>
+					<?php foreach($weeks as $week): ?>
+						<?= $week; ?>
+					<?php endforeach; ?>
 					</tbody>
 					<tfoot>
 						<tr>
@@ -139,11 +134,11 @@ for($day=1; $day<=$lastDay; $day++, $youbi++){
 							</th>
 						</tr>
 					</tfoot>
-        </table>
+				</table>
 
-				<div class="jumbotron">
-				<table class="table table-sm">
-						<h4 class="display-4" id="dayTitle"><?= h(date("Y"."年"."m"."月"."d"."日")); ?></h4>
+				<div class="p-3 mb-4 bg-light">
+					<h4 class="display-6 text-center" id="dayTitle"><?= h(date("Y"."年"."m"."月"."d"."日")); ?></h4>
+					<table class="table table-sm">
 						<thead>
 							<tr>
 								<th>商品名</th>
@@ -156,14 +151,14 @@ for($day=1; $day<=$lastDay; $day++, $youbi++){
 
 						</tbody>
 					</table>
-
-					</div>
+				</div>
 			</div>
+
 			<div class="col-sm-6">
-				<h2>
-					<?= h($ymWa); ?> 売上品一覧
+				<h3>
+					<?= h($ymWa); ?> 売上品一覧<br>
 					<small>売上合計：<?= h(number_format($salePrice,0)); ?>円</small>
-				</h2>
+				</h3>
 
 				<table class="table table-sm">
 					<tr>
@@ -173,28 +168,25 @@ for($day=1; $day<=$lastDay; $day++, $youbi++){
 					</tr>
 				<?php foreach ($saleData as $data): ?>
 					<tr>
-						<td class="text-left">
+						<td class="text-start">
 							<a href="inout.php?id=<?= h($data->otc_id); ?>">
 								<?= h($data->name); ?>
 							</a>
 						</td>
-						<td class="text-right"><?= h($data->totalNums); ?></td>
-						<td class="text-right"><?= h(number_format($data->totalPrice, 0)); ?>円</td>
+						<td class="text-end"><?= h($data->totalNums); ?></td>
+						<td class="text-end"><?= h(number_format($data->totalPrice, 0)); ?>円</td>
 					</tr>
 				<?php endforeach; ?>
 				</table>
-
-
 			</div>
-    </div>
+		</div>
 
-  </div>
-
-
+  	</div>
 
 
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
 <script>
 $(function(){
 	$('table#calen tbody td.on').click(function(){
@@ -216,8 +208,6 @@ $(function(){
 		.done(function(data){
 			$('#dailySales').append(data);
 		});
-
-
 
 });
 </script>

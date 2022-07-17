@@ -20,12 +20,12 @@ $title = 'OTC新規登録画面';
 
 <body>
 	<?php include('template/navber.php'); ?>
-<div class="container">
+<div class="container mt-3">
 
 	<form method="post" action="" enctype="multipart/form-data" id="myform" class="g-3 needs-validation" novalidate>
 
   	<div class="row justify-content-center">
-		<h1>OTC新規作成画面</h1>
+		<h1>OTC新規作成画面 <i class="bi bi-file-earmark-plus" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
 
 
 			<div class="col-md-6 col-sm-12">

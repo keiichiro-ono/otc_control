@@ -2,31 +2,8 @@
 
 require_once('config/config.php');
 
-// $app = new \MyApp\Correct_otc();
-// $app2 = new \MyApp\Sale();
-// $app3 = new \MyApp\Warehousing();
-// $app4 = new \MyApp\Inventory();
-// $app5 = new \MyApp\Setting();
-// $app6 = new \MyApp\Inventory_table_input();
-
 if($_SERVER['REQUEST_METHOD']==="POST"){
   switch($_POST["url"]){
-    // case "correct_otc":
-    //   echo $app->delete_img($_POST['id']);
-    //   break;
-    // case "sale":
-    //   switch($_POST["type"]){
-    //     case "check_id":
-    //       echo $app2->mg_id() + 1;
-    //       break;
-    //     case "inputDb":
-    //       $app2->inputDb();
-    //       break;
-    //     case "searchItem":
-    //       header('Content-Type: application/json');
-    //       echo json_encode($app2->ajax_process());
-    //       break;
-    //   }
     case "warehousing":
       $app = new \MyApp\Warehousing();
       try{
@@ -53,11 +30,109 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
         echo $e->getMessage();
         exit;
       }
+
+    case "proceeds":
+      $app = new \MyApp\Proceeds();
+      try{
+        switch($_POST['mode']){
+          case 'search':
+            $res = $app->search();
+            break;
+          case 'choice':
+            $res = $app->choice();
+            break;
+          case 'dbInsert':
+            $res = $app->dbInsert();
+            break;
+          case 'deleteSubRow':
+            $res = $app->deleteSubRow();
+            break;
+        }
+        if($res){
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          exit;
+        }
+      }catch(Exception $e){
+        echo $e->getMessage();
+        exit;
+      }
+
+      case "returned":
+        $app = new \MyApp\Returned();
+        try{
+          switch($_POST['mode']){
+            case 'search':
+              $res = $app->search();
+              break;
+            case 'inputDb':
+              $res = $app->inputDb();
+              break;
+          }
+          if($res){
+            header('Content-Type: application/json');
+            echo json_encode($res);
+            exit;
+          }
+        }catch(Exception $e){
+          echo $e->getMessage();
+          exit;
+        }
+    
+        case "warehousing_kiki_list":
+          $app = new \MyApp\Warehousing_kiki_list();
+          try{
+            $res = $app->ajax_postprocess();
+
+            if($res){
+              header('Content-Type: application/json');
+              echo json_encode($res);
+              exit;
+            }
+          }catch(Exception $e){
+            echo $e->getMessage();
+            exit;
+          }
+
+          case "sale_kiki_list":
+            $app = new \MyApp\Sale_kiki_list();
+            try{
+              $res = $app->ajax_postprocess();
+  
+              if($res){
+                header('Content-Type: application/json');
+                echo json_encode($res);
+                exit;
+              }
+            }catch(Exception $e){
+              echo $e->getMessage();
+              exit;
+            }
+  
+        
+  
+
     } 
 
 
 
 
+    // case "correct_otc":
+    //   echo $app->delete_img($_POST['id']);
+    //   break;
+    // case "sale":
+    //   switch($_POST["type"]){
+    //     case "check_id":
+    //       echo $app2->mg_id() + 1;
+    //       break;
+    //     case "inputDb":
+    //       $app2->inputDb();
+    //       break;
+    //     case "searchItem":
+    //       header('Content-Type: application/json');
+    //       echo json_encode($app2->ajax_process());
+    //       break;
+    //   }
         
       //   case "searchItemW":
       //     header('Content-Type: application/json');
