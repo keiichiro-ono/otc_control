@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-info">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><i class="bi bi-shop"></i> OTC管理</a>
+    <a class="navbar-brand" href="<?= h(HOME_URL); ?>"><i class="bi bi-shop"></i> OTC管理</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

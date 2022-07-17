@@ -38,7 +38,7 @@ class Warehousing extends Controller{
         ":id"=>(int)$_POST['id']
       ]);
 
-      $sql = "select name,stock_nums from otc_list where id=".(int)$_POST['id']. " limit 1";
+      $sql = "select name,stock_nums,purchase_price from otc_list where id=".(int)$_POST['id']. " limit 1";
       $stmt = $this->_db->query($sql);
       $res = $stmt->fetch(\PDO::FETCH_ASSOC);
 

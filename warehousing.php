@@ -8,6 +8,8 @@ $thisYear = date("Y");
 
 $title = '入庫登録画面';
 $today = date("Y-m-d");
+$data = $app->threeDay();
+
 
 
 ?>
@@ -90,7 +92,37 @@ $today = date("Y-m-d");
 				</table>
 			</div>
 			<div class="col-sm-5">
-				<?php include('warehousingSub.php'); ?>
+				<h3>3日分のデ－タ(入庫)</h3>
+				<table class="table table-sm">
+					<thead>
+						<tr>
+							<th>日付</th>
+							<th>商品名(現在庫数)</th>
+							<th>入庫数</th>
+							<th clas="text-right">入値</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody id="subClumnTable">
+					<?php foreach($data as $d): ?>
+						<tr data-id="<?= h($d->mainId); ?>" id="warehousingId_<?= h($d->mainId); ?>" data-otc-id="<?= h($d->otc_id); ?>">
+							<td><?= h(date('m/d', strtotime($d->date))); ?></td>
+							<td>
+								<a href="inout.php?id=<?= h($d->otc_id); ?>">
+									<?= h($d->name); ?>
+								</a>(<?= h($d->stock_nums); ?>)
+							</td>
+							<td><?= h($d->enter_nums); ?></td>
+							<td><?= h($d->actual_price); ?></td>
+							<td>
+								<span class="editSubRow">[編集]</span>
+								<span class="deleteSubRow">[削除]</span>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+
+					</tbody>
+				</table>
 			</div>
 
 		</div>
@@ -132,9 +164,7 @@ $today = date("Y-m-d");
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">有効期限</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 
@@ -145,14 +175,14 @@ $today = date("Y-m-d");
 							<?php endfor; ?>
 							<br><br>
 							<input type="radio" class="btn-check" name="limit_year" id="year_none" autocomplete="off" value="null">
-							<label class="btn btn-info btn-sm" for="year_none">期限なし</label>
+							<label class="btn btn-outline-success btn-sm" for="year_none">期限なし</label>
 
 						</div>
 						<hr>
 						<div id="monthInput">
 							<?php for($i=1; $i<=12; $i++): ?>
 								<input type="radio" class="btn-check" name="limit_month" id="month_<?= h($i); ?>" autocomplete="off" value="<?= h($i); ?>">
-								<label class="btn btn-primary" for="month_<?= h($i); ?>"><?= h($i); ?>月</label>
+								<label class="btn btn-primary mb-2 btn-sm" for="month_<?= h($i); ?>"><?= h($i); ?>月</label>
 							<?php endfor; ?>
 						</div>
 						<hr>
@@ -210,19 +240,20 @@ $(function(){
 	});
 
 	function validate(jan){
-		var res = jan.search(/^[0-9]+$/);
+		let res = jan.search(/^[0-9]+$/);
 		return res==0 ? true : false;
 	}
 
 	function ajax_search(jan){
-		$.post("_ajax_warehousing.php", {
+		$.post("_ajax.php", {
+			url: 'warehousing',
 			jan: jan,
 			mode: "search"
 		}, function(res){
 			if(res){
 				$('#subTable').empty();
 				$('#searchModal').modal('show');
-				var s = '<tr id="otc_id_'+res['id']+'" data-id="'+res['id']+'">'+
+				let s = '<tr id="otc_id_'+res['id']+'" data-id="'+res['id']+'">'+
 								'<td>' + res['id'] + '</td>' +
 								'<td>' + res['name'] + '</td>' +
 								'<td><input type="text" class="text-right" name="price" style="width:80px;" value="' + res['purchase_price'] + '"></td>'+
@@ -230,10 +261,8 @@ $(function(){
 								'<td class="inputLimit">[期限入力]</td>'
 								'</tr>';
 				$("#subTable").append(s);
-				// $("#inputJan").val("").focus();
-				// $('tfoot').show();
 			} else {
-				var s = '<tr>'+
+				let s = '<tr>'+
 								'<td colspan="5">Janコード 【' + '<span id="noJan">'+jan + '</span>】 は存在しません</td>' +
 								'<td><button class="btn btn-primary registRow">新規登録</button></td>'
 								'</tr>';
@@ -247,7 +276,6 @@ $(function(){
 
 	$('#searchModal').on('click', '.inputLimit', function(){
 		$('#limitModal').modal('show');
-
 	});
 
 	$('#monthInput').hide();
@@ -264,19 +292,19 @@ $(function(){
 	});
 
 	function nolimit(){
-		var otc_id = $('#searchModal #subTable tr').data('id');
-		var name = $('#searchModal #subTable tr').children('td:eq(1)').text();
-		var price = $('#searchModal #subTable tr').children('td:eq(2)').children('input').val();
-		var nums = $('#searchModal #subTable tr').children('td:eq(3)').children('input').val();
+		let otc_id = $('#searchModal #subTable tr').data('id');
+		let name = $('#searchModal #subTable tr').children('td:eq(1)').text();
+		let price = $('#searchModal #subTable tr').children('td:eq(2)').children('input').val();
+		let nums = $('#searchModal #subTable tr').children('td:eq(3)').children('input').val();
 
-		var s = 	'<tr>'+
-							'<td>'+otc_id+'</td>'+
-							'<td>'+name+'</td>'+
-							'<td>'+price+'</td>'+
-							'<td>'+nums+'</td>'+
-							'<td>期限なし</td>'+
-							'<td class="deleteRow">[削除]</td>'+
-							'</tr>';
+		let s = '<tr>'+
+					'<td>'+otc_id+'</td>'+
+					'<td>'+name+'</td>'+
+					'<td>'+price+'</td>'+
+					'<td>'+nums+'</td>'+
+					'<td>期限なし</td>'+
+					'<td class="deleteRow">[削除]</td>'+
+					'</tr>';
 		$('#tb').append(s);
 		$("#inputJan").val("").focus();
 		$("tfoot").show();
@@ -285,44 +313,44 @@ $(function(){
 	}
 
 	$('#monthInput input[name=limit_month]').click(function(){
-		var year = $('#yearInput input[name=limit_year]:checked').val();
-		var month = $('#monthInput input[name=limit_month]:checked').val();
+		let year = $('#yearInput input[name=limit_year]:checked').val();
+		let month = $('#monthInput input[name=limit_month]:checked').val();
 		$.post('_serch_last_day.php',{
 			year: year,
 			month: month
 		},function(res){
 			$('#dayInput').empty();
-			for(var i=1; i<=res; i++){
-				var s = '<input type="radio" class="btn-check" name="limit_day" id="day_'+i+'" autocomplete="off" value="'+i+'"><label class="btn btn-default" for="day_'+i+'">'+i+'日</label>';
+			for(let i=1; i<=res; i++){
+				let s = '<input type="radio" class="btn-check" name="limit_day" id="day_'+i+'" autocomplete="off" value="'+i+'"><label class="btn btn-danger btn-sm mb-2 me-1" for="day_'+i+'">'+i+'日</label>';
 				$('#dayInput').append(s);
 			}
-			var s = '<input type="radio" class="btn-check" name="limit_day" id="day_none" autocomplete="off" value="'+res+'"><label class="btn btn-danger" for="day_'+res+'">指定なし</label>';
+			let s = '<br><br><input type="radio" class="btn-check" name="limit_day" id="day_none" autocomplete="off" value="'+res+'"><label class="btn btn-outline-danger btn-sm" for="day_'+res+'">指定なし</label>';
 			$('#dayInput').append(s);
 			$('#dayInput').show(300);
 		});
 	});
 
 	$('#dayInput').on('click', 'input[name=limit_day]', function(){
-		var otc_id = $('#searchModal #subTable tr').data('id');
-		var name = $('#searchModal #subTable tr').children('td:eq(1)').text();
-		var price = $('#searchModal #subTable tr').children('td:eq(2)').children('input').val();
-		var nums = $('#searchModal #subTable tr').children('td:eq(3)').children('input').val();
+		let otc_id = $('#searchModal #subTable tr').data('id');
+		let name = $('#searchModal #subTable tr').children('td:eq(1)').text();
+		let price = $('#searchModal #subTable tr').children('td:eq(2)').children('input').val();
+		let nums = $('#searchModal #subTable tr').children('td:eq(3)').children('input').val();
 
-		var year = $('#yearInput input[name=limit_year]:checked').val();
-		var month = $('#monthInput input[name=limit_month]:checked').val();
-		var day = $('#dayInput input[name=limit_day]:checked').val();
+		let year = $('#yearInput input[name=limit_year]:checked').val();
+		let month = $('#monthInput input[name=limit_month]:checked').val();
+		let day = $('#dayInput input[name=limit_day]:checked').val();
 
 		$('#searchModal').modal('toggle');
 		$('#limitModal').modal('toggle');
 
-		var s = 	'<tr>'+
-							'<td>'+otc_id+'</td>'+
-							'<td>'+name+'</td>'+
-							'<td>'+price+'</td>'+
-							'<td>'+nums+'</td>'+
-							'<td>'+year+'-'+month+'-'+day+'</td>'+
-							'<td class="deleteRow">[削除]</td>'+
-							'</tr>';
+		let s = '<tr>'+
+					'<td>'+otc_id+'</td>'+
+					'<td>'+name+'</td>'+
+					'<td>'+price+'</td>'+
+					'<td>'+nums+'</td>'+
+					'<td>'+year+'-'+month+'-'+day+'</td>'+
+					'<td class="deleteRow">[削除]</td>'+
+					'</tr>';
 		$('#tb').append(s);
 		$("#inputJan").val("").focus();
 		$("tfoot").show();
@@ -334,16 +362,15 @@ $(function(){
 	$('#tb').on('click', '.deleteRow', function(){
 		$(this).parent('tr').fadeOut(800, function(){
 			$(this).remove();
-			var cnt = $('tbody#tb').children().length;
+			let cnt = $('tbody#tb').children().length;
 			if(cnt===0) $('tfoot').hide();
 		});
 	});
 
 	$('#tb').on('click', '.registRow', function(){
-		var jan = $('#noJan').text();
-		var url = "new_otc.php?jan="+jan;
+		let jan = $('#noJan').text();
+		let url = "new_otc.php?jan="+jan;
 		window.open(url, '_blank');
-		// window.location.href="new_otc.php?jan="+jan;
 	});
 
 	$('#inputDb').click(function(){
@@ -353,15 +380,15 @@ $(function(){
 			return false;
 		}
 
-		var cnt = $('tbody#tb').children().length;
-		var data = [];
+		let cnt = $('tbody#tb').children().length;
+		let data = [];
 		while(cnt > 0){
-			var $tr = $('tbody#tb').children('tr:eq(0)');
-			var ymd = $("#inputDate").val();
-			var id = $tr.children('td:eq(0)').text();
-			var price = $tr.children('td:eq(2)').text();
-			var nums = $tr.children('td:eq(3)').text();
-			var limit;
+			let $tr = $('tbody#tb').children('tr:eq(0)');
+			let ymd = $("#inputDate").val();
+			let id = $tr.children('td:eq(0)').text();
+			let price = $tr.children('td:eq(2)').text();
+			let nums = $tr.children('td:eq(3)').text();
+			let limit;
 			if( $tr.children('td:eq(4)').text()=="期限なし"){
 				limit = null;
 			} else {
@@ -376,13 +403,14 @@ $(function(){
 	});
 
 	function inputDb(data){
-		for(var i=0; data.length>i; i++){
-			var limit = data[i][4];
-			var ymd = data[i][3];
-			var nums = data[i][2];
-			var id = data[i][0];
+		for(let i=0; data.length>i; i++){
+			let limit = data[i][4];
+			let ymd = data[i][3];
+			let nums = data[i][2];
+			let id = data[i][0];
 
-			$.post('_ajax_warehousing.php', {
+			$.post('_ajax.php', {
+				url: 'warehousing',
 				mode: 'inputDb',
 				id: data[i][0],
 				price: data[i][1],
@@ -393,11 +421,12 @@ $(function(){
 				$('tbody#tb tr[i]').fadeOut(800, function(){
 					$(this).remove();
 				});
-				var e = $(
+				let e = $(
 					'<tr>'+
 					'<td>'+ ymd.substr(5,9)+ '</td>'+
 					'<td><a href="inout.php?id='+ id +'">'+ res.name+ '</a>('+ res.stock_nums+')</td>'+
 					'<td>'+ nums+ '</td>'+
+					'<td>'+ res.purchase_price+ '</td>'+
 					'<td></td>'+
 					'</tr>'
 				);
@@ -410,18 +439,14 @@ $(function(){
 
 	$("#subClumnTable").on('click', '.deleteSubRow', function(){
 		if(isEdit) return false;
-		// var day = $.trim($(this).parent('tr').children('td:eq(0)').text());
 		let day = $.trim($(this).parent('td').parent('tr').children('td:eq(0)').text());
-		// var name = $.trim($(this).parent('tr').children('td:eq(1)').text());
 		let name = $.trim($(this).parent('td').parent('tr').children('td:eq(1)').text());
-		// var nums = $.trim($(this).parent('tr').children('td:eq(2)').text());
 		let nums = $.trim($(this).parent('td').parent('tr').children('td:eq(2)').text());
-		// var id = $(this).parent('tr').data('id');
 		let id = $(this).parent('td').parent('tr').data('id');
-		// var otc_id = $(this).parent('tr').data('otc-id');
 		let otc_id = $(this).parent('td').parent('tr').data('otc-id');
 		if(confirm(day+'「'+name+'」 '+nums+'個\n削除してもよろしいですか')){
-			$.post('_ajax_warehousing.php', {
+			$.post('_ajax.php', {
+				url: 'warehousing',
 				id: id,
 				nums: nums,
 				otc_id: otc_id,
@@ -448,7 +473,7 @@ $(function(){
 		$(this).removeClass('editSubRow');
 		$(this).parent('td').prev('td').empty();
 		let e = $('<input type="text" class="edit_input">').val(ac_price).data('old_price',ac_price);
-		let btn = $('<button class="btn-primary btn btn-xs editedSubRow"></button>').text('変更');
+		let btn = $('<button class="btn-primary btn btn-sm editedSubRow"></button>').text('変更');
 		$(this).parent('td').prev('td').append(e).append(btn);
 	});
 	
@@ -466,7 +491,6 @@ $(function(){
 			return false;
 		} else if(new_price==old_price) {
 			alert('変更がありません');
-			// $(this).prev('input').focus();
 			let $td = $this.parent('td');
 			$td.empty();
 			$td.append(new_price);
@@ -475,8 +499,15 @@ $(function(){
 
 			return false;
 		}
-		
-		$.post('_ajax_warehousing.php', {
+
+		console.log(id);
+		console.log(otc_id);
+		console.log(old_price);
+		console.log(new_price);
+		return false;
+
+		$.post('_ajax.php', {
+			url: 'warehousing',
 			id: id,
 			otc_id: otc_id,
 			new_price: new_price,
