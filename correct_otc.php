@@ -6,24 +6,21 @@ $app = new \MyApp\Correct_otc();
 
 if(isset($_GET['id']) || !empty($_GET['id'])){
 	$item = $app->item($_GET['id']);
-	// var_dump($item);exit;
 	$class_name = $app->class_name();
 	$wholesale_name = $app->getWholesaleName();
-//	 var_dump($wholesale_name);exit;
 }
 
 if($_SERVER['REQUEST_METHOD']==="POST"){
-	// var_dump($_POST);exit;
 	$app->postprocess();
-	if(isset($_FILES["imgFile"]) && $_FILES["imgFile"]["size"] !== 0) {
-		try{
-			$app->save_file($item->mainId);
-		}catch(Exception $e){
-			echo $e->getMessage();
-			exit;
-		}
-	}
-	header( "Location: ". HOME_URL . "otc_list_2.php?extract=10");
+	// if(isset($_FILES["imgFile"]) && $_FILES["imgFile"]["size"] !== 0) {
+	// 	try{
+	// 		$app->save_file($item->mainId);
+	// 	}catch(Exception $e){
+	// 		echo $e->getMessage();
+	// 		exit;
+	// 	}
+	// }
+	header( "Location: ". HOME_URL . "otc_list_alp.php?extract=10");
 	exit;
 }
 
@@ -38,6 +35,7 @@ $title = 'OTC修正画面';
 	<div class="container mt-3">
 
 	<form method="post" action="" enctype="multipart/form-data" id="myform" class="g-3 needs-validation" novalidate>
+		<input type="text" value="<?= h($_GET['id']); ?>" name="id">
 
   	<div class="row justify-content-center">
 		<h1>OTC修正画面 <i class="bi bi-file-earmark-plus" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
@@ -151,7 +149,7 @@ $title = 'OTC修正画面';
 							<label for="inputWholesale" class="col-form-label">取引卸</label>
 						</div>
 						<div class="col-auto">
-							<select class="form-control" name="wholesale" id="inputWholesale">
+							<select class="form-control" name="wholesale" id="inputWholesale" data-wholesale="<?= h($item->wholesale); ?>">
 								<option disabled selected>ここからお選びください</option>
 							<?php foreach($wholesale_name as $w_name): ?>
 								<option value="<?= h($w_name->id); ?>" <?= $item->wholesale === $w_name->id ? "selected" : ""; ?>><?= h($w_name->name); ?></option>
@@ -164,7 +162,7 @@ $title = 'OTC修正画面';
 			
 				<div class="mb-2">
 					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="flexSelfMed" name="self_med" <?= ($item->self_med==="1") ? "checked" : ""; ?>>
+						<input class="form-check-input" type="checkbox" id="flexSelfMed" data-self_med="<?= h($item->self_med); ?>" name="self_med" <?= ($item->self_med==="1") ? "checked" : ""; ?>>
 						<label class="form-check-label" for="flexSelfMed">セルフメディケーション対象医薬品</label>
 					</div>
 					(修正前: <?= $app->check_self_med($item->self_med); ?>)
@@ -172,7 +170,7 @@ $title = 'OTC修正画面';
 
 				<div class="mb-2">
 					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="flexHygine" name="hygiene" <?= ($item->hygiene==="1") ? "checked" : ""; ?>>
+						<input class="form-check-input" type="checkbox" id="flexHygine" name="hygiene" data-hygine="<?= h($item->hygiene); ?>" <?= ($item->hygiene==="1") ? "checked" : ""; ?>>
 						<label class="form-check-label" for="flexHygine">衛生用品</label>
 					</div>
 					(修正前: <?= $app->check_hygiene($item->hygiene); ?>)
@@ -180,7 +178,7 @@ $title = 'OTC修正画面';
 
 				<div class="mb-2">
 					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="flexTax" name="tax" <?= ($item->tax==="8") ? "checked" : ""; ?>>
+						<input class="form-check-input" type="checkbox" id="flexTax" name="tax" data-tax="<?= h($item->tax); ?>" <?= ($item->tax==="8") ? "checked" : ""; ?>>
 						<label class="form-check-label" for="flexTax">軽減税率対象（8％）</label>
 					</div>
 					(修正前: <?= $app->check_tax($item->tax); ?>)
@@ -188,7 +186,7 @@ $title = 'OTC修正画面';
 
 				<div class="mb-2">
 					<div class="form-check form-switch">
-						<input class="form-check-input" type="checkbox" id="flexKiki" name="tokutei_kiki" <?= ($item->tokutei_kiki==="1") ? "checked" : ""; ?>>
+						<input class="form-check-input" type="checkbox" id="flexKiki" name="tokutei_kiki" data-kiki="<?= h($item->tokutei_kiki); ?>" <?= ($item->tokutei_kiki==="1") ? "checked" : ""; ?>>
 						<label class="form-check-label" for="flexKiki">特定管理医療機器</label>
 					</div>
 					(修正前: <?= $app->check_tokutei_kiki($item->tokutei_kiki); ?>)
@@ -256,6 +254,16 @@ $(function(){
 
 		let input_class = $('#inputClass option:selected').text();
 		let old_input_class = $('#inputClass').data('class');
+		let wholesale = $('#inputWholesale option:selected').val();
+		let old_wholesale = $('#inputWholesale').data('wholesale');
+		let flexSelfMed = $('#flexSelfMed').prop("checked") ? 1 : 0;
+		let old_flexSelfMed = $('#flexSelfMed').data('self_med');
+		let flexHygine = $('#flexHygine').prop("checked") ? 1 : 0;
+		let old_flexHygine = $('#flexHygine').data('hygine');
+		let flexTax = $('#flexTax').prop("checked") ? 8 : 10;
+		let old_flexTax = $('#flexTax').data('tax');
+		let flexKiki = $('#flexKiki').prop("checked") ? 1 : 0;
+		let old_flexKiki = $('#flexKiki').data('kiki');
 
 		if(
 			name==old_name &&
@@ -264,14 +272,17 @@ $(function(){
 			nums==old_nums &&
 			size==old_size &&
 			in_price==old_in_price &&
-			sell_price==old_sell_price 
-
-
+			sell_price==old_sell_price &&
+			input_class==old_input_class &&
+			wholesale==old_wholesale &&
+			flexSelfMed==old_flexSelfMed &&
+			flexHygine==old_flexHygine &&
+			flexTax==old_flexTax &&
+			flexKiki==old_flexKiki
 		){
-			alert('name同じ');
+			alert('どこも変更されていません！');
 			return false;
 		}
-		return false;
 
 		if(
 			name=="" ||
@@ -287,7 +298,7 @@ $(function(){
 		}
 
 		let otc_class = $('#inputClass').val();
-		let wholesale = $('#inputWholesale').val();
+		wholesale = $('#inputWholesale').val();
 		if(!otc_class){
 			alert('OTCの種類が選択されていません');
 			$('#inputClass').focus();
