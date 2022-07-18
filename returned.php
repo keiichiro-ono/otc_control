@@ -104,6 +104,8 @@ $data = $app->threeDay();
 		</div>
 
 	</div>
+<?php include('template/footer.php'); ?>
+
 <script>
 $(function(){
 	$('#inputJan').focus();

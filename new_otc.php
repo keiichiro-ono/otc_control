@@ -166,6 +166,7 @@ $title = 'OTC新規登録画面';
     <!-- row -->
 </div>
   <!-- container -->
+<?php include('template/footer.php'); ?>
 
 <script>
 $(function(){

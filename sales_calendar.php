@@ -157,6 +157,7 @@ $title = '月間売上';
   </div>
 
 
+  <?php include('template/footer.php'); ?>
 
 
 

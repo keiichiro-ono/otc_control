@@ -73,6 +73,8 @@ $title = '使用期限一覧表示';
 		<!-- row -->
 	</div>
   <!-- container -->
+  <?php include('template/footer.php'); ?>
+
 <script>
 $(function(){
 	$('#expiration').addClass('active');

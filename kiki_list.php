@@ -102,6 +102,8 @@ $title = '医療機器一覧表示';
 		<!-- row -->
 	</div>
   <!-- container -->
+  <?php include('template/footer.php'); ?>
+
 <script>
 $(function(){
 	$('#exist_item').addClass('active');

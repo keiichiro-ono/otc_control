@@ -94,6 +94,8 @@ $title = '新入荷OTC一覧表示';
 		<!-- row -->
 	</div>
   <!-- container -->
+  <?php include('template/footer.php'); ?>
+
 <script>
 $(function(){
 

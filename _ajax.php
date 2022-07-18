@@ -58,61 +58,81 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
         exit;
       }
 
-      case "returned":
-        $app = new \MyApp\Returned();
-        try{
-          switch($_POST['mode']){
-            case 'search':
-              $res = $app->search();
-              break;
-            case 'inputDb':
-              $res = $app->inputDb();
-              break;
-          }
-          if($res){
-            header('Content-Type: application/json');
-            echo json_encode($res);
-            exit;
-          }
-        }catch(Exception $e){
-          echo $e->getMessage();
+    case "returned":
+      $app = new \MyApp\Returned();
+      try{
+        switch($_POST['mode']){
+          case 'search':
+            $res = $app->search();
+            break;
+          case 'inputDb':
+            $res = $app->inputDb();
+            break;
+        }
+        if($res){
+          header('Content-Type: application/json');
+          echo json_encode($res);
           exit;
         }
+      }catch(Exception $e){
+        echo $e->getMessage();
+        exit;
+      }
     
-        case "warehousing_kiki_list":
-          $app = new \MyApp\Warehousing_kiki_list();
-          try{
-            $res = $app->ajax_postprocess();
+    case "warehousing_kiki_list":
+      $app = new \MyApp\Warehousing_kiki_list();
+      try{
+        $res = $app->ajax_postprocess();
 
-            if($res){
-              header('Content-Type: application/json');
-              echo json_encode($res);
-              exit;
-            }
-          }catch(Exception $e){
-            echo $e->getMessage();
-            exit;
-          }
+        if($res){
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          exit;
+        }
+      }catch(Exception $e){
+        echo $e->getMessage();
+        exit;
+      }
 
-          case "sale_kiki_list":
-            $app = new \MyApp\Sale_kiki_list();
-            try{
-              $res = $app->ajax_postprocess();
+    case "sale_kiki_list":
+      $app = new \MyApp\Sale_kiki_list();
+      try{
+        $res = $app->ajax_postprocess();
+
+        if($res){
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          exit;
+        }
+      }catch(Exception $e){
+        echo $e->getMessage();
+        exit;
+      }
   
-              if($res){
-                header('Content-Type: application/json');
-                echo json_encode($res);
-                exit;
-              }
-            }catch(Exception $e){
-              echo $e->getMessage();
-              exit;
-            }
-  
-        
+    case "inventory_table_input":
+      $app = new \MyApp\Inventory_table_input();
+      try{
+        switch($_POST['mode']){
+          case 'inventory_nums':
+            $app->post();
+            break;
+        }
+        exit;
+      }catch(Exception $e){
+        echo $e->getMessage();
+        exit;
+      }
+    case "setting":
+      $app = new \MyApp\Setting();
+      switch($_POST['type']){
+        case "inventory_reset":
+          $app->inventory_reset();
+          break;
+      }
+          
   
 
-    } 
+  } 
 
 
 
@@ -164,4 +184,4 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
     // case "inventory_table_input":
     //   $app6->post();
     //   break;
-  }
+}

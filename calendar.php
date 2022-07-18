@@ -186,6 +186,7 @@ $title = '売上カレンダー';
 
 
 
+<?php include('template/footer.php'); ?>
 
 <script>
 $(function(){

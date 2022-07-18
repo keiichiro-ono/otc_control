@@ -6,38 +6,39 @@ $app = new \MyApp\Inventory_table_input();
 
 $items = $app->getAll();
 
+$title = '棚卸し入力画面';
+
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>棚卸し表</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
-	<link rel="stylesheet" href="lib/js/styles.css">
+<?php include('template/header.php'); ?>
 	<style media="screen">
-		img{
-			width: 150px;
-			height: auto;
-		}
 		.input{
 			cursor: pointer;
 			color: blue;
 		}
+		.inventory{
+			background: #ccc;
+		}
 	</style>
-</head>
 <body>
-	<?php include('nav.php'); ?>
+	<?php include('template/navber.php'); ?>
 
-	<div class="container">
+	<div class="container mt-3">
 		<div class="page-header">
 			<h1>棚卸し表 入力</h1>
 		</div>
 
+		<div class="btn-group mb-2" role="group" id="exist_btns">
+			<button class="btn btn-sm btn-primary exist_list">在庫あり</button>
+			<button class="btn btn-sm btn-outline-primary not_exist_list">在庫なし</button>
+		</div>
+		<div class="btn-group mb-2" role="group" id="inventory_btns">
+			<button class="btn btn-sm btn-outline-success not_inventory_list">未棚卸</button>
+		</div>
+
+
 		<div class="row">
-			<p class="bg-primary text-center">棚卸しリスト</p>
-			<table class="table table-condensed">
+			<p class="bg-primary text-center text-white">棚卸しリスト</p>
+			<table class="table table-sm">
 				<thead>
 					<tr>
 						<th class="text-center">名前</th>
@@ -50,17 +51,17 @@ $items = $app->getAll();
 						<th class="text-center"></th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="mainTable">
 				<?php foreach($items as $item): ?>
-					<tr id="<?= h($item->mainId); ?>">
+					<tr id="<?= h($item->mainId); ?>" class="<?= $item->stock_nums>0 ? 'exist': '' ;?> <?= $item->inventory==1 ? 'inventory': '' ;?>">
 						<td><?= h($item->name); ?></td>
 						<td class="text-center"><?= h($item->size); ?></td>
 						<td class="text-center"><?= h($item->class_name); ?></td>
-						<td class="text-right"><?= h(number_format($item->purchase_price,1)); ?>円</td>
-						<td class="text-right"><?= h(number_format($item->selling_price, 0)); ?>円</td>
-						<td class="text-right"><?= h(number_format($item->tax_include_price, 0)); ?>円</td>
-						<td class="text-center"><input type="text" size="5" class="nums text-right" value="<?= h($item->stock_nums); ?>">個</td>
-						<td class="text-center input">[入力]</td>
+						<td class="text-end"><?= h(number_format($item->purchase_price,0)); ?>円</td>
+						<td class="text-end"><?= h(number_format($item->selling_price, 0)); ?>円</td>
+						<td class="text-end"><?= h(number_format($item->tax_include_price, 0)); ?>円</td>
+						<td class="text-end"><input type="text" size="5" class="nums text-right" value="<?= h($item->stock_nums); ?>">個</td>
+						<td class="text-end input">[入力]</td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
@@ -68,11 +69,90 @@ $items = $app->getAll();
 		</div>
 	</div>
   <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
+  <?php include('template/footer.php'); ?>
 <script>
 $(function(){
 	$('input:eq(0)').select().focus();
+
+	$('#mainTable').children('tr').each(function(){
+		if(!$(this).hasClass('exist')){
+			$(this).hide();
+		}
+	});
+
+	// 在庫ありボタンを押したときのリスト変更
+	$('button.exist_list').click(function(){
+		$('#mainTable').children('tr').each(function(){
+			if(!$(this).hasClass('exist')){
+				$(this).hide();
+			} else {
+				$(this).show();
+			}
+		});
+
+		$('#inventory_btns').children('button').each(function(){
+			if($(this).hasClass('btn-success')){
+				$(this).removeClass('btn-success');
+				$(this).addClass('btn-outline-success');
+			}	
+		});
+
+		if( $(this).hasClass('btn-outline-primary') ){
+			$(this).removeClass('btn-outline-primary');
+			$(this).addClass('btn-primary');
+			$('button.not_exist_list').removeClass('btn-primary');
+			$('button.not_exist_list').addClass('btn-outline-primary');
+		}
+	})
+
+	// 在庫なしボタンを押したときのリスト変更
+	$('button.not_exist_list').click(function(){
+		$('#mainTable').children('tr').each(function(){
+			if($(this).hasClass('exist')){
+				$(this).hide();
+			} else {
+				$(this).show();
+			}
+		});
+
+		$('#inventory_btns').children('button').each(function(){
+			if($(this).hasClass('btn-success')){
+				$(this).removeClass('btn-success');
+				$(this).addClass('btn-outline-success');
+			}	
+		});
+
+		if( $(this).hasClass('btn-outline-primary') ){
+			$(this).removeClass('btn-outline-primary');
+			$(this).addClass('btn-primary');
+			$('button.exist_list').removeClass('btn-primary');
+			$('button.exist_list').addClass('btn-outline-primary');
+		}
+	})
+
+	// 未棚卸のボタンを押したとき
+	$('button.not_inventory_list').click(function(){
+		$('#mainTable').children('tr').each(function(){
+			if($(this).hasClass('inventory')){
+				$(this).hide();
+			} else {
+				$(this).show();
+			}
+		});
+
+		if( $(this).hasClass('btn-outline-success') ){
+			$(this).removeClass('btn-outline-success');
+			$(this).addClass('btn-success');
+		}
+		$('#exist_btns').each(function(){
+			$(this).children('button').each(function(){
+				$(this).removeClass('btn-primary');
+				$(this).addClass('btn-outline-primary');
+				
+			})
+		});
+
+	});
 
 	$('table').on('click', 'td.input', function(){
 		var $this = $(this);
@@ -87,11 +167,19 @@ $(function(){
 
 		$.post('_ajax.php', {
 			url: 'inventory_table_input',
+			mode: 'inventory_nums',
 			id: id,
 			nums: nums
 		}, function(res){
+			$this.parent('tr').hide(800);
+			if(!$this.parent('tr').hasClass('inventory')){
+				$this.parent('tr').addClass('inventory');
+			}
+			if(nums==0){
+				$this.parent('tr').removeClass('exist');
+			}
+			$this.parent('tr').show(800);
 			$this.parent('tr').next('tr').children('td:eq(6)').children('input.nums').select().focus();
-			$this.parent('tr').fadeOut(800);
 		});
 	});
 

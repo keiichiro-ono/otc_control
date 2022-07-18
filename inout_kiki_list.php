@@ -77,5 +77,7 @@ $title = '【出入庫】高度、特定保守医療機器一覧';
 			</div>
 		</div>
 	</div>
+	<?php include('template/footer.php'); ?>
+
 </body>
 </html>

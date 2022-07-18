@@ -70,6 +70,8 @@ $title = '【入庫】高度、特定保守医療機器一覧';
 
 	</div>
   <!-- container -->
+  <?php include('template/footer.php'); ?>
+
 <script>
 $(function(){
 	$('td>button').click(function(){

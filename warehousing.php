@@ -199,13 +199,9 @@ $data = $app->threeDay();
 				</div>
 			</div>
 		</div><!-- モーダル2 -->
-
-
-
-
-
 	</div>
   <!-- container -->
+  <?php include('template/footer.php'); ?>
 
 <script>
 $(function(){

@@ -22,6 +22,9 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
 	$out_price = $app->getOutPrice();
 	$in_price = $app->getInPrice();
 	$returned_price = $app->getRetrurnedPrice();
+} else {
+	echo '不正なアクセスです';
+	exit;
 }
 
 if($out_price || $in_price){
@@ -34,7 +37,7 @@ if($out_price || $in_price){
 
 $title = '入庫出庫一覧';
 
-var_dump($item);
+// var_dump($item);
 
 ?>
 <?php include('template/header.php'); ?>
@@ -114,24 +117,38 @@ var_dump($item);
 							</tr>
 						</table>
 
-						<table class="table table-dark">
+						<table class="table table-dark table-bordered">
 							<tr>
 								<th class="text-end">セルフメディケーション対象医薬品</th>
 								<td>
-									<i class="bi bi-check-circle" style="font-size: 1.5rem;"></i>
+									<?php if($item->self_med==1): ?>
+										<i class="bi bi-check-circle" style="font-size: 1.5rem;"></i>
+									<?php endif; ?>
 								</td>
 							</tr>
 							<tr>
 								<th class="text-end">衛生用品</th>
-								<td></td>
+								<td>
+									<?php if($item->hygiene==1): ?>
+										<i class="bi bi-check-circle" style="font-size: 1.5rem;"></i>
+									<?php endif; ?>
+								</td>
 							</tr>
 							<tr>
 								<th class="text-end">軽減税率対象（8％）</th>
-								<td></td>
+								<td>
+									<?php if($item->tax==8): ?>
+										<i class="bi bi-check-circle" style="font-size: 1.5rem;"></i>
+									<?php endif; ?>
+								</td>
 							</tr>
 							<tr>
 								<th class="text-end">特定管理医療機器</th>
-								<td></td>
+								<td>
+									<?php if($item->tokutei_kiki==1): ?>
+										<i class="bi bi-check-circle" style="font-size: 1.5rem;"></i>
+									<?php endif; ?>
+								</td>
 							</tr>
 						</table>
 						<p class="text-end">
@@ -141,8 +158,8 @@ var_dump($item);
 				</div>
 			</div>
 			<div class="col-sm-7">
-				<table class="table table-bordered table-condensed">
-					<thead>
+				<table class="table table-bordered table-sm">
+					<thead class="table-dark">
 						<th>日時</th>
 						<th class="text-center">入庫数</th>
 						<th class="text-center">出庫数</th>
@@ -166,7 +183,7 @@ var_dump($item);
 										<?php
 											if($row[0]=='in'){
 												echo h($row['nums']. "個");
-												echo '<span class="badge">在庫</span>';
+												echo '<span class="badge rounded-pill bg-danger">在庫</span>';
 												$stock_nums-=$row['nums'];
 											} else {
 												echo h("");
@@ -195,10 +212,10 @@ var_dump($item);
 									<?= ($row[0]=='returned') ? h($row['nums']."個") : ""; ?>
 									<?= ($row[0]=='in' and $row['limit_date']!=null) ? h($row['limit_date']) : ""; ?>
 								</td>
-								<td class="text-right">
+								<td class="text-end">
 									<?= h(number_format($row['actual_price'], 0)); ?>円
 								</td>
-								<td class="text-right">
+								<td class="text-end">
 								<?php if($row[0]=='in'): ?>
 									<?= h(number_format($row['actual_price']*$row['nums'], 0)); ?>円
 								<?php elseif($row[0]=='out'): ?>
@@ -212,24 +229,24 @@ var_dump($item);
 						</tbody>
 						<tfoot>
 							<tr>
-								<th class="text-right" colspan="5">入庫合計</th>
-								<td class="text-right"><?= h(number_format($in_price, 0)); ?>円</td>
+								<th class="text-end" colspan="5">入庫合計</th>
+								<td class="text-end"><?= h(number_format($in_price, 0)); ?>円</td>
 							</tr>
 							<tr>
-								<th class="text-right" colspan="5">出庫合計</th>
-								<td class="text-right">
+								<th class="text-end" colspan="5">出庫合計</th>
+								<td class="text-end">
 									<strong><?= h(number_format($out_price, 0)); ?>円</strong>
 								</td>
 							</tr>
 							<tr>
-								<th class="text-right" colspan="5">返品合計</th>
-								<td class="text-right">
+								<th class="text-end" colspan="5">返品合計</th>
+								<td class="text-end">
 									<strong><?= h(number_format($returned_price, 0)); ?>円</strong>
 								</td>
 							</tr>
 							<tr>
-								<th class="text-right" colspan="5">出庫－入庫＋返品</th>
-								<td class="text-right">
+								<th class="text-end" colspan="5">出庫－入庫＋返品</th>
+								<td class="text-end">
 									<strong><code><?= h(number_format($out_price-$in_price+$returned_price, 0)); ?>円</code></strong>
 								</td>
 							</tr>

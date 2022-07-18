@@ -41,14 +41,16 @@ $title = '新トップ';
 			</div>
 			<div class="col-sm-4 col-md-3">
 				<h3>設定</h3>
-				<!-- <div class="d-grid gap-2">
-					<a href="otc_list.php" class="btn btn-outline-success p-3 rounded-pill fs-5" type="button"><i class="bi bi-pencil-square"></i> OTC編集</a>
-				</div>
-				<hr> -->
 				<div class="d-grid gap-2">
 					<a href="setting.php" class="btn btn-outline-danger p-3 rounded-pill fs-5" type="button"><i class="bi bi-gear"></i> 設定</a>
 				</div>
-
+				<hr>
+				<h4>高度、特定保守機器一覧</h4>
+				<div class="d-grid gap-2">
+					<a href="warehousing_kiki_list.php" class="btn btn-outline-success p-2 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> 出庫</a>
+					<a href="sale_kiki_list.php" class="btn btn-outline-success p-2 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> 入庫</a>
+					<a href="inout_kiki_list.php" class="btn btn-outline-success p-2 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> 出入庫</a>
+				</div>
 			</div>
 		</div>
 
@@ -57,6 +59,9 @@ $title = '新トップ';
 		<p class="text-end"><a href="../" class="btn btn-danger">トップメニューに戻る</a></p>
 
 	</div>
+
+	<?php include('template/footer.php'); ?>
+
 
 
 </body>

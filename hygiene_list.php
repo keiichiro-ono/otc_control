@@ -53,8 +53,7 @@ $title = '衛生用品一覧';
 		</div>
 	</div>
   <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
+  <?php include('template/footer.php'); ?>
 <script>
 $(function(){
 

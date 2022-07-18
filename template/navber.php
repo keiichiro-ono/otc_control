@@ -38,15 +38,12 @@
         </li>
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" data-bs-toggle="dropdown">
-            編集
+            棚卸関係
           </a>
           <ul class="dropdown-menu">
-            <li><a href="otc_list.php" class="dropdown-item">OTC編集</a></li>
-            <li><a href="inventory.php" class="dropdown-item">棚卸し（バーコード）</a></li>
-            <li><a href="inventory_table.php" class="dropdown-item">棚卸し表</a></li>
-            <li><a href="inventory_table_input.php" class="dropdown-item">棚卸し表 入力</a></li>
-            <li><a href="inventory_table_check.php" class="dropdown-item">棚卸し表 チェック</a></li>
-            <li><a href="inventory_table_final.php" class="dropdown-item">棚卸し表 最終</a></li>
+            <li><a href="inventory_table.php" class="dropdown-item">棚卸表</a></li>
+            <li><a href="inventory_table_input.php" class="dropdown-item">棚卸表 入力</a></li>
+            <li><a href="inventory_table_final.php" class="dropdown-item">棚卸表 最終</a></li>
           </ul>
         </li>
         <li class="nav-item">

@@ -7,37 +7,27 @@ $app = new \MyApp\Inventory_table();
 $items = $app->getAll();
 // var_dump($items);exit;
 
+$title = '棚卸し表';
+
+
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>棚卸し表</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
-	<link rel="stylesheet" href="lib/js/styles.css">
+<?php include('template/header.php'); ?>
 	<style media="screen">
-		img{
-			width: 150px;
-			height: auto;
-		}
 		tbody{
-			font-size: 10px;
+			/* font-size: 10px; */
 		}
 	</style>
-</head>
 <body>
-	<?php include('nav.php'); ?>
+	<?php include('template/navber.php'); ?>
 
-	<div class="container">
+	<div class="container mt-3">
 		<div class="page-header">
 			<h1>棚卸し表</h1>
 		</div>
 
 		<div class="row">
-			<p class="bg-primary text-center">棚卸しリスト</p>
-			<table class="table table-condensed">
+			<p class="bg-primary text-center text-white">棚卸しリスト</p>
+			<table class="table table-sm">
 				<thead>
 					<tr>
 						<th class="text-center">名前</th>
@@ -47,7 +37,7 @@ $items = $app->getAll();
 						<th class="text-center">入値</th>
 						<th class="text-center">販売価格</th>
 						<th class="text-center">税込価格</th>
-						<th class="text-center">在庫数</th>
+						<th class="text-center">理論在庫数</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -57,10 +47,10 @@ $items = $app->getAll();
 						<td class="text-center"><?= h($item->wholesaleName); ?></td>
 						<td class="text-center"><?= h($item->size); ?></td>
 						<td class="text-center"><?= h($item->class_name); ?></td>
-						<td class="text-right"><?= h(number_format($item->purchase_price,1)); ?>円</td>
-						<td class="text-right"><?= h(number_format($item->selling_price, 0)); ?>円</td>
-						<td class="text-right"><?= h(number_format($item->tax_include_price, 0)); ?>円</td>
-						<td></td>
+						<td class="text-end"><?= h(number_format($item->purchase_price,1)); ?>円</td>
+						<td class="text-end"><?= h(number_format($item->selling_price, 0)); ?>円</td>
+						<td class="text-end"><?= h(number_format($item->tax_include_price, 0)); ?>円</td>
+						<td class="text-end"><?= h($item->stock_nums); ?></td>
 					</tr>
 				<?php endforeach; ?>
 				</tbody>
@@ -68,8 +58,8 @@ $items = $app->getAll();
 		</div>
 	</div>
   <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
+  <?php include('template/footer.php'); ?>
+
 <script>
 $(function(){
 

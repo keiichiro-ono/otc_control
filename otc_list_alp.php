@@ -133,6 +133,8 @@ $title = 'OTC一覧画面(50音)';
 		<!-- row -->
 	</div>
   <!-- container -->
+  <?php include('template/footer.php'); ?>
+
 <script>
 $(function(){
 	$('#exist_item').addClass('active');

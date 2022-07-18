@@ -137,6 +137,7 @@ $data = $app->threeDay();
 			</div>
 		</div>
 	</div><!-- モーダル -->
+<?php include('template/footer.php'); ?>
 
 
 
