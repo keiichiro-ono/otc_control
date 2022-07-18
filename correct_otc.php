@@ -12,15 +12,7 @@ if(isset($_GET['id']) || !empty($_GET['id'])){
 
 if($_SERVER['REQUEST_METHOD']==="POST"){
 	$app->postprocess();
-	// if(isset($_FILES["imgFile"]) && $_FILES["imgFile"]["size"] !== 0) {
-	// 	try{
-	// 		$app->save_file($item->mainId);
-	// 	}catch(Exception $e){
-	// 		echo $e->getMessage();
-	// 		exit;
-	// 	}
-	// }
-	header( "Location: ". HOME_URL . "otc_list_alp.php?extract=10");
+	header( "Location: ". HOME_URL . "inout.php?id=". $_GET['id']);
 	exit;
 }
 
@@ -35,7 +27,7 @@ $title = 'OTC修正画面';
 	<div class="container mt-3">
 
 	<form method="post" action="" enctype="multipart/form-data" id="myform" class="g-3 needs-validation" novalidate>
-		<input type="text" value="<?= h($_GET['id']); ?>" name="id">
+		<input type="hidden" value="<?= h($_GET['id']); ?>" name="id">
 
   	<div class="row justify-content-center">
 		<h1>OTC修正画面 <i class="bi bi-file-earmark-plus" style="font-size: 3rem; color: cornflowerblue;"></i></h1>

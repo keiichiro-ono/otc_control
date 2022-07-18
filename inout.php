@@ -32,66 +32,112 @@ if($out_price || $in_price){
 	array_multisort($total_sort, SORT_DESC, $total);
 }
 
+$title = '入庫出庫一覧';
+
+var_dump($item);
+
 ?>
-<!doctype html>
-<html lang="ja">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>入庫出庫一覧</title>
-	<link rel="stylesheet" href="lib/js/bootstrap.min.css">
-	<link rel="stylesheet" href="lib/js/font-awesome.min.css">
+<?php include('template/header.php'); ?>
+
+
+<body>
+	<?php include('template/navber.php'); ?>
 	<style media="screen">
-		img{
-			width: 50px;
-			height: auto;
-		}
 		tfoot{
 			border-top: 4px double #ccc;
 		}
 	</style>
 </head>
-<body>
-	<?php include('nav.php'); ?>
 
-	<div class="container">
+	<div class="container mt-3">
 		<div class="page-header">
 			<h1>入庫出庫一覧</h1>
 		</div>
 
 		<div class="row">
 			<div class="col-sm-5">
-				<div class="well row">
-					<div class="col-xs-3">
-					<?php if(!empty($item->img)): ?>
-						<img src="img/<?= h($item->img); ?>" class="img-circle" style="width:100px; height:auto;">
-					<?php else: ?>
-						<span class="fa-stack fa-5x">
-							<i class="fa fa-camera fa-stack-1x"></i>
-							<i class="fa fa-ban fa-stack-2x text-danger"></i>
-						</span>
-					<?php endif; ?>
-					</div>
-
-					<div class="col-xs-9 row">
+				<div class="p-5 mb-4 bg-light row justify-content-center">
+					<div class="col-auto">
 						<h2 class="text-center"><?= h($item->name); ?></h2>
-						<div class="col-xs-6">
-							<p class="text-right">入値 <?= h(number_format($item->purchase_price, 0)); ?>円</p>
-							<p class="text-right">売価 <?= h(number_format($item->selling_price, 0)); ?>円</p>
-							<p class="text-right">消費税 <?= h(number_format($item->tax_include_price-$item->selling_price, 0)); ?>円</p>
-						</div>
-						<div class="col-xs-6">
-							<h4 class="text-right">税込み <strong><?= h(number_format($item->tax_include_price, 0)); ?>円</strong></h4>
-						</div>
+						<table class="table table-hover">
+							<tr>
+								<th class="text-end">かな名</th>
+								<td><?= h($item->kana); ?></td>
+							</tr>
+							<tr>
+								<th class="text-end">JAN</th>
+								<td><?= h($item->jan); ?></td>
+							</tr>
+							<tr>
+								<th class="text-end">規格サイズ</th>
+								<td><?= h($item->size); ?></td>
+							</tr>
+
+							<tr>
+								<th class="text-end">個数</th>
+								<td class="text-end">
+									<?= h($item->stock_nums); ?>コ
+								</td>
+							</tr>
+
+							<tr>
+								<th class="text-end">入値</th>
+								<td class="text-end">
+									<?= h(number_format($item->purchase_price, 0)); ?>円
+								</td>
+							</tr>
+							<tr>
+								<th class="text-end">売値</th>
+								<td class="text-end">
+									<?= h(number_format($item->selling_price, 0)); ?>円
+								</td>
+							</tr>
+							<tr>
+								<th class="text-end">消費税</th>
+								<td class="text-end">
+									<?= h(number_format($item->tax_include_price-$item->selling_price, 0)); ?>円
+								</td>
+							</tr>
+							<tr>
+								<th class="text-end">税込価格</th>
+								<td class="text-end">
+									<?= h(number_format($item->tax_include_price, 0)); ?>円
+								</td>
+							</tr>
+							<tr>
+								<th class="text-end">種類</th>
+								<td><?= h($item->class_name); ?></td>
+							</tr>
+							<tr>
+								<th class="text-end">取引卸</th>
+								<td><?= h($wholesale); ?></td>
+							</tr>
+						</table>
+
+						<table class="table table-dark">
+							<tr>
+								<th class="text-end">セルフメディケーション対象医薬品</th>
+								<td>
+									<i class="bi bi-check-circle" style="font-size: 1.5rem;"></i>
+								</td>
+							</tr>
+							<tr>
+								<th class="text-end">衛生用品</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="text-end">軽減税率対象（8％）</th>
+								<td></td>
+							</tr>
+							<tr>
+								<th class="text-end">特定管理医療機器</th>
+								<td></td>
+							</tr>
+						</table>
+						<p class="text-end">
+							<a href="correct_otc.php?id=<?= h($_GET['id']); ?>" class="btn btn-success rounded-pill px-3">編集</a>
+						</p>
 					</div>
-
-					<div class="col-xs-12">
-						<p>在庫数：<?= h($item->stock_nums); ?>個</p>
-						<p>取引問屋：<?= h($wholesale); ?></p>
-						<p class="text-right"><a href="correct_otc.php?id=<?= h($_GET['id']); ?>">[編集]</a></p>
-					</div>
-
-
 				</div>
 			</div>
 			<div class="col-sm-7">
@@ -199,19 +245,17 @@ if($out_price || $in_price){
 		<!-- row -->
 	</div>
   <!-- container -->
-<script src="lib/js/jquery-3.2.1.min.js"></script>
-<script src="lib/js/bootstrap.min.js"></script>
 <script>
 $(function(){
-	$('table>thead>tr>th').click(function(){
-		var data = $(this).data('name');
-		alert(data);
-	});
+	// $('table>thead>tr>th').click(function(){
+	// 	var data = $(this).data('name');
+	// 	alert(data);
+	// });
 
-	$('tbody#tb').on('click', '.edit', function(){
-		var id = $(this).parent().data('id');
-		window.location.href = "correct_otc.php?id=" + id;
-	});
+	// $('tbody#tb').on('click', '.edit', function(){
+	// 	var id = $(this).parent().data('id');
+	// 	window.location.href = "correct_otc.php?id=" + id;
+	// });
 
 });
 </script>

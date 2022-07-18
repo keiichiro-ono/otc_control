@@ -56,22 +56,6 @@ class Correct_otc extends Controller{
     return $stmt->fetchAll(\PDO::FETCH_OBJ);
   }
 
-  // public function check_imgfile($string){
-  //   return file_exists($string) ? $string : "";
-  // }
-
-  // public function delete_img($id){
-  //   $sql = "update otc_list set img=null, modified=now() where id=". $id;
-  //   $stmt = $this->_db->query($sql);
-  //   var_dump($stmt);exit;
-  //   if($stmt){
-  //     $ad = 'img/'. sprintf('%03d', $id). '.jpeg';
-  //     unlink($ad);
-  //     clearstatcache(true);
-  //     return true;
-  //   }
-  // }
-
   public function postprocess(){
     try{
       // var_dump($_POST);exit;
@@ -188,21 +172,5 @@ class Correct_otc extends Controller{
       throw new \Exception('更新エラー');
     }
   }
-
-  // public function save_file($id){
-  //   $fileName = sprintf('%03d', $id). '.jpeg';
-  //   $savePath = IMG_DIR. $fileName;
-	// 	$res = move_uploaded_file($_FILES['imgFile']['tmp_name'], $savePath);
-	// 	if($res===false){
-	// 		throw new \Exception("アップロードを失敗！");
-	// 	}
-  //   $sql = "update otc_list set img=:img where id=:id";
-  //   $stmt = $this->_db->prepare($sql);
-  //   $stmt->execute([
-  //     ":img"=>$fileName,
-  //     ":id"=>$id
-  //   ]);
-
-  // }
 
 }
