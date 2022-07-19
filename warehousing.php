@@ -311,7 +311,9 @@ $(function(){
 	$('#monthInput input[name=limit_month]').click(function(){
 		let year = $('#yearInput input[name=limit_year]:checked').val();
 		let month = $('#monthInput input[name=limit_month]:checked').val();
-		$.post('_serch_last_day.php',{
+		$.post('_ajax.php',{
+			url: 'warehousing',
+			mode: "_serch_last_day",
 			year: year,
 			month: month
 		},function(res){

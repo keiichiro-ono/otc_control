@@ -81,28 +81,35 @@ class Warehousing extends Controller{
   }
   
   public function editSubPrice(){
-	try{
-		$this->_db->beginTransaction();
-		$sql = "update warehousing set actual_price=:price where id=:id limit 1";
-		$stmt = $this->_db->prepare($sql);
-		$stmt->execute([
-			":price"=>(int)$_POST['new_price'],
-			":id"=>(int)$_POST['id']
-		]);
+    try{
+      $this->_db->beginTransaction();
+      $sql = "update warehousing set actual_price=:price where id=:id limit 1";
+      $stmt = $this->_db->prepare($sql);
+      $stmt->execute([
+        ":price"=>(int)$_POST['new_price'],
+        ":id"=>(int)$_POST['id']
+      ]);
 
-		$sql = "update otc_list set purchase_price=:price where id=:id";
-		$stmt = $this->_db->prepare($sql);
-		$stmt->execute([
-		  ":price"=>(int)$_POST['new_price'],
-		  ":id"=>(int)$_POST['otc_id']
-		]);
+      $sql = "update otc_list set purchase_price=:price where id=:id";
+      $stmt = $this->_db->prepare($sql);
+      $stmt->execute([
+        ":price"=>(int)$_POST['new_price'],
+        ":id"=>(int)$_POST['otc_id']
+      ]);
 
-		$this->_db->commit();
-	} catch (Exception $e) {
-	  $this->_db->rollBack();
-	  echo "失敗しました。" . $e->getMessage();
-	  exit;
-	}
-	return true;
+      $this->_db->commit();
+    } catch (Exception $e) {
+      $this->_db->rollBack();
+      echo "失敗しました。" . $e->getMessage();
+      exit;
+    }
+    return true;
+  }
+
+  public function _serch_last_day(){
+    $month = $_POST['year']. '-'. $_POST['year'];
+    $last_date = date('d', strtotime('last day of ' . $month)); 
+    var_dump($last_date);exit;
+    return $last_date;
   }
 }

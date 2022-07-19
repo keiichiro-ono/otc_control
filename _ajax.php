@@ -20,7 +20,10 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
           case 'editSubPrice':
             $res = $app->editSubPrice();
             break;
-        }
+          case '_serch_last_day':
+            $res = $app->_serch_last_day();
+            break;
+          }
         if($res){
           header('Content-Type: application/json');
           echo json_encode($res);

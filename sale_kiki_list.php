@@ -80,6 +80,7 @@ $title = '【出庫】高度、特定保守医療機器一覧';
 		</div>
 	</div>
   <!-- container -->
+  <!-- <?php include('template/footer.php'); ?> -->
 
 <script>
 $(function(){
@@ -115,7 +116,6 @@ $(function(){
 
 });
 </script>
-<?php include('template/footer.php'); ?>
 
 </body>
 </html>

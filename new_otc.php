@@ -8,7 +8,8 @@ $wholesale_name = $app->getWholesaleName();
 
 if($_SERVER['REQUEST_METHOD']==="POST"){
 	$app->postprocess();
-	header( "Location: ". HOME_URL . "otc_list.php?jan=". $_POST['jan']);
+	// header( "Location: ". HOME_URL . "inout.php?id=". $_POST['id']);
+	header( "Location: ". HOME_URL . "otc_list_new.php;
 	exit;
 }
 
