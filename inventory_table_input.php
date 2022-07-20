@@ -85,7 +85,8 @@ $title = '棚卸し入力画面';
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<p>背景が白のアイテムは棚卸の入力がまだされておらず、グレーのアイテムは一度でも入力されているものとなります。</p>
+					<p>背景は白とグレーで分かれています。白は棚卸がまだこれからのアイテム、グレーは一度でも入力されているアイテムとなっています。</p>
+					<p>基本的に一度でも棚卸済みとなっているものは最終的なテーブルに挿入されます。</p>
 					
 				</div>
 				<div class="modal-footer">
