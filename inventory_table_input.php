@@ -35,6 +35,13 @@ $title = '棚卸し入力画面';
 			<button class="btn btn-sm btn-outline-success not_inventory_list">未棚卸</button>
 		</div>
 
+		<div class="mb-2 text-end">
+			<button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+			棚卸の説明
+			</button>
+		</div>
+
+
 
 		<div class="row">
 			<p class="bg-primary text-center text-white">棚卸しリスト</p>
@@ -66,6 +73,25 @@ $title = '棚卸し入力画面';
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">棚卸入力の説明</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>背景が白のアイテムは棚卸の入力がまだされておらず、グレーのアイテムは一度でも入力されているものとなります。</p>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
 		</div>
 	</div>
   <!-- container -->

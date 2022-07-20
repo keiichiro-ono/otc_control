@@ -52,7 +52,7 @@ $title = '使用期限一覧表示';
 				<tbody id="tb">
 				<?php foreach($items as $item): ?>
 					<tr class="<?= ($item->limit_date<date('Y-m-d')) ? 'gray': ''; ?>">
-						<td class="text-right"><?= h($item->mainId); ?></td>
+						<td class="text-end"><?= h($item->mainId); ?></td>
 						<td><?= h($item->limit_date); ?></td>
 						<td><?= h($item->wholesaleName); ?></td>
 						<td>
@@ -61,8 +61,8 @@ $title = '使用期限一覧表示';
 							</a>
 						</td>
 						<td><?= h($item->size); ?></td>
-						<td class="text-right"><?= h($item->actual_price); ?>円</td>
-						<td class="text-right"><?= h($item->enter_nums); ?>個</td>
+						<td class="text-end"><?= h($item->actual_price); ?>円</td>
+						<td class="text-end"><?= h($item->enter_nums); ?>個</td>
 						<td><?= h($item->date); ?></td>
 					</tr>
 				<?php endforeach; ?>

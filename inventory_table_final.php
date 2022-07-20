@@ -6,6 +6,10 @@ $app = new \MyApp\Inventory_table_final();
 
 $items = $app->getAll();
 
+echo '<pre>';
+var_dump($items);
+echo '</pre>';
+
 $title = '棚卸し表(最終データ)';
 
 

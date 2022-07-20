@@ -1,33 +1,39 @@
-/* 	
-	@media print{
-		body{
-			margin: 0;
-		}
-		#menu {
-			display:none;
-		}
-		ul.navbar{
-			display:none;
-		}
-		span.epi{
-			display:none;		
-		}
-	}
- */
-	nav ul.navbar-nav li.dropdown:hover > ul.dropdown-menu {
-		display: block;    
-	}
+/* メニューをホバーすると開く */
+nav ul.navbar-nav li.dropdown:hover > ul.dropdown-menu {
+	display: block;    
+}
 
-	html {
-		position: relative;
-		min-height: 100%;
-		padding-bottom: 100px;
-		box-sizing: border-box;
-	  }
-	  footer {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		width: 100%;
-		height: 100px;
-	  }
+/* フッターを一番下にする */
+html {
+	position: relative;
+	min-height: 100%;
+	padding-bottom: 100px;
+	box-sizing: border-box;
+}
+footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100px;
+}
+
+/* calender.php */
+/* .youbi_0{
+	color: red;
+  }
+.youbi_7{
+	color: blue;
+}
+.on {
+	background-color: orange!important;
+	font-weight: bold;
+	cursor: pointer;
+}
+.today{
+	font-weight: bold;
+	font-size: 18px;
+}
+table#calen th, td{
+	text-align: center!important;
+} */

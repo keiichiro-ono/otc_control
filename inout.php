@@ -37,8 +37,6 @@ if($out_price || $in_price){
 
 $title = '入庫出庫一覧';
 
-// var_dump($item);
-
 ?>
 <?php include('template/header.php'); ?>
 
@@ -154,8 +152,8 @@ $title = '入庫出庫一覧';
 								</td>
 							</tr>
 						</table>
-						<p><?= h($item->created); ?></p>
-						<p><?= h($item->modified); ?></p>
+						<p>作成日：<?= wareki($item->created); ?></p>
+						<p>修正日：<?= wareki($item->modified); ?></p>
 					</div>
 				</div>
 			</div>

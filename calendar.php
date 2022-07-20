@@ -80,15 +80,15 @@ $title = '売上カレンダー';
       color: blue;
     }
     .on {
-      background-color: orange!important;
-      font-weight: bold;
-			cursor: pointer;
+    	background-color: orange!important;
+    	font-weight: bold;
+		cursor: pointer;
     }
 		.today{
 			font-weight: bold;
 			font-size: 18px;
 		}
-		th, td{
+		table#calen th, td{
 			text-align: center;
 		}
 	</style>
