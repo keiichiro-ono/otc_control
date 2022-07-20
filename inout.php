@@ -62,6 +62,9 @@ $title = '入庫出庫一覧';
 				<div class="p-5 mb-4 bg-light row justify-content-center">
 					<div class="col-auto">
 						<h2 class="text-center"><?= h($item->name); ?></h2>
+						<p class="text-end">
+							<a href="correct_otc.php?id=<?= h($_GET['id']); ?>" class="btn btn-sm btn-success rounded-pill px-3">編集</a>
+						</p>
 						<table class="table table-hover">
 							<tr>
 								<th class="text-end">かな名</th>
@@ -151,9 +154,8 @@ $title = '入庫出庫一覧';
 								</td>
 							</tr>
 						</table>
-						<p class="text-end">
-							<a href="correct_otc.php?id=<?= h($_GET['id']); ?>" class="btn btn-success rounded-pill px-3">編集</a>
-						</p>
+						<p><?= h($item->created); ?></p>
+						<p><?= h($item->modified); ?></p>
 					</div>
 				</div>
 			</div>

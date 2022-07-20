@@ -72,6 +72,7 @@ $title = '棚卸し入力画面';
   <?php include('template/footer.php'); ?>
 <script>
 $(function(){
+	let isEdit = false;
 	$('input:eq(0)').select().focus();
 
 	$('#mainTable').children('tr').each(function(){
@@ -148,16 +149,18 @@ $(function(){
 			$(this).children('button').each(function(){
 				$(this).removeClass('btn-primary');
 				$(this).addClass('btn-outline-primary');
-				
 			})
 		});
 
 	});
 
 	$('table').on('click', 'td.input', function(){
+		if(isEdit) return false;
+		isEdit = true
 		var $this = $(this);
 		var nums = $this.prev('td').children('input').val();
 		var id = $this.parent('tr').attr('id');
+		let btn_check;
 
 		if(nums.search(/^[0-9]+$/) != 0){
 			$this.prev('td').children('input').select().focus();
@@ -178,8 +181,16 @@ $(function(){
 			if(nums==0){
 				$this.parent('tr').removeClass('exist');
 			}
-			$this.parent('tr').show(800);
-			$this.parent('tr').next('tr').children('td:eq(6)').children('input.nums').select().focus();
+			$this.parent('tr').show(400,function(){
+				if($('button.exist_list').hasClass('btn-primary')){
+					$this.parent('tr').nextAll('tr.exist').children('td:eq(6)').children('input.nums').select().focus();
+				} else if(($('button.not_exist_list').hasClass('btn-primary'))){
+					$this.parent('tr').nextAll('tr:not(".exist")').children('td:eq(6)').children('input.nums').select().focus();
+				} else if(($('button.not_inventory_list').hasClass('btn-success'))){
+					$this.parent('tr').nextAll('tr:not(".inventory")').children('td:eq(6)').children('input.nums').select().focus();
+				}
+				isEdit = false;
+			});
 		});
 	});
 

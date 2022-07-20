@@ -498,12 +498,6 @@ $(function(){
 			return false;
 		}
 
-		console.log(id);
-		console.log(otc_id);
-		console.log(old_price);
-		console.log(new_price);
-		return false;
-
 		$.post('_ajax.php', {
 			url: 'warehousing',
 			id: id,
@@ -517,7 +511,6 @@ $(function(){
 				$td.append(new_price);
 				$td.next('td').children('span:eq(0)').addClass('editSubRow');
 			}
-			
 		});
 
 		isEdit=false;
