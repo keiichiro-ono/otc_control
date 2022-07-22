@@ -86,14 +86,36 @@ create table saleData (
 );
 
 
-//20210614
+-- 20210614
 alter table warehousing add limit_date date after actual_price;
 
-// 20210909
+-- 20210909
 alter table otc_list add tokutei_kiki tinyint default 0 after hygiene;
 alter table warehousing add lot_no varchar(255) after limit_date;
 
-// 20210910
+-- 20210910
 alter table saledata add user_name varchar(50) after nums;
 alter table saledata add user_address varchar(255) after user_name;
 alter table saledata add notes text after user_address;
+
+-- 20220722
+create table inventory (
+	id int not null auto_increment primary key,
+	date date,
+	otc_id int not null,
+	otc_name varchar(80),
+	otc_kana varchar(80),
+	otc_size varchar(80),
+	otc_purchase_price int,
+	otc_selling_price int,
+	tax int,
+	otc_tax_include_price int,
+	otc_self_med tinyint,
+	otc_wholesale varchar(20),
+	otc_hygine tinyint,
+	otc_class_name varchar(10),
+	nums int,
+	created datetime,
+	modified datetime
+);
+

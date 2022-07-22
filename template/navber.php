@@ -43,9 +43,7 @@
           <ul class="dropdown-menu">
             <li><a href="inventory.php" class="dropdown-item">棚卸システム</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a href="inventory_table.php" class="dropdown-item">棚卸表</a></li>
-            <li><a href="inventory_table_input.php" class="dropdown-item">棚卸表 入力</a></li>
-            <li><a href="inventory_table_final.php" class="dropdown-item">棚卸表 最終</a></li>
+            <li><a href="inventory_old.php" class="dropdown-item">過去の棚卸データ</a></li>
           </ul>
         </li>
         <li class="nav-item">

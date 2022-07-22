@@ -125,16 +125,48 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
         echo $e->getMessage();
         exit;
       }
+
     case "setting":
       $app = new \MyApp\Setting();
-      switch($_POST['type']){
+      switch($_POST['mode']){
         case "inventory_reset":
           $app->inventory_reset();
           break;
+        case 'delete_wholesale_check':
+          $res = $app->delete_wholesale_check();
+          echo $res;
+          break;
+        case 'delete_wholesale':
+          $res = $app->delete_wholesale();
+          echo $res;
+          break;
+        case 'create_wholesale':
+          $res = $app->create_wholesale();
+          echo $res;
+          break;
+        case 'update_wholesale':
+          $app->update_wholesale();
+          break;
+    
+
       }
           
-  
+    case "inventory":
+      $app = new \MyApp\Inventory();
+      try{
+        switch($_POST['mode']){
+          case 'inventory_save':
+            $res = $app->inventory_save();
+            echo $res;
+            break;
+        }
+        exit;
+      }catch(Exception $e){
+        echo $e->getMessage();
+        exit;
+      }
 
+  
   } 
 
 
