@@ -148,7 +148,21 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
           $app->update_wholesale();
           break;
     
-
+        case 'delete_otc_class_check':
+          $res = $app->delete_otc_class_check();
+          echo $res;
+          break;
+        case 'delete_otc_class':
+          $res = $app->delete_otc_class();
+          echo $res;
+          break;
+        case 'create_otc_class':
+          $res = $app->create_otc_class();
+          echo $res;
+          break;
+        case 'update_otc_class':
+          $app->update_otc_class();
+          break;
       }
           
     case "inventory":
@@ -165,58 +179,5 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
         echo $e->getMessage();
         exit;
       }
-
-  
-  } 
-
-
-
-
-    // case "correct_otc":
-    //   echo $app->delete_img($_POST['id']);
-    //   break;
-    // case "sale":
-    //   switch($_POST["type"]){
-    //     case "check_id":
-    //       echo $app2->mg_id() + 1;
-    //       break;
-    //     case "inputDb":
-    //       $app2->inputDb();
-    //       break;
-    //     case "searchItem":
-    //       header('Content-Type: application/json');
-    //       echo json_encode($app2->ajax_process());
-    //       break;
-    //   }
-        
-      //   case "searchItemW":
-      //     header('Content-Type: application/json');
-      //     echo json_encode($app->ajax_process());
-      //     break;
-      //   case "inputDbW":
-      //     $app->inputDb();
-      //     break;
-      // }
-    // case "inventory":
-    //   switch($_POST["type"]){
-    //     case "serchItemInv":
-    //       header('Content-Type: application/json');
-    //       echo json_encode($app4->serchItemInv());
-    //       break;
-    //     case "registNums":
-    //       echo $app4->registNums();
-    //       break;
-    //   }
-    // case "setting":
-    //   switch($_POST['type']){
-    //     case "inventory_reset":
-    //       $app5->inventory_reset();
-    //       break;
-    //     case "med_set_10":
-    //       $app5->med_set_10();
-    //       break;
-    //   }
-    // case "inventory_table_input":
-    //   $app6->post();
-    //   break;
+    } 
 }

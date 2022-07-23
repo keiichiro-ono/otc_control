@@ -17,6 +17,8 @@ $title = '棚卸システム';
 <body>
 	<?php include('template/navber.php'); ?>
 
+	<?php include('template/tab_inventory.php'); ?>
+
 	<div class="container mt-3">
 		<div class="page-header mb-2">
 			<h1>棚卸しシステム</h1>
@@ -75,6 +77,15 @@ $(function(){
 			}, function(res){
 				alert(res);
 			});
+		}
+	});
+
+	let url = location.pathname.split('/').slice(-1)[0];
+
+	$("#tab_nav").children('li').children('a').each(function(){
+		let href = $(this).attr('href');
+		if(url==href){
+			$(this).addClass('active');
 		}
 	});
 

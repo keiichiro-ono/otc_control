@@ -20,6 +20,8 @@ $title = '棚卸し表';
 <body>
 	<?php include('template/navber.php'); ?>
 
+	<?php include('template/tab_inventory.php'); ?>
+
 	<div class="container mt-3">
 		<div class="page-header">
 			<h1>棚卸し表</h1>
@@ -62,7 +64,14 @@ $title = '棚卸し表';
 
 <script>
 $(function(){
+	let url = location.pathname.split('/').slice(-1)[0];
 
+	$("#tab_nav").children('li').children('a').each(function(){
+		let href = $(this).attr('href');
+		if(url==href){
+			$(this).addClass('active');
+		}
+	});
 
 
 });

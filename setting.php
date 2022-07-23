@@ -16,11 +16,11 @@ $title = '設定';
 ?>
 <?php include('template/header.php'); ?>
 <style>
-	.edit_wholesale{
+	.edit_wholesale, .edit_otc_class{
 		color: blue;
 		cursor: pointer;
 	}
-	.delete_wholesale{
+	.delete_wholesale, .delete_otc_class{
 		color: red;
 		cursor: pointer;
 	}
@@ -64,7 +64,7 @@ $title = '設定';
         			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
       			<div class="modal-body">
-					<button class="btn btn-success" id="new_wholesale">新規作成</button>
+					<button class="btn btn-primary" id="new_wholesale">新規作成</button>
 					<table class="table">
 						<thead>
 							<tr>
@@ -103,7 +103,28 @@ $title = '設定';
         			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
       			<div class="modal-body">
-        			...
+				  	<button class="btn btn-success" id="new_class">新規作成</button>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>カテゴリ名</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="class_list">
+							<?php foreach($otc_classes as $otc_class): ?>
+							<tr data-id="<?= h($otc_class->id); ?>" data-name="<?= h($otc_class->class_name); ?>">
+								<td><?= h($otc_class->id); ?></td>
+								<td><?= h($otc_class->class_name); ?></td>
+								<td>
+									<span class="edit_otc_class">[編集]</span>
+									<span class="delete_otc_class">[削除]</span>
+								</td>
+							</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
       			</div>
       			<div class="modal-footer">
         			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -121,7 +142,7 @@ $title = '設定';
 $(function(){
 
 	$('#resetBtn').click(function(){
-		if(confirm('本当にリセットしてもよろしいですか？')){
+		if(confirm('本当に棚卸をリセットしますか？\n棚卸しの『登録』でもリセットとなりますがよろしいですか？')){
 			$.post('_ajax.php', {
 				url: 'setting',
 				type: 'inventory_reset'
@@ -155,6 +176,10 @@ $(function(){
 
 		if(old_name==new_name){
 			alert('名前の変更はありません！');
+			let $td = $this.parent('td');
+			$td.empty();
+			$td.text(new_name);
+			isEdit = false;
 			return false;
 		}
 
@@ -176,6 +201,10 @@ $(function(){
 						$td.empty();
 						$td.text(new_name);
 					});
+				} else {
+					let $td = $this.parent('td');
+					$td.empty();
+					$td.text(old_name);
 				}
 			} else {
 				$.post('_ajax.php', {
@@ -192,9 +221,6 @@ $(function(){
 			}
 			isEdit=false;
 		});
-
-
-
 	});
 
 	$('tbody#wholesale_list').on('click', '.delete_wholesale', function(){
@@ -273,6 +299,162 @@ $(function(){
 			isEdit = false;
 		});
 	});
+
+
+	// otc_classの処理
+	$('tbody#class_list').on('click', '.edit_otc_class', function(){
+		if(isEdit) return false;
+		isEdit = true;
+		let id = $(this).parent('td').parent('tr').data('id');
+		let $td = $(this).parent('td').prev('td');
+		let old_class_name = $td.text();
+		let edit_input = $('<input type="text">').val(old_class_name);
+		let edit_submit = $('<button class="update_otc_class btn btn-sm btn-success"></button').text('更新');
+		$td.empty()
+			.append(edit_input).append(edit_submit);
+		$td.children('input').select().focus();
+	});
+
+	$('tbody#class_list').on('click', '.update_otc_class', function(){
+		let $this = $(this);
+		let id = $(this).parent('td').parent('tr').data('id');
+		let old_name = $(this).parent('td').parent('tr').data('name');
+		let new_name = $(this).prev('input').val();
+
+		if(old_name==new_name){
+			alert('名前の変更はありません！');
+			let $td = $this.parent('td');
+			$td.empty();
+			$td.text(new_name);
+			isEdit = false;
+			return false;
+		}
+
+		$.post('_ajax.php', {
+			url: 'setting',
+			mode: 'delete_otc_class_check',
+			id: id
+		}, function(res){
+			if(res>0){
+				if( confirm('以前から使用しているすべての名前を\n新しい名前に変更しますがよろしいですか？') ){
+					$.post('_ajax.php', {
+						url: 'setting',
+						mode: 'update_otc_class',
+						id: id,
+						name: new_name
+					}, function(){
+						let $td = $this.parent('td');
+						$td.parent('tr').data('name', new_name);
+						$td.empty();
+						$td.text(new_name);
+					});
+				} else {
+					let $td = $this.parent('td');
+					$td.empty();
+					$td.text(old_name);
+				}
+			} else {
+				$.post('_ajax.php', {
+					url: 'setting',
+					mode: 'update_otc_class',
+					id: id,
+					name: new_name
+				}, function(){
+					let $td = $this.parent('td');
+					$td.parent('tr').data('name', new_name);
+					$td.empty();
+					$td.text(new_name);
+				});
+			}
+			isEdit=false;
+		});
+	});
+
+
+	$('tbody#class_list').on('click', '.delete_otc_class', function(){
+		if(isEdit) return false;
+		let id = $(this).parent('td').parent('tr').data('id');
+		let $this = $(this);
+		let old_class_name = $(this).parent('td').prev('td').text();
+		if( confirm('『'+old_class_name+'』を\n本当に削除してもよろしいですか？') ){
+			$.post('_ajax.php', {
+				url: 'setting',
+				mode: 'delete_otc_class_check',
+				id: id
+			}, function(res){
+				if(res>0){
+					alert('すでに使用しているので削除できません。');
+					return false;
+				}
+
+				if(id==6 || id==7){
+					alert('管理医療機器、高度医療管理機器は削除できません！');
+					return false;
+				}
+
+				$.post('_ajax.php', {
+					url: 'setting',
+					mode: 'delete_otc_class',
+					id: id
+				}, function(){
+					$this.parent('td').parent('tr').fadeOut(800);				
+				});
+			});
+		}
+	});
+
+	$('#new_class').click(function(){
+		if(isEdit) return false;
+		isEdit = true;
+		$(this).prop('disabled', true);
+		let c_input = $('<input type="text" id="new_input_otc_class">');
+		let create_btn = $('<button class="btn btn-sm btn-success create_otc_class"></button>').text('登録');
+		$(this).parent('div.modal-body').append(c_input).append(create_btn);
+		$(this).parent('div.modal-body').children('input').select().focus();
+	});
+
+	$('#modal_class div.modal-body').on('click', '.create_otc_class', function(){
+		let c_name = $(this).prev('input').val();
+		if( c_name=='' ){
+			alert('入力が空です');
+			$(this).prev('input').focus();
+			return false;
+		}
+		let same_check = false;
+		$('tbody#class_list').children('tr').each(function(){
+			if( $(this).children('td:eq(1)').text() == c_name ){
+				same_check=true;
+			}
+		});
+
+		if(same_check){
+			alert('すでに同じ名前の卸が登録されています。');
+			return false;
+		}
+
+		$.post('_ajax.php', {
+			url: 'setting',
+			mode: 'create_otc_class',
+			name: c_name
+		}, function(res){
+			let $tr = $('<tr data-id="'+res+'" data-name="'+c_name+'"></tr>');
+			let $td_1 = $('<td></td>').text(res);
+			let $td_2 = $('<td></td>').text(c_name);
+			let $td_3 = $('<td></td>').append($('<span class="edit_otc_class"><span>').text('[編集]')).append($('<span class="delete_otc_class"><span>').text('[削除]'));
+			$('tbody#class_list').append(
+				$tr.append($td_1).append($td_2).append($td_3)
+			);
+
+			$('#new_input_otc_class').next('button').remove();
+			$('#new_input_otc_class').remove();
+
+			$('#new_class').prop('disabled', false);
+			isEdit = false;
+		});
+	});
+
+
+
 
 
 });

@@ -6,9 +6,9 @@ $app = new \MyApp\Inventory_table_final();
 
 $items = $app->getAll();
 
-echo '<pre>';
-var_dump($items);
-echo '</pre>';
+// echo '<pre>';
+// var_dump($items);
+// echo '</pre>';
 
 $title = '棚卸し表(最終データ)';
 
@@ -17,6 +17,8 @@ $title = '棚卸し表(最終データ)';
 <?php include('template/header.php'); ?>
 <body>
 	<?php include('template/navber.php'); ?>
+
+	<?php include('template/tab_inventory.php'); ?>
 
 	<div class="container mt-3">
 		<div class="page-header mb-2">
@@ -86,11 +88,25 @@ $title = '棚卸し表(最終データ)';
 $(function(){
 	$('.download').click(function(){
 		if(confirm('データをダウンロードしてもよろしいですか？')){
-			window.location.href = "_save_inventory.php";
+			window.location.href = '_ajax_save_csv.php';
+			// $.post('_ajax.php', {
+			// 	url: 'inventory_table_final',
+			// 	mode: 'save_csv'
+			// }, function(res){
+			// 	console.log(res);
+
+			// });
 		}
 	});
 
+	let url = location.pathname.split('/').slice(-1)[0];
 
+	$("#tab_nav").children('li').children('a').each(function(){
+		let href = $(this).attr('href');
+		if(url==href){
+			$(this).addClass('active');
+		}
+	});
 });
 </script>
 

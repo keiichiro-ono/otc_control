@@ -5,12 +5,9 @@ require_once('config/config.php');
 $app = new \MyApp\Inventory_old();
 
 $days = $app->get_days();
-// var_dump($days);
+
 if(isset($_GET['day']) && !empty($_GET['day'])){
 	$items = $app->get_day_items($_GET['day']);
-	// echo '<pre>';
-	// var_dump($items);
-	// echo '</pre>';
 }
 
 $title = '棚卸し表(過去データ)';
@@ -21,6 +18,8 @@ $title = '棚卸し表(過去データ)';
 <body>
 	<?php include('template/navber.php'); ?>
 
+	<?php include('template/tab_inventory.php'); ?>
+
 	<div class="container mt-3">
 		<div class="page-header mb-2">
 			<h1>棚卸し過去データ</h1>
@@ -28,9 +27,13 @@ $title = '棚卸し表(過去データ)';
 
 		<?php if(!isset($_GET['day']) || empty($_GET['day'])): ?>
 		<div class="mb-3">
-			<?php foreach($days as $day): ?>
-				<a href="?day=<?= h($day->date); ?>" class="btn btn-primary btn-sm"><?= h($day->date); ?></a>
-			<?php endforeach; ?>
+			<?php if(count($days)==0): ?>
+				<h2>まだ棚卸データがありません。</h2>
+			<?php else: ?>
+				<?php foreach($days as $day): ?>
+					<a href="?day=<?= h($day->date); ?>" class="btn btn-primary btn-sm"><?= h($day->date); ?></a>
+				<?php endforeach; ?>
+			<?php endif; ?>
 		</div>
 		<?php else: ?>
 			<h2><?= h($_GET['day']); ?>付データ</h2>
@@ -101,13 +104,14 @@ $title = '棚卸し表(過去データ)';
   <?php include('template/footer.php'); ?>
 <script>
 $(function(){
-	$('.download').click(function(){
-		if(confirm('データをダウンロードしてもよろしいですか？')){
-			window.location.href = "_save_inventory.php";
+	let url = location.pathname.split('/').slice(-1)[0];
+
+	$("#tab_nav").children('li').children('a').each(function(){
+		let href = $(this).attr('href');
+		if(url==href){
+			$(this).addClass('active');
 		}
 	});
-
-
 });
 </script>
 

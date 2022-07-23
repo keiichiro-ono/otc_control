@@ -55,5 +55,40 @@ class Setting extends Controller{
     ]);
   }
 
+  // otc_classのCRUD
+  public function delete_otc_class_check(){
+    $sql = "select count(*) from otc_list where class=:otc_class";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute([':otc_class'=>(int)$_POST['id']]);
+    $res = $stmt->fetchColumn();
+    return $res;
+  }
+
+  public function delete_otc_class(){
+    $sql = "delete from otc_class where id=:id limit 1";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute([':id'=>(int)$_POST['id']]);
+  }
+
+  public function create_otc_class(){
+    $sql = "insert into otc_class (class_name) values (:class_name)";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute([':class_name'=>$_POST['name']]);
+
+    $id = $this->_db->lastInsertId();
+    return $id;
+  }
+
+  public function update_otc_class(){
+    $sql = "update otc_class set class_name=:name where id=:id";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute([
+      ':name'=>$_POST['name'],
+      ':id'=>(int)$_POST['id']
+    ]);
+  }
+
+
+
 
 }
