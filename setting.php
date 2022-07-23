@@ -47,7 +47,7 @@ $title = '設定';
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-10 col-md-4 col-lg-3 col-xl-2 mt-4">
-				<h2>棚卸しシステム</h2>
+				<h2><i class="bi bi-box-seam"></i> 棚卸し</h2>
 				<div class="text-end">
 					<button type="button" id="resetBtn" class="btn btn-danger">棚卸をリセットする</button>
 				</div>

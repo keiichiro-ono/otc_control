@@ -51,6 +51,10 @@ $title = '新トップ';
 					<a href="sale_kiki_list.php" class="btn btn-outline-success p-2 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> 入庫</a>
 					<a href="inout_kiki_list.php" class="btn btn-outline-success p-2 rounded-pill fs-5" type="button"><i class="bi bi-list-columns-reverse"></i> 出入庫</a>
 				</div>
+				<hr>
+				<div class="d-grid gap-2">
+					<a href="inventory.php" class="btn btn-outline-info p-3 rounded-pill fs-5" type="button"><i class="bi bi-box-seam"></i> 棚卸システム</a>
+				</div>
 			</div>
 		</div>
 

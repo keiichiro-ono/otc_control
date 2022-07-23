@@ -164,20 +164,5 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
           $app->update_otc_class();
           break;
       }
-          
-    case "inventory":
-      $app = new \MyApp\Inventory();
-      try{
-        switch($_POST['mode']){
-          case 'inventory_save':
-            $res = $app->inventory_save();
-            echo $res;
-            break;
-        }
-        exit;
-      }catch(Exception $e){
-        echo $e->getMessage();
-        exit;
-      }
-    } 
+  } 
 }

@@ -6,9 +6,9 @@ $app = new \MyApp\Inventory_table_final();
 
 $items = $app->getAll();
 
-// echo '<pre>';
-// var_dump($items);
-// echo '</pre>';
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$app->save_csv();
+} 
 
 $title = '棚卸し表(最終データ)';
 
@@ -23,7 +23,9 @@ $title = '棚卸し表(最終データ)';
 	<div class="container mt-3">
 		<div class="page-header mb-2">
 			<h1>棚卸し表（最終データ）</h1>
-			<button class="btn btn-danger btn-sm download">データダウンロード</button>
+			<form action="" method="POST">
+				<button class="btn btn-danger btn-sm download">データダウンロード</button>
+			</form>
 		</div>
 
 		<div class="row">
@@ -88,14 +90,7 @@ $title = '棚卸し表(最終データ)';
 $(function(){
 	$('.download').click(function(){
 		if(confirm('データをダウンロードしてもよろしいですか？')){
-			window.location.href = '_ajax_save_csv.php';
-			// $.post('_ajax.php', {
-			// 	url: 'inventory_table_final',
-			// 	mode: 'save_csv'
-			// }, function(res){
-			// 	console.log(res);
-
-			// });
+			$('form').submit();
 		}
 	});
 

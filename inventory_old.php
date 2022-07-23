@@ -31,7 +31,7 @@ $title = '棚卸し表(過去データ)';
 				<h2>まだ棚卸データがありません。</h2>
 			<?php else: ?>
 				<?php foreach($days as $day): ?>
-					<a href="?day=<?= h($day->date); ?>" class="btn btn-primary btn-sm"><?= h($day->date); ?></a>
+					<a href="?day=<?= h($day->date); ?>" class="btn btn-primary rounded-pill px-5 py-3"><?= h($day->date); ?></a>
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</div>
