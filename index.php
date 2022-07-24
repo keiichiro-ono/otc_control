@@ -4,7 +4,7 @@ require_once('config/config.php');
 
 $app = new \MyApp\Index();
 
-$title = '新トップ';
+$title = 'OTC管理画面TOP';
 
 ?>
 
@@ -16,8 +16,8 @@ $title = '新トップ';
 
 	<div class="container">
 
-		<div class="row justify-content-center">
-			<h1>OTC管理画面</h1>
+		<div class="row justify-content-center mt-3">
+			<h1><i class="bi bi-shop"></i> OTC管理画面</h1>
 
 			<div class="col-sm-4 col-md-3">
 				<h3>追加登録</h3>

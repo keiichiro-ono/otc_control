@@ -187,17 +187,14 @@ $title = 'OTC修正画面';
 				<p class="text-end">
 					<button type="button" id="otc_edit" class="btn btn-outline-warning rounded-pill px-4">修正</button>
 				</p>
-
-
 			</div>
-
 		</form>
-
-	</row>
-    <!-- row -->
-
 	</div>
+    <!-- row -->
+</div>
   <!-- container -->
+<?php include('template/footer.php'); ?>
+
 <script>
 $(function(){
 	'use strict'

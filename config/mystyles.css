@@ -18,6 +18,21 @@ footer {
 	height: 100px;
 }
 
+@media print {
+	nav.navbar, #tab_nav, footer.footer{
+	  display: none;
+	}
+	table.table{
+		font-size: 10px;
+	}
+	table.table th, table.table td{
+		padding: 0;
+	}
+	table.table tbody{
+		margin-top:10px;
+	}
+	
+  }
 /* calender.php */
 /* .youbi_0{
 	color: red;

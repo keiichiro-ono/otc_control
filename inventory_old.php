@@ -22,7 +22,7 @@ $title = '棚卸し表(過去データ)';
 
 	<div class="container mt-3">
 		<div class="page-header mb-2">
-			<h1>棚卸し過去データ</h1>
+			<h1><i class="bi bi-archive"></i> 棚卸し過去データ</h1>
 		</div>
 
 		<?php if(!isset($_GET['day']) || empty($_GET['day'])): ?>
@@ -31,12 +31,12 @@ $title = '棚卸し表(過去データ)';
 				<h2>まだ棚卸データがありません。</h2>
 			<?php else: ?>
 				<?php foreach($days as $day): ?>
-					<a href="?day=<?= h($day->date); ?>" class="btn btn-primary rounded-pill px-5 py-3"><?= h($day->date); ?></a>
+					<a href="?day=<?= h($day->date); ?>" class="btn btn-primary rounded-pill px-5 py-3"><?= h(ymd_wareki($day->date)); ?></a>
 				<?php endforeach; ?>
 			<?php endif; ?>
 		</div>
 		<?php else: ?>
-			<h2><?= h($_GET['day']); ?>付データ</h2>
+			<h2 class="display-4"><?= h(ymd_wareki($_GET['day'])); ?> 棚卸データ</h2>
 			<p class="text-end mb-3">
 				<a href="<?= HOME_URL. 'inventory_old.php'; ?>" class="btn btn-outline-info btn-sm">日付を選択する</a>
 			</p>

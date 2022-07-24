@@ -26,7 +26,7 @@ $title = '棚卸し入力画面';
 
 	<div class="container mt-3">
 		<div class="page-header">
-			<h1>棚卸し表 入力</h1>
+			<h1><i class="bi bi-pencil"></i> 棚卸し表 入力</h1>
 		</div>
 
 		<div class="btn-group mb-2" role="group" id="exist_btns">

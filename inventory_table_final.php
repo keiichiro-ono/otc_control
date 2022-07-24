@@ -22,10 +22,12 @@ $title = '棚卸し表(最終データ)';
 
 	<div class="container mt-3">
 		<div class="page-header mb-2">
-			<h1>棚卸し表（最終データ）</h1>
-			<form action="" method="POST">
-				<button class="btn btn-danger btn-sm download">データダウンロード</button>
-			</form>
+			<h1><i class="bi bi-list-columns-reverse"></i> 棚卸し表（最終データ）</h1>
+			<div class="text-end">
+				<form action="" method="POST">
+					<button class="btn btn-danger btn-sm download"><i class="bi bi-cloud-download"></i> データダウンロード</button>
+				</form>
+			</div>
 		</div>
 
 		<div class="row">

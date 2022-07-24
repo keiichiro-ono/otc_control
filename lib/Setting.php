@@ -32,9 +32,9 @@ class Setting extends Controller{
   }
 
   public function delete_wholesale(){
-    $sql = "delete from otc_list where wholesale=:wholesale limit 1";
+    $sql = "delete from wholesale where id=:id limit 1";
     $stmt = $this->_db->prepare($sql);
-    $stmt->execute([':wholesale'=>(int)$_POST['id']]);
+    $stmt->execute([':id'=>(int)$_POST['id']]);
   }
 
   public function create_wholesale(){

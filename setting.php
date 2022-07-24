@@ -6,11 +6,6 @@ $app = new \MyApp\Setting();
 $wholesales = $app->get_wholesales();
 $otc_classes = $app->get_classes();
 
-// echo '<pre>';
-// var_dump($wholesales);
-// var_dump($otc_classes);
-// echo '</pre>';
-
 $title = '設定';
 
 ?>
@@ -31,7 +26,7 @@ $title = '設定';
 
 	<div class="container mt-3">
 		<div class="page-header">
-			<h1>設定 </h1>
+			<h1><i class="bi bi-gear"></i> 設定</h1>
 		</div>
 
 		<div class="row justify-content-center">
@@ -152,12 +147,13 @@ $(function(){
 		}
 	});
 
-	let isEdit = false;
+	let isEdit_wholesale = false;
+	let isEdit_otc_class = false;
 
 	$('tbody#wholesale_list').on('click', '.edit_wholesale', function(){
 		// $(this).removeClass('edit_wholesale');
-		if(isEdit) return false;
-		isEdit = true;
+		if(isEdit_wholesale) return false;
+		isEdit_wholesale = true;
 		let id = $(this).parent('td').parent('tr').data('id');
 		let $td = $(this).parent('td').prev('td');
 		let old_name = $td.text();
@@ -179,7 +175,7 @@ $(function(){
 			let $td = $this.parent('td');
 			$td.empty();
 			$td.text(new_name);
-			isEdit = false;
+			isEdit_wholesale = false;
 			return false;
 		}
 
@@ -219,12 +215,13 @@ $(function(){
 					$td.text(new_name);
 				});
 			}
-			isEdit=false;
+			isEdit_wholesale=false;
 		});
 	});
 
 	$('tbody#wholesale_list').on('click', '.delete_wholesale', function(){
-		if(isEdit) return false;
+		if(isEdit_wholesale) return false;
+		isEdit_wholesale = true;
 		let id = $(this).parent('td').parent('tr').data('id');
 		let $this = $(this);
 		let old_name = $(this).parent('td').prev('td').text();
@@ -248,14 +245,15 @@ $(function(){
 				});
 			});
 		}
+		isEdit_wholesale = false;
 	});
 
 	$('#new_wholesale').click(function(){
-		if(isEdit) return false;
-		isEdit = true;
+		if(isEdit_wholesale) return false;
+		isEdit_wholesale = true;
 		$(this).prop('disabled', true);
 		let w_input = $('<input type="text" id="new_input_wholesale">');
-		let create_btn = $('<button class="btn btn-sm btn-success create_wholesale"></button>').text('登録');
+		let create_btn = $('<button class="btn btn-sm btn-primary create_wholesale"></button>').text('登録');
 		$(this).parent('div.modal-body').append(w_input).append(create_btn);
 		$(this).parent('div.modal-body').children('input').select().focus();
 	});
@@ -276,6 +274,7 @@ $(function(){
 
 		if(same_check){
 			alert('すでに同じ名前の卸が登録されています。');
+			$(this).prev('input').select().focus();
 			return false;
 		}
 
@@ -296,15 +295,15 @@ $(function(){
 			$('#new_input_wholesale').remove();
 
 			$('#new_wholesale').prop('disabled', false);
-			isEdit = false;
+			isEdit_wholesale = false;
 		});
 	});
 
 
 	// otc_classの処理
 	$('tbody#class_list').on('click', '.edit_otc_class', function(){
-		if(isEdit) return false;
-		isEdit = true;
+		if(isEdit_otc_class) return false;
+		isEdit_otc_class = true;
 		let id = $(this).parent('td').parent('tr').data('id');
 		let $td = $(this).parent('td').prev('td');
 		let old_class_name = $td.text();
@@ -326,7 +325,7 @@ $(function(){
 			let $td = $this.parent('td');
 			$td.empty();
 			$td.text(new_name);
-			isEdit = false;
+			isEdit_otc_class = false;
 			return false;
 		}
 
@@ -366,13 +365,13 @@ $(function(){
 					$td.text(new_name);
 				});
 			}
-			isEdit=false;
+			isEdit_otc_class=false;
 		});
 	});
 
 
 	$('tbody#class_list').on('click', '.delete_otc_class', function(){
-		if(isEdit) return false;
+		if(isEdit_otc_class) return false;
 		let id = $(this).parent('td').parent('tr').data('id');
 		let $this = $(this);
 		let old_class_name = $(this).parent('td').prev('td').text();
@@ -404,8 +403,8 @@ $(function(){
 	});
 
 	$('#new_class').click(function(){
-		if(isEdit) return false;
-		isEdit = true;
+		if(isEdit_otc_class) return false;
+		isEdit_otc_class = true;
 		$(this).prop('disabled', true);
 		let c_input = $('<input type="text" id="new_input_otc_class">');
 		let create_btn = $('<button class="btn btn-sm btn-success create_otc_class"></button>').text('登録');
@@ -449,12 +448,9 @@ $(function(){
 			$('#new_input_otc_class').remove();
 
 			$('#new_class').prop('disabled', false);
-			isEdit = false;
+			isEdit_otc_class = false;
 		});
 	});
-
-
-
 
 
 });

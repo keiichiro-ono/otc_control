@@ -41,15 +41,20 @@
             棚卸関係
           </a>
           <ul class="dropdown-menu">
-            <li><a href="inventory.php" class="dropdown-item">棚卸システム</a></li>
+            <li><a href="inventory.php" class="dropdown-item"><i class="bi bi-box-seam"></i> 棚卸システム</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a href="inventory_old.php" class="dropdown-item">過去の棚卸データ</a></li>
+            <li><a href="inventory_old.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> 過去の棚卸データ</a></li>
           </ul>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="setting.php">設定</a>
-        </li>
+        </li> -->
       </ul>
+
     </div>
+    <div class="text-end nav-item">
+      <a class="nav-link link-light" href="setting.php"><i class="bi bi-gear"></i> 設定</a>
+    </div>
+
   </div>
 </nav>

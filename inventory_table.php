@@ -24,7 +24,7 @@ $title = '棚卸し表';
 
 	<div class="container mt-3">
 		<div class="page-header">
-			<h1>棚卸し表</h1>
+			<h1><i class="bi bi-list-check"></i> 棚卸し表</h1>
 		</div>
 
 		<div class="row">

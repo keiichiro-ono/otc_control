@@ -14,3 +14,11 @@ function wareki($s){
 	$wa = $y. '年'. $m. '月'. $d. '日 '. $h. '時'. $min. '分';
 	return $wa;
 }
+
+function ymd_wareki($s){
+	$y = mb_substr($s, 0, 4);
+	$m = mb_substr($s, 5, 2);
+	$d = mb_substr($s, 8, 2);
+
+	return $y. '年'. $m. '月'. $d. '日';
+}
