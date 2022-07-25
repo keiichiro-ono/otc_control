@@ -16,7 +16,7 @@ $title = 'OTC管理画面TOP';
 
 	<div class="container">
 
-		<div class="row justify-content-center mt-3">
+		<div class="row justify-content-center my-4">
 			<h1><i class="bi bi-shop"></i> OTC管理画面</h1>
 
 			<div class="col-sm-4 col-md-3">
@@ -57,11 +57,6 @@ $title = 'OTC管理画面TOP';
 				</div>
 			</div>
 		</div>
-
-		<hr>
-
-		<p class="text-end"><a href="../" class="btn btn-danger">トップメニューに戻る</a></p>
-
 	</div>
 
 	<?php include('template/footer.php'); ?>

@@ -28,7 +28,7 @@ $title = 'OTC新規登録画面';
 		<h1>OTC新規作成画面 <i class="bi bi-file-earmark-plus" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
 
 
-			<div class="col-md-6 col-sm-12">
+			<div class="col-md-6 col-sm-12 my-4">
 				<div class="row g-3 mb-3 align-items-center">
 					<div class="col-auto">
 						<label for="inputName" class="col-form-label">OTC名</label>
@@ -104,7 +104,7 @@ $title = 'OTC新規登録画面';
 
 			</div>
 
-			<div class="col-md-4 col-sm-12">
+			<div class="col-md-4 col-sm-12 my-4">
 
 				<div class="row g-3 mb-3 align-items-center">
 					<div class="col-auto">

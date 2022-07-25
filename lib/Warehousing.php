@@ -5,7 +5,7 @@ namespace MyApp;
 class Warehousing extends Controller{
 
   public function search(){
-    $sql = "select * from otc_list where jan=". $_POST['jan'];
+    $sql = "select * from otc_list where jan=". $_POST['jan'] . " limit 1";
     $stmt = $this->_db->query($sql);
     $res = $stmt->fetch(\PDO::FETCH_ASSOC);
     // var_dump($res);exit;

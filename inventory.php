@@ -13,7 +13,7 @@ $title = '棚卸システム';
 
 	<?php include('template/tab_inventory.php'); ?>
 
-	<div class="container mt-3">
+	<div class="container my-3">
 		<div class="page-header mb-2">
 			<h1><i class="bi bi-box-seam"></i> 棚卸しシステム</h1>
 		</div>

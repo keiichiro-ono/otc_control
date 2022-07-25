@@ -20,7 +20,7 @@ $data = $app->threeDay();
 	<?php include('template/navber.php'); ?>
 
 	<div class="container mt-3">
-		<div class="row">
+		<div class="row my-4">
 			<div class="col-sm-7">
 				<div class="page-header">
 					<div class="btn-group" role="group">

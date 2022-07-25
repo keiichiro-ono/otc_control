@@ -10,8 +10,6 @@ $title = '入庫登録画面';
 $today = date("Y-m-d");
 $data = $app->threeDay();
 
-
-
 ?>
 <?php include('template/header.php'); ?>
 
@@ -36,7 +34,7 @@ $data = $app->threeDay();
 	}
 	</style>
 	<div class="container mt-3">
-		<div class="row">
+		<div class="row my-4">
 			<div class="col-sm-7">
 				<div class="page-header">
 					<div class="btn-group" role="group">
@@ -124,7 +122,6 @@ $data = $app->threeDay();
 					</tbody>
 				</table>
 			</div>
-
 		</div>
 
 		<!-- Modal -->
@@ -153,10 +150,6 @@ $data = $app->threeDay();
 				</div>
 			</div>
 		</div><!-- モーダル -->
-
-		
-
-
 
 		<!-- Modal2 -->
 		<div class="modal fade" id="limitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -199,6 +192,7 @@ $data = $app->threeDay();
 				</div>
 			</div>
 		</div><!-- モーダル2 -->
+		
 	</div>
   <!-- container -->
   <?php include('template/footer.php'); ?>
@@ -250,18 +244,18 @@ $(function(){
 				$('#subTable').empty();
 				$('#searchModal').modal('show');
 				let s = '<tr id="otc_id_'+res['id']+'" data-id="'+res['id']+'">'+
-								'<td>' + res['id'] + '</td>' +
-								'<td>' + res['name'] + '</td>' +
-								'<td><input type="text" class="text-right" name="price" style="width:80px;" value="' + res['purchase_price'] + '"></td>'+
-								'<td><input type="number" value="1" class="inputNums text-right" name="nums" style="width:60px;">個</td>'+
-								'<td class="inputLimit">[期限入力]</td>'
-								'</tr>';
+							'<td>' + res['id'] + '</td>' +
+							'<td>' + res['name'] + '</td>' +
+							'<td><input type="text" class="text-right" name="price" style="width:80px;" value="' + res['purchase_price'] + '"></td>'+
+							'<td><input type="number" value="1" class="inputNums text-right" name="nums" style="width:60px;">個</td>'+
+							'<td class="inputLimit">[期限入力]</td>'
+							'</tr>';
 				$("#subTable").append(s);
 			} else {
 				let s = '<tr>'+
-								'<td colspan="5">Janコード 【' + '<span id="noJan">'+jan + '</span>】 は存在しません</td>' +
-								'<td><button class="btn btn-primary registRow">新規登録</button></td>'
-								'</tr>';
+							'<td colspan="5">Janコード 【' + '<span id="noJan">'+jan + '</span>】 は存在しません</td>' +
+							'<td><button class="btn btn-primary registRow">新規登録</button></td>'
+							'</tr>';
 				$("#tb").append(s);
 				$("#inputJan").val("");
 				$('tfoot').hide();
