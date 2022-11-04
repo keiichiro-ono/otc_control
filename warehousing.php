@@ -162,7 +162,7 @@ $data = $app->threeDay();
 					<div class="modal-body">
 
 						<div id="yearInput">
-							<?php for($i=0; $i<6; $i++): ?>
+							<?php for($i=0; $i<7; $i++): ?>
 								<input type="radio" class="btn-check" name="limit_year" id="year_<?= h($i); ?>" autocomplete="off" value="<?= h($thisYear+$i); ?>">
 								<label class="btn btn-success btn-sm" for="year_<?= h($i); ?>"><?= h($thisYear+$i); ?>年</label>
 							<?php endfor; ?>
