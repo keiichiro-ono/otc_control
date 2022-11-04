@@ -21,7 +21,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
 		}
 	$out_price = $app->getOutPrice();
 	$in_price = $app->getInPrice();
-	$returned_price = $app->getRetrurnedPrice();
+	$returned_price = $app->getRetrurnedPrice() ? $app->getRetrurnedPrice(): 0;
 } else {
 	echo '不正なアクセスです';
 	exit;

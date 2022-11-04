@@ -227,7 +227,7 @@ $(function(){
 			let ymd = data[i][3];
 			let nums = data[i][2];
 
-			$.post('_ajax_returned.php', {
+			$.post('_ajax.php', {
 				url: 'returned',
 				mode: 'inputDb',
 				id: data[i][0],
