@@ -16,12 +16,12 @@ $daySum = $app->getSum($_GET['date']);
 					</a>
 				</td>
 				<td class="text-end"><?= h($d->nums); ?>個</td>
-				<td class="text-end"><?= h(number_format($d->actual_price,0)); ?>円</td>
-				<td class="text-end"><?= h(number_format($d->actual_price*$d->nums,0)); ?>円</td>
+				<td class="text-end"><?= $d->actual_price ? h(number_format($d->actual_price,0)): ''; ?>円</td>
+				<td class="text-end"><?= $d->actual_price ? h(number_format($d->actual_price*$d->nums,0)): ''; ?>円</td>
 			</tr>
     <?php endforeach; ?>
 			<tr>
 				<td colspan="4">
-					合計：<?= h(number_format($daySum, 0));?>円
+					合計：<?= $daySum ? h(number_format($daySum, 0)): '';?>円
 				</td>
 			</tr>

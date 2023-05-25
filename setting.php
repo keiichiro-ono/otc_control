@@ -140,7 +140,7 @@ $(function(){
 		if(confirm('本当に棚卸をリセットしますか？\n棚卸しの『登録』でもリセットとなりますがよろしいですか？')){
 			$.post('_ajax.php', {
 				url: 'setting',
-				type: 'inventory_reset'
+				mode: 'inventory_reset'
 			}, function(){
 				window.location.href="inventory_table.php";
 			});

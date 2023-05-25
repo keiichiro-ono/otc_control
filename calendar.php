@@ -157,7 +157,7 @@ $title = '売上カレンダー';
 			<div class="col-sm-6">
 				<h3>
 					<?= h($ymWa); ?> 売上品一覧<br>
-					<small>売上合計：<?= h(number_format($salePrice,0)); ?>円</small>
+					<small>売上合計：<?= $salePrice ? h(number_format($salePrice,0)) : ''; ?>円</small>
 				</h3>
 
 				<table class="table table-sm">
