@@ -19,6 +19,12 @@ class Correct_otc extends Controller{
     }
   }
 
+  public function cat_id_to_catname($id){
+    $sql = "select * from category where id=". $id;
+    $stmt = $this->_db->query($sql);
+    return $stmt->fetch(\PDO::FETCH_OBJ);
+  }
+
   public function check_hygiene($num){
     if($num==="1"){
       return '<mark>checked!</mark>';
@@ -120,7 +126,8 @@ class Correct_otc extends Controller{
       $res['self_med']==$self_med &&
       $res['wholesale']==$_POST['wholesale'] &&
       $res['hygiene']==$hygiene &&
-      $res['tokutei_kiki']==$tokutei_kiki
+      $res['tokutei_kiki']==$tokutei_kiki &&
+      $res['category_id']==$_POST['category']
     ){
       throw new \Exception("なんも変わってないね");
     }
@@ -143,6 +150,7 @@ class Correct_otc extends Controller{
         wholesale=:wholesale,
         hygiene=:hygiene,
         tokutei_kiki=:tokutei_kiki,
+        category_id=:category_id,
         modified=now()
       where id=:id";
     $stmt = $this->_db->prepare($sql);
@@ -166,11 +174,30 @@ class Correct_otc extends Controller{
       ":wholesale"=>(int)$_POST['wholesale'],
       ":hygiene"=>$hygiene,
       ":tokutei_kiki"=>$tokutei_kiki,
+      ":category_id"=>(int)$_POST['category'],
       ":id"=>(int)$_POST['id']
     ]);
     if(!$stmt){
       throw new \Exception('更新エラー');
     }
   }
+
+    // 20240425
+    public function category_1(){
+      $sql = "select distinct cat_name from category";
+      $stmt = $this->_db->query($sql);
+      return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+  
+    public function change_category($text_val){
+      $sql = "select * from category where cat_name=:cat_name";
+      $stmt = $this->_db->prepare($sql);
+      $stmt->execute([
+        ":cat_name"=>$text_val
+      ]);
+  
+      return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+  
 
 }

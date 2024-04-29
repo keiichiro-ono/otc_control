@@ -106,19 +106,39 @@ $title = 'OTC新規登録画面';
 
 			<div class="col-md-4 col-sm-12 my-4">
 
-				<div class="row g-3 mb-3 align-items-center">
-					<div class="col-auto">
-						<label for="inputClass" class="col-form-label">種類</label>
+				<div class="bg-light p-3">
+					<div class="row g-3 mb-3 align-items-center">
+						<div class="col-auto">
+							<label for="inputClass" class="col-form-label">種類</label>
+						</div>
+						<div class="col-auto">
+							<select class="form-control" name="class" id="inputClass">
+								<option disabled selected>ここからお選びください</option>
+							<?php foreach($class_name as $c_n): ?>
+								<option value="<?= h($c_n->id); ?>"><?= h($c_n->class_name); ?></option>
+							<?php endforeach; ?>
+							</select>
+						</div>
 					</div>
-					<div class="col-auto">
-						<select class="form-control" name="class" id="inputClass">
-							<option disabled selected>ここからお選びください</option>
-						<?php foreach($class_name as $c_n): ?>
-							<option value="<?= h($c_n->id); ?>"><?= h($c_n->class_name); ?></option>
-						<?php endforeach; ?>
+
+					<div class="mb-3">
+						<label for="cat_1" class="form-label">医薬品の場合は下記も選択してください</label>
+						<select class="form-select" aria-label="category_1" id="cat_1" disabled>
+							<option selected value="">なし</option>
+							<?php foreach($app->category_1() as $cat_m): ?>
+							<option value="<?= h($cat_m->cat_name); ?>"><?= h($cat_m->cat_name); ?></option>
+							<?php endforeach; ?>
 						</select>
 					</div>
+
+					<div class="mb-3">
+						<select class="form-select" name="category" aria-label="category_2" id="cat_2" disabled>
+							<option selected value="">なし</option>
+						</select>
+					</div>
+
 				</div>
+
 
 				<div class="row g-3 mb-3 align-items-center">
 					<div class="col-auto">
@@ -154,10 +174,12 @@ $title = 'OTC新規登録画面';
 					<label class="form-check-label" for="flexKiki">特定管理医療機器</label>
 				</div>
 
+
+
+				
 				<p class="text-end">
 					<button type="button" id="otc_create" class="btn btn-danger rounded-pill px-4">登録</button>
 				</p>
-
 
 			</div>
 
@@ -197,6 +219,35 @@ $(function(){
 			$('.form-control:eq('+tar+')').focus();
 			return false;
 		}
+	});
+
+	$('#inputClass').on('change', function(){
+		let opt_val = $(this).val();
+		let ary = ['1', '2', '3', '4'];
+		if( $.inArray(opt_val, ary) == -1){
+			$('#cat_1 option[value=""]').prop('selected', true);
+			$('#cat_2').empty();
+			$('#cat_1').attr('disabled', 'disabled');
+			$('#cat_2').attr('disabled', 'disabled');
+		} else {
+			$('#cat_1').removeAttr('disabled');
+			$('#cat_2').removeAttr('disabled');
+		}
+	});
+
+	$('#cat_1').on('change', function(){
+		let text_val = $(this).val();
+		$('#cat_2').empty();
+		$.post('_ajax.php', {
+			"url": "new_otc",
+			"mode": "category_change",
+			"text_val": text_val
+		}, function(res){
+			for(let i=0; i<res.length; i++){
+				let e = $("<option>").val(res[i]['id']).text(res[i]['subcat_name']);
+				$('#cat_2').append(e);
+			}
+		});
 	});
 
 	$('#otc_create').click(function(){

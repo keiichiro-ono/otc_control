@@ -171,5 +171,24 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
           $app->inventory_save();
           break;
       }
+
+    case "new_otc":
+      $app = new \MyApp\New_otc();
+      switch($_POST['mode']){
+        case "category_change":
+          $res = $app->change_category($_POST['text_val']);
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          break;
+      }
+
+      case "otc48_list":
+        $app = new \MyApp\Otc48_list();
+        switch($_POST['mode']){
+          case "update_cat_id":
+            $app->update_cat_id((int)$_POST['otc_id'], (int)$_POST['cat_id']);
+            break;
+        }
+  
   }
 }

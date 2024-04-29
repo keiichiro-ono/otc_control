@@ -5,6 +5,7 @@ namespace MyApp;
 class New_otc extends Controller{
 
   public function postprocess(){
+    // var_dump($_POST);exit;
     try{
       $this->_validate();
       $this->_save();
@@ -70,9 +71,9 @@ class New_otc extends Controller{
     $tax_include_price = (int)(round($_POST['selling_price']*($tax/100+1)));
 
     $sql = "insert into otc_list
-    (jan, class, name, kana, size, purchase_price, selling_price, tax,  tax_include_price, stock_nums, self_med, wholesale, hygiene, tokutei_kiki, created, modified)
+    (jan, class, name, kana, size, purchase_price, selling_price, tax,  tax_include_price, stock_nums, self_med, wholesale, hygiene, tokutei_kiki, category_id, created, modified)
     values
-    (:jan, :class, :name, :kana, :size, :purchase_price, :selling_price, :tax,  :tax_include_price, :stock_nums, :self_med, :wholesale, :hygiene, :tokutei_kiki, now(), now())";
+    (:jan, :class, :name, :kana, :size, :purchase_price, :selling_price, :tax,  :tax_include_price, :stock_nums, :self_med, :wholesale, :hygiene, :tokutei_kiki, :category_id, now(), now())";
     $stmt = $this->_db->prepare($sql);
     $self_med = (isset($_POST['self_med'])) ? true : false;
     $hygiene = (isset($_POST['hygiene'])) ? true : false;
@@ -91,7 +92,8 @@ class New_otc extends Controller{
       ":self_med"=>$self_med,
       ":wholesale"=>(int)$_POST['wholesale'],
       ":hygiene"=>$hygiene,
-      ":tokutei_kiki"=>$tokutei_kiki
+      ":tokutei_kiki"=>$tokutei_kiki,
+      ":category_id"=>(int)$_POST['category']
     ]);
 
     return $this->_db->lastInsertId();
@@ -111,6 +113,23 @@ class New_otc extends Controller{
       ":id"=>$id
     ]);
 
+  }
+
+  // 20240425
+  public function category_1(){
+    $sql = "select distinct cat_name from category";
+    $stmt = $this->_db->query($sql);
+    return $stmt->fetchAll(\PDO::FETCH_OBJ);
+  }
+
+  public function change_category($text_val){
+    $sql = "select * from category where cat_name=:cat_name";
+    $stmt = $this->_db->prepare($sql);
+    $stmt->execute([
+      ":cat_name"=>$text_val
+    ]);
+
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
   }
 
 }

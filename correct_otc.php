@@ -118,21 +118,60 @@ $title = 'OTC修正画面';
 
 			<div class="col-md-4 col-sm-12">
 
-				<div class="g-3 mb-3">
-					<div class="row align-items-center mb-1">
-						<div class="col-auto">
-							<label for="inputClass" class="col-form-label">種類</label>
+				<div class="bg-light p-3">
+					<div class="g-3 mb-3">
+						<div class="row align-items-center mb-1">
+							<div class="col-auto">
+								<label for="inputClass" class="col-form-label">種類</label>
+							</div>
+							<div class="col-auto">
+								<select class="form-control" name="class" id="inputClass" data-class="<?= h($item->class_name); ?>">
+									<option disabled selected>ここからお選びください</option>
+								<?php foreach($class_name as $c_n): ?>
+									<option value="<?= h($c_n->id); ?>" <?= $item->class_name === $c_n->class_name ? "selected" : ""; ?>><?= h($c_n->class_name); ?></option>
+								<?php endforeach; ?>
+								</select>
+							</div>
 						</div>
-						<div class="col-auto">
-							<select class="form-control" name="class" id="inputClass" data-class="<?= h($item->class_name); ?>">
-								<option disabled selected>ここからお選びください</option>
-							<?php foreach($class_name as $c_n): ?>
-								<option value="<?= h($c_n->id); ?>" <?= $item->class_name === $c_n->class_name ? "selected" : ""; ?>><?= h($c_n->class_name); ?></option>
-							<?php endforeach; ?>
-							</select>
-						</div>
+						修正前: <mark><?= h($item->class_name); ?></mark>
 					</div>
-					修正前: <mark><?= h($item->class_name); ?></mark>
+
+					<div class="mb-3">
+						<label for="cat_1" class="form-label">医薬品の場合は下記も選択してください</label>
+						<select class="form-select" aria-label="category_1" id="cat_1" <?= $item->category_id ? "": "disabled";?>>
+							<?php if($item->category_id): ?>
+								<?php foreach($app->category_1() as $cat_m): ?>
+									<?php if( $cat_m->cat_name == $app->cat_id_to_catname($item->category_id)->cat_name) :?>
+										<option value="<?= h($cat_m->cat_name); ?>" selected><?= h($cat_m->cat_name); ?></option>
+									<?php else: ?>
+										<option value="<?= h($cat_m->cat_name); ?>"><?= h($cat_m->cat_name); ?></option>
+									<?php endif; ?>
+								<?php endforeach; ?>
+							<?php else: ?>
+								<?php foreach($app->category_1() as $cat_m): ?>
+									<option value="<?= h($cat_m->cat_name); ?>" selected><?= h($cat_m->cat_name); ?></option>
+								<?php endforeach; ?>
+								<option selected value="">なし</option>
+
+							<?php endif; ?>
+						</select>
+					</div>
+
+					<div class="mb-3">
+						<select class="form-select" name="category" data-id=<?= h($item->category_id); ?> aria-label="category_2" id="cat_2" <?= $item->category_id ? "": "disabled";?>>
+							<?php if($item->category_id): ?>
+								<option selected value="<?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?>"><?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?></option>
+							<?php else: ?>
+								<option selected value="">なし</option>
+							<?php endif; ?>
+							
+						</select>
+					</div>
+					<?php if($item->category_id) : ?>
+						修正前: <mark><?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?></mark>
+					<?php else: ?>
+						修正前：データなし
+					<?php endif; ?>
 				</div>
 
 				<div class="g-3 mb-3">
@@ -225,6 +264,45 @@ $(function(){
 		}
 	});
 
+	$('#inputClass').on('change', function(){
+		let opt_val = $(this).val();
+		let ary = ['1', '2', '3', '4'];
+		if( $.inArray(opt_val, ary) == -1){
+			$('#cat_1 option[value=""]').prop('selected', true);
+			$('#cat_2').empty();
+			$('#cat_1').attr('disabled', 'disabled');
+			$('#cat_2').attr('disabled', 'disabled');
+		} else {
+			$('#cat_1').removeAttr('disabled');
+			$('#cat_2').removeAttr('disabled');
+		}
+	});
+
+	$('#cat_1').on('change', function(){
+		let text_val = $(this).val();
+		$('#cat_2').empty();
+		$.post('_ajax.php', {
+			"url": "new_otc",
+			"mode": "category_change",
+			"text_val": text_val
+		}, function(res){
+			for(let i=0; i<res.length; i++){
+				let e = $("<option>").val(res[i]['id']).text(res[i]['subcat_name']);
+				$('#cat_2').append(e);
+			}
+		});
+	});
+
+
+	let ary = ['1', '2', '3', '4'];
+	if( $.inArray($('#inputClass').val(), ary) != -1 ){
+		$('#cat_1').removeAttr('disabled');
+		$('#cat_2').removeAttr('disabled');
+	}
+	
+
+
+
 	$('#otc_edit').click(function(){
 		let name = $('#inputName').val();
 		let old_name = $('#inputName').data('name');
@@ -254,6 +332,9 @@ $(function(){
 		let flexKiki = $('#flexKiki').prop("checked") ? 1 : 0;
 		let old_flexKiki = $('#flexKiki').data('kiki');
 
+		let old_cat_id = $('#cat_2').data('id');
+		let cat_id = $('#cat_2').val();
+
 		if(
 			name==old_name &&
 			kana==old_kana &&
@@ -267,7 +348,8 @@ $(function(){
 			flexSelfMed==old_flexSelfMed &&
 			flexHygine==old_flexHygine &&
 			flexTax==old_flexTax &&
-			flexKiki==old_flexKiki
+			flexKiki==old_flexKiki &&
+			cat_id==old_cat_id
 		){
 			alert('どこも変更されていません！');
 			return false;

@@ -26,6 +26,7 @@
               <li><a href="otc_list_new.php" class="dropdown-item"><i class="bi bi-stars"></i> 新入荷一覧</a></li>
               <li><a href="kiki_list.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> 医療機器一覧</a></li>
               <li><a href="hygiene_list.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> 衛生用品一覧</a></li>
+              <li><a href="otc48_list.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> OTC48一覧</a></li>
               <li><hr class="dropdown-divider"></li>
               <li><a href="warehousing_kiki_list.php" class="dropdown-item">【入庫】高度、特定保守一覧</a></li>
               <li><a href="sale_kiki_list.php" class="dropdown-item">【出庫】高度、特定保守一覧</a></li>
