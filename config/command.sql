@@ -215,3 +215,12 @@ insert into category (otc_48_id, cat_name, subcat_name) values (null, "一般用
 insert into category (otc_48_id, cat_name, subcat_name) values (null, "その他（いずれの薬効群にも属さない製剤）", "その他（いずれの薬効群にも属さない製剤）");
 
 alter table otc_list add category_id int after tokutei_kiki;
+
+-- 追加カテゴリ
+insert into category (otc_48_id, cat_name, subcat_name) values (null, "消化器官用薬", "消化器官用薬");
+insert into category (otc_48_id, cat_name, subcat_name) values (null, "滋養強壮保健薬", "ビタミン主薬製剤");
+insert into category (otc_48_id, cat_name, subcat_name) values (null, "外皮用薬", "抗ウイルス薬");
+insert into category (otc_48_id, cat_name, subcat_name) values (null, "眼科用薬", "眼科用薬");
+insert into category (otc_48_id, cat_name, subcat_name) values (null, "公衆衛生用薬", "殺そ薬");
+insert into category (otc_48_id, cat_name, subcat_name) values (null, "公衆衛生用薬", "その他の公衆衛生用薬");
+insert into category (otc_48_id, cat_name, subcat_name) values (null, "一般用検査薬", "その他の一般検査薬");

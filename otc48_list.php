@@ -203,7 +203,11 @@ $medItems = $app->get_med_items();
 							<td><?= h($idx+1); ?></td>
 							<td><?= h($med->mId); ?></td>
 							<td><?= h($med->class_name); ?></td>
-							<td><?= h($med->name); ?></td>
+							<td>
+								<a href="correct_otc.php?id=<?= h($med->mId); ?>">
+									<?= h($med->name); ?>
+								</a>
+							</td>
 							<td><?= h($med->size); ?></td>
 							<td><?= h($med->stock_nums); ?></td>
 							<td>
@@ -229,7 +233,7 @@ $(function(){
 		if (e.which == 13) {
 			let nbr = $(this).val();
 			let otc_id = $(this).parent('td').parent('tr').data('otc-id');
-			if(!isNaN(nbr) && nbr>0 && nbr<86){
+			if(!isNaN(nbr) && nbr>0 && nbr<93){
 				$.post('_ajax.php', {
 					"url": "otc48_list",
 					"mode": "update_cat_id",
@@ -240,7 +244,7 @@ $(function(){
 					$this.parent('td').parent('tr').next('tr').children('td').children('input').focus();
 				});
 			} else {
-				alert("入力は数値で「1～85」となっています");
+				alert("入力は数値で「1～92」となっています");
 				$(this).select();
 				$(this).focus();
 			}
