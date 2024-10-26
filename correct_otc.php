@@ -294,7 +294,7 @@ $(function(){
 	});
 
 
-	let ary = ['1', '2', '3', '4'];
+	let ary = ['1', '2', '3', '4', '10'];
 	if( $.inArray($('#inputClass').val(), ary) != -1 ){
 		$('#cat_1').removeAttr('disabled');
 		$('#cat_2').removeAttr('disabled');

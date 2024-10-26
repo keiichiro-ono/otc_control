@@ -223,7 +223,7 @@ $(function(){
 
 	$('#inputClass').on('change', function(){
 		let opt_val = $(this).val();
-		let ary = ['1', '2', '3', '4'];
+		let ary = ['1', '2', '3', '4', '10'];
 		if( $.inArray(opt_val, ary) == -1){
 			$('#cat_1 option[value=""]').prop('selected', true);
 			$('#cat_2').empty();
