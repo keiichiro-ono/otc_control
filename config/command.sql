@@ -1,6 +1,11 @@
 create database otc_control;
 grant all on otc_control.* to otc_control@localhost identified by 'ehtpobhkdbnm';
 
+-- 2024/10/28
+grant all on otc_control.* to otc_control_user@localhost identified by 'ehtpobhkdbnm';
+
+
+
 create table otc_list (
 	id int not null auto_increment primary key,
 	jan bigint,
@@ -224,3 +229,19 @@ insert into category (otc_48_id, cat_name, subcat_name) values (null, "眼科用
 insert into category (otc_48_id, cat_name, subcat_name) values (null, "公衆衛生用薬", "殺そ薬");
 insert into category (otc_48_id, cat_name, subcat_name) values (null, "公衆衛生用薬", "その他の公衆衛生用薬");
 insert into category (otc_48_id, cat_name, subcat_name) values (null, "一般用検査薬", "その他の一般検査薬");
+
+
+
+
+
+-- 2024/10/29 編集の履歴を残すためのテーブル
+create table nums_change_log (
+	id int not null auto_increment primary key,
+	otc_id int not null,
+	old_nums int,
+	new_nums int,
+	memo text,
+	created datetime,
+	modified datetime
+);
+

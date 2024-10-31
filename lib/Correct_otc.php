@@ -65,8 +65,8 @@ class Correct_otc extends Controller{
   public function postprocess(){
     try{
       // var_dump($_POST);exit;
-      $this->_validate();
-      $this->_update();
+      $old_nums = $this->_validate();
+      $this->_update($old_nums);
     }catch(\Exception $e){
       echo $e->getMessage();
       exit;
@@ -131,10 +131,12 @@ class Correct_otc extends Controller{
     ){
       throw new \Exception("なんも変わってないね");
     }
+
+    return $res['stock_nums'];
     clearstatcache(true);
   }
 
-  private function _update(){
+  private function _update($old_nums){
     $sql = "update otc_list set
         jan=:jan,
         class=:class,
@@ -177,6 +179,9 @@ class Correct_otc extends Controller{
       ":category_id"=>(int)$_POST['category'],
       ":id"=>(int)$_POST['id']
     ]);
+
+    $this->_update_nums($old_nums);
+
     if(!$stmt){
       throw new \Exception('更新エラー');
     }
@@ -198,6 +203,25 @@ class Correct_otc extends Controller{
   
       return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+
+    // 20241029
+    private function _update_nums($old_nums){
+      if( $old_nums != (int)$_POST['stock_nums']){
+        $sql = "insert into nums_change_log
+        (otc_id, old_nums, new_nums, memo, created, modified)
+        values
+        (:otc_id, :old_nums, :new_nums, :memo, now(), now())";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->execute([
+          ":otc_id"=>(int)$_POST['id'],
+          ":old_nums"=>$old_nums,
+          ":new_nums"=> (int)$_POST['stock_nums'],
+          ":memo"=> $_POST['memo']
+        ]);
+      }
+    }
+
   
 
 }

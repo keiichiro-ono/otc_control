@@ -138,8 +138,8 @@ $title = 'OTC修正画面';
 
 					<div class="mb-3">
 						<label for="cat_1" class="form-label">医薬品の場合は下記も選択してください</label>
-						<select class="form-select" aria-label="category_1" id="cat_1" <?= $item->category_id ? "": "disabled";?>>
-							<?php if($item->category_id): ?>
+						<select class="form-select" aria-label="category_1" id="cat_1" <?= isset($item->category_id) ? "": "disabled";?>>
+							<?php if(isset($item->category_id)): ?>
 								<?php foreach($app->category_1() as $cat_m): ?>
 									<?php if( $cat_m->cat_name == $app->cat_id_to_catname($item->category_id)->cat_name) :?>
 										<option value="<?= h($cat_m->cat_name); ?>" selected><?= h($cat_m->cat_name); ?></option>
@@ -158,7 +158,7 @@ $title = 'OTC修正画面';
 					</div>
 
 					<div class="mb-3">
-						<select class="form-select" name="category" data-id=<?= h($item->category_id); ?> aria-label="category_2" id="cat_2" <?= $item->category_id ? "": "disabled";?>>
+						<select class="form-select" name="category" data-id=<?= h(isset($item->category_id)); ?> aria-label="category_2" id="cat_2" <?= isset($item->category_id) ? "": "disabled";?>>
 							<?php if($item->category_id): ?>
 								<option selected value="<?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?>"><?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?></option>
 							<?php else: ?>
@@ -227,11 +227,37 @@ $title = 'OTC修正画面';
 					<button type="button" id="otc_edit" class="btn btn-outline-warning rounded-pill px-4">修正</button>
 				</p>
 			</div>
+			<input type="hidden" id="inputMemo" name="memo">
 		</form>
 	</div>
     <!-- row -->
 </div>
   <!-- container -->
+
+  <div class="modal fade" id="textModal" tabindex="-1" role="dialog" aria-labelledby="textModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="textModalLabel">個数の変更理由</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="mb-3">
+					<label for="changeNumsMemo">理由</label>
+					<textarea class="form-control" id="changeNumsMemo" required></textarea>
+					<div class="invalid-feedback">
+					在庫の数を変更した理由を記載してください。
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" id="modalRegist" class="btn btn-primary">登録</button>
+			</div>
+		</div>
+	</div>
+</div>
 <?php include('template/footer.php'); ?>
 
 <script>
@@ -380,8 +406,25 @@ $(function(){
 			$('#inputWholesale').focus();
 			return false;
 		}
+		
+		if(nums != old_nums){
+			$('#textModal').modal('show');
+			return false;
+		}
 
 		$('#myform').submit();
+	});
+
+	$('#modalRegist').click(function(){
+		let memo = $('#changeNumsMemo').val();
+
+		if(memo==""){
+			$('#textModal #changeNumsMemo').addClass('is-invalid');
+			return false;
+		}
+		$('#inputMemo').val(memo);
+		$('#myform').submit();
+
 	});
 
 

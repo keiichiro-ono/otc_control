@@ -189,6 +189,16 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
             $app->update_cat_id((int)$_POST['otc_id'], (int)$_POST['cat_id']);
             break;
         }
-  
+
+        case "inout":
+          $app = new \MyApp\Inout();
+          switch($_POST['mode']){
+            case "change_log":
+              $res = $app->change_log((int)$_POST['id']);
+              header('Content-Type: application/json');
+              echo json_encode($res);
+              break;
+          }
+    
   }
 }

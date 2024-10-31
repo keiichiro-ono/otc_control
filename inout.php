@@ -5,23 +5,36 @@ require_once('config/config.php');
 $app = new \MyApp\Inout();
 
 if(isset($_GET['id']) && !empty($_GET['id'])){
+	$startItem = $app->getInventoryItem((int)$_GET['id']) ? $app->getInventoryItem((int)$_GET['id']): null;
+	$inventoryDate = isset($startItem->date) ? $startItem->date : '2020-01-01';
+	$inventoryNums = isset($startItem->nums) ? $startItem->nums : 0;
+	if(isset($_GET['all']) && !empty($_GET['all']) && $_GET['all']==true){
+		$inventoryDate='2020-01-01';
+		$inventoryNums=0;
+	}
+
 	$item = $app->getItem($_GET['id']);
 	$wholesale = $app->getWholesale($item->wholesale);
-	$out_data = $app->getOutData($_GET['id']);
+	$out_data = $app->getOutData($_GET['id'], $inventoryDate);
 		for($i=0; $i<count($out_data); $i++){
 			array_push($out_data[$i], 'out');
 		}
-	$in_data = $app->getInData($_GET['id']);
+	$in_data = $app->getInData($_GET['id'], $inventoryDate);
 		for($i=0; $i<count($in_data); $i++){
 			array_push($in_data[$i], 'in');
 		}
-	$returned_data = $app->getReturnedData($_GET['id']);
+	$returned_data = $app->getReturnedData($_GET['id'], $inventoryDate);
 		for($i=0; $i<count($returned_data); $i++){
 			array_push($returned_data[$i], 'returned');
 		}
-	$out_price = $app->getOutPrice();
-	$in_price = $app->getInPrice();
-	$returned_price = $app->getRetrurnedPrice() ? $app->getRetrurnedPrice(): 0;
+
+	$out_price = $app->getOutPrice($_GET['id'], $inventoryDate) ? $app->getOutPrice($_GET['id'], $inventoryDate): 0;
+	$in_price = $app->getInPrice($_GET['id'], $inventoryDate) ? $app->getInPrice($_GET['id'], $inventoryDate): 0;
+	$returned_price = $app->getRetrurnedPrice($_GET['id'], $inventoryDate) ? $app->getRetrurnedPrice($_GET['id'], $inventoryDate): 0;
+
+	$log = $app->check_change_log((int)$_GET['id'], $inventoryDate);
+	var_dump($log);
+
 } else {
 	echo '不正なアクセスです';
 	exit;
@@ -35,6 +48,21 @@ if($out_price || $in_price){
 	array_multisort($total_sort, SORT_DESC, $total);
 }
 
+$calcNums = $inventoryNums;
+if(isset($total)){
+	foreach($total as $row){
+		if($row[0]=='in') $calcNums += $row['nums'];
+		if($row[0]=='out') $calcNums-= $row['nums'];
+		if($row[0]=='returned') $calcNums-= $row['nums'];
+	}
+}
+
+// echo '<pre>';
+// var_dump('棚卸の日'. ymd_wareki($inventoryDate));
+// var_dump('棚卸の数：'. $inventoryNums);
+// var_dump('現在の数：'. $item->stock_nums);
+// var_dump('計算による現在の数：'. $calcNums);
+// echo '</pre>';
 $title = '入庫出庫一覧';
 
 ?>
@@ -157,7 +185,30 @@ $title = '入庫出庫一覧';
 					</div>
 				</div>
 			</div>
+
 			<div class="col-sm-7">
+				<div class="text-end">
+					<a href="?id=<?= h($_GET['id']); ?>" class="btn btn-primary <?= (!isset($_GET['all']) ? 'disabled' : ''); ?>">棚卸後</a>
+					<a href="?id=<?= h($_GET['id']); ?>&all=true" class="btn btn-primary <?= (isset($_GET['all']) ? 'disabled' : ''); ?>">全データ</a>
+				</div>
+				<div class="mb-1" id="infoDiv">
+				<?php if (!isset($_GET['all'])): ?>
+					<p>
+						<?= '棚卸の日(数): '. ymd_wareki($inventoryDate); ?>
+						<?= '（'. h($inventoryNums).'個）'; ?><br>
+						<?= '現在の数：'. h($item->stock_nums). '個'; ?><br>
+						<?= '棚卸からの理論値：'. h($calcNums). '個'; ?> 
+						<?php if($log>0): ?>
+							<button id="log" class="btn btn-sm btn-warning">変更履歴 <span class="badge bg-secondary"><?= h($log); ?></span></button>
+						<?php endif; ?>
+						<?php if($item->stock_nums==$calcNums): ?>
+							<i class="bi-check2-square" style="font-size: 2rem; color: green;"></i>
+						<?php else: ?>
+							<i class="bi bi-exclamation-triangle-fill" style="font-size: 2rem; color: red;"></i>
+						<?php endif; ?>
+					</p>
+				<?php endif; ?>
+				</div>
 				<table class="table table-bordered table-sm">
 					<thead class="table-dark">
 						<th>日時</th>
@@ -262,6 +313,37 @@ $title = '入庫出庫一覧';
 		<!-- row -->
 	</div>
   <!-- container -->
+
+
+	<div class="modal fade" id="logModal" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="logModalLabel">変更履歴</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>変更日時</th>
+							<th>変更前</th>
+							<th>変更後</th>
+							<th>理由</th>
+						</tr>
+					</thead>
+					<tbody id="modalTable">
+
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+			</div>
+		</div>
+	</div>
 <script>
 $(function(){
 	// $('table>thead>tr>th').click(function(){
@@ -273,6 +355,34 @@ $(function(){
 	// 	var id = $(this).parent().data('id');
 	// 	window.location.href = "correct_otc.php?id=" + id;
 	// });
+	let url = new URL(window.location.href);
+	// URLSearchParamsオブジェクトを取得
+	let params = url.searchParams;
+	// getメソッド
+	console.log(params.get('id')); 
+
+	$('#infoDiv').on('click', '#log', function(){
+		$.post('_ajax.php', {
+			"url": "inout",
+			"mode": "change_log",
+			"id": params.get('id')
+		}, function(res){
+			for(let i=0; i<res.length; i++){
+				let e = '<tr>' +
+					'<td>'+ res[i]['id'] +'</td>' +
+					'<td>'+ res[i]['created'] +'</td>' +
+					'<td>'+ res[i]['old_nums'] +'</td>' +
+					'<td>'+ res[i]['new_nums'] +'</td>' +
+					'<td>'+ res[i]['memo'] +'</td>' +
+					'</tr>';
+
+				$('tbody#modalTable').append(e);
+
+			}
+		});
+
+		$('#logModal').modal('show');
+	});
 
 });
 </script>

@@ -5,7 +5,7 @@ ini_set( 'display_errors', 1 );
 session_start();
 
 define("DSN", "mysql:host=localhost;dbname=otc_control");
-define("DB_USER", "otc_control");
+define("DB_USER", "otc_control_user");
 define("DB_PASSWORD", "ehtpobhkdbnm");
 
 define("TAX_1", 8);

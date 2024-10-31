@@ -18,43 +18,66 @@ class Inout extends Controller{
     return $stmt->fetchColumn();
   }
 
-  public function getOutData(){
+  public function getOutData($id, $date){
     $sql = "select date,nums,actual_price from saleData
-      where otc_id=". $_GET['id'];
+      where otc_id=". $_GET['id']. " and date >= '". $date . " 00:00:00'";
     $stmt = $this->_db->query($sql);
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
   }
 
-  public function getInData(){
+  public function getInData($id, $date){
     $sql = "select date,enter_nums as nums,actual_price, limit_date
-    from warehousing where otc_id=". $_GET['id'];
+    from warehousing where otc_id=". $_GET['id']. " and date >= '". $date . " 00:00:00'";
     $stmt = $this->_db->query($sql);
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
   }
 
-  public function getReturnedData(){
+  public function getReturnedData($id, $date){
     $sql = "select date,nums,actual_price
-    from returnedData where otc_id=". $_GET['id'];
+    from returnedData where otc_id=". $_GET['id']. " and date >= '". $date . " 00:00:00'";
     $stmt = $this->_db->query($sql);
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
   }
 
-  public function getOutPrice(){
-    $sql = "select sum(actual_price*nums) from saleData where otc_id=". $_GET['id'];
+  public function getOutPrice($id, $date){
+    $sql = "select sum(actual_price*nums) from saleData where otc_id=". $_GET['id']. " and date >= '". $date . " 00:00:00'";
     $stmt = $this->_db->query($sql);
     return $stmt->fetchColumn();
   }
 
-  public function getInPrice(){
-    $sql = "select sum(actual_price*enter_nums) from warehousing where otc_id=". $_GET['id'];
+  public function getInPrice($id, $date){
+    $sql = "select sum(actual_price*enter_nums) from warehousing where otc_id=". $_GET['id']. " and date >= '". $date . " 00:00:00'";
     $stmt = $this->_db->query($sql);
     return $stmt->fetchColumn();
   }
 
-  public function getRetrurnedPrice(){
-    $sql = "select sum(actual_price*nums) from returnedData where otc_id=". $_GET['id'];
+  public function getRetrurnedPrice($id, $date){
+    $sql = "select sum(actual_price*nums) from returnedData where otc_id=". $_GET['id']. " and date >= '". $date . " 00:00:00'";
     $stmt = $this->_db->query($sql);
     return $stmt->fetchColumn();
+  }
+
+
+  public function getInventoryItem($id){
+    $sql = "select * from inventory where otc_id='$id' order by date desc limit 1";
+    $stmt = $this->_db->query($sql);
+    $res = $stmt->fetch(\PDO::FETCH_OBJ);
+    return $res;
+
+  }
+
+  public function check_change_log($id, $inventoryDate){
+    $sql = "select count(*) from nums_change_log where otc_id=$id and created >= '". $inventoryDate . " 00:00:00'";
+    $stmt = $this->_db->query($sql);
+    $res = $stmt->fetchColumn();
+    return $res;
+  }
+
+  public function change_log($id){
+    $sql = "select * from nums_change_log where otc_id=$id";
+    $stmt = $this->_db->query($sql);
+    $res = $stmt->fetchAll(\PDO::FETCH_OBJ);
+    return $res;
   }
 
 }
