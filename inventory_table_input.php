@@ -13,10 +13,10 @@ $title = '棚卸し入力画面';
 	<style media="screen">
 		.input{
 			cursor: pointer;
-			color: blue;
+			color: blue!important;
 		}
 		.inventory{
-			background: #ccc;
+			background: #ccc!important;
 		}
 	</style>
 <body>
@@ -62,7 +62,7 @@ $title = '棚卸し入力画面';
 				</thead>
 				<tbody id="mainTable">
 				<?php foreach($items as $item): ?>
-					<tr id="<?= h($item->mainId); ?>" class="<?= $item->stock_nums>0 ? 'exist': '' ;?> <?= $item->inventory==1 ? 'inventory': '' ;?>">
+					<tr id="<?= h($item->mainId); ?>" class="<?= $item->stock_nums>0 ? 'exist': '' ;?> <?= $item->inventory==1 ? 'inventory table-secondary': '' ;?>">
 						<td><?= h($item->name); ?></td>
 						<td class="text-center"><?= h($item->size); ?></td>
 						<td class="text-center"><?= h($item->class_name); ?></td>
@@ -213,8 +213,8 @@ $(function(){
 			nums: nums
 		}, function(res){
 			$this.parent('tr').hide(800);
-			if(!$this.parent('tr').hasClass('inventory')){
-				$this.parent('tr').addClass('inventory');
+			if(!$this.parent('tr').hasClass('inventory table-secondary')){
+				$this.parent('tr').addClass('inventory table-secondary');
 			}
 			if(nums==0){
 				$this.parent('tr').removeClass('exist');

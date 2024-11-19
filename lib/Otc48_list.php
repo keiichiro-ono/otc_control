@@ -11,6 +11,19 @@ class Otc48_list extends Controller{
     return $stmt->fetchColumn();
   }
 
+  public function getCat(){
+    $sql = "select distinct cat_name from category";
+    $stmt = $this->_db->query($sql);
+    return $stmt->fetchAll(\PDO::FETCH_OBJ);
+  }
+
+  public function getSubCat(){
+    $cat = $_POST['cat_name'];
+    $sql = "select * from category where cat_name='$cat'";
+    $stmt = $this->_db->query($sql);
+    return $stmt->fetchAll(\PDO::FETCH_OBJ);
+  }
+
   // public function otc48_id_to_cat_id($otc48_id){
   //   $sql = "select * from otc_lis"
   // }
@@ -21,6 +34,13 @@ class Otc48_list extends Controller{
       otc_list.class>=1 and otc_list.class<=4 order by otc_list.kana";
     $stmt = $this->_db->query($sql);
     return $stmt->fetchALL(\PDO::FETCH_OBJ);
+  }
+
+  public function get_category_id_to_name($id){
+    $sql = "select * from category 
+      where id=$id";
+    $stmt = $this->_db->query($sql);
+    return $stmt->fetch(\PDO::FETCH_OBJ);
   }
 
   public function get_items($id){
@@ -36,6 +56,12 @@ class Otc48_list extends Controller{
       ":cat_id"=>$cat_id,
       ":otc_id"=>$otc_id
     ]);
+  }
+
+  public function getCatMedicine($id){
+    $sql = "select *,otc_list.id as mainId from otc_list,category where otc_list.category_id=category.id and otc_48_id=$id order by otc_list.kana";
+    $stmt = $this->_db->query($sql);
+    return $stmt->fetchALL(\PDO::FETCH_ASSOC);
   }
 
 

@@ -31,10 +31,11 @@ class Warehousing extends Controller{
         ":limit_date"=>$limit
       ]);
 
-      $sql = "update otc_list set stock_nums=stock_nums+:num where id=:id";
+      $sql = "update otc_list set stock_nums=stock_nums+:num, purchase_price=:price where id=:id";
       $stmt = $this->_db->prepare($sql);
       $stmt->execute([
         ":num"=>(int)$_POST['nums'],
+        ":price"=>(int)$_POST['price'],
         ":id"=>(int)$_POST['id']
       ]);
 
@@ -98,7 +99,7 @@ class Warehousing extends Controller{
         ]);
 
       $this->_db->commit();
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
       $this->_db->rollBack();
       echo "失敗しました。" . $e->getMessage();
       exit;

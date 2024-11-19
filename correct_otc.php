@@ -11,6 +11,9 @@ if(isset($_GET['id']) || !empty($_GET['id'])){
 }
 
 if($_SERVER['REQUEST_METHOD']==="POST"){
+	// echo '<pre>';
+	// var_dump($app->category_1());
+	// var_dump($_POST); exit;
 	$app->postprocess();
 	header( "Location: ". HOME_URL . "inout.php?id=". $_GET['id']);
 	exit;
@@ -160,7 +163,8 @@ $title = 'OTC修正画面';
 					<div class="mb-3">
 						<select class="form-select" name="category" data-id=<?= h(isset($item->category_id)); ?> aria-label="category_2" id="cat_2" <?= isset($item->category_id) ? "": "disabled";?>>
 							<?php if($item->category_id): ?>
-								<option selected value="<?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?>"><?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?></option>
+								<!-- <option selected value="<?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?>"><?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?></option> -->
+								<option selected value="<?= h($item->category_id); ?>"><?= h($app->cat_id_to_catname($item->category_id)->subcat_name); ?></option>
 							<?php else: ?>
 								<option selected value="">なし</option>
 							<?php endif; ?>

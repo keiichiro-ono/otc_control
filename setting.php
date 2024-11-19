@@ -39,6 +39,12 @@ $title = '設定';
 					<button type="button" class="btn btn-success px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#modal_class">
 						カテゴリ分類を編集する
 					</button>
+
+					<hr class="hr hr-blurry" />
+					<a href="check_nums.php" type="button" class="btn btn-danger px-4 rounded-pill">
+						在庫の差異をチェック
+					</a>
+
 				</div>
 			</div>
 			<div class="col-xs-12 col-sm-10 col-md-4 col-lg-3 col-xl-2 mt-4">

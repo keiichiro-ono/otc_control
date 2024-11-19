@@ -34,6 +34,27 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
         exit;
       }
 
+
+    case "otc_search":
+      $app_otc_search = new \MyApp\Otc_search();
+      try{
+        switch($_POST['mode']){
+          case 'search_items':
+            $res = $app_otc_search->search_items();
+            header('Content-Type: application/json');
+            echo json_encode($res);
+            exit;
+          case 'search_item_barcode':
+            $res = $app_otc_search->search_item_barcode();
+            header('Content-Type: application/json');
+            echo json_encode($res);
+            exit;
+          }
+      }catch(Exception $e){
+        echo $e->getMessage();
+        exit;
+      }
+
     case "proceeds":
       $app = new \MyApp\Proceeds();
       try{
@@ -182,23 +203,50 @@ if($_SERVER['REQUEST_METHOD']==="POST"){
           break;
       }
 
-      case "otc48_list":
-        $app = new \MyApp\Otc48_list();
-        switch($_POST['mode']){
-          case "update_cat_id":
-            $app->update_cat_id((int)$_POST['otc_id'], (int)$_POST['cat_id']);
-            break;
-        }
+    case "otc48_list":
+      $app = new \MyApp\Otc48_list();
+      switch($_POST['mode']){
+        case "update_cat_id":
+          $app->update_cat_id((int)$_POST['otc_id'], (int)$_POST['cat_id']);
+          exit;
+        case "getCatMed":
+          $res = $app->getCatMedicine($_POST['id']);
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          exit;
+        case 'getSubCat':
+          $res = $app->getSubCat();
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          exit;
+      }
 
-        case "inout":
-          $app = new \MyApp\Inout();
-          switch($_POST['mode']){
-            case "change_log":
-              $res = $app->change_log((int)$_POST['id']);
-              header('Content-Type: application/json');
-              echo json_encode($res);
-              break;
-          }
+    case "inout":
+      $app = new \MyApp\Inout();
+      switch($_POST['mode']){
+        case "change_log":
+          $res = $app->change_log((int)$_POST['id']);
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          exit;
+      }
+    case "pre_order":
+      $app = new \MyApp\Pre_order();
+      switch($_POST['mode']){
+        case "sales_data":
+          $res = $app->sales_data();
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          exit;
+        case "getProceedsData":
+          $res = $app->getProceedsData();
+          header('Content-Type: application/json');
+          echo json_encode($res);
+          exit;
+  
+      }
     
+
+
   }
 }

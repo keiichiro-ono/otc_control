@@ -74,9 +74,23 @@ class Inout extends Controller{
   }
 
   public function change_log($id){
-    $sql = "select * from nums_change_log where otc_id=$id";
+    $sql = "select * from nums_change_log where otc_id=$id order by created desc";
     $stmt = $this->_db->query($sql);
     $res = $stmt->fetchAll(\PDO::FETCH_OBJ);
+    return $res;
+  }
+
+  public function change_log_late_date($id, $inventoryDate){
+    $sql = "select new_nums,created from nums_change_log where otc_id=$id and created>=$inventoryDate order by created desc limit 1";
+    $stmt = $this->_db->query($sql);
+    $res = $stmt->fetch(\PDO::FETCH_OBJ);
+    return $res;
+  }
+
+  public function log_change_diff($id, $inventoryDate){
+    $sql = "select sum(old_nums - new_nums) from nums_change_log where otc_id=$id and created >= '". $inventoryDate . " 00:00:00'";
+    $stmt = $this->_db->query($sql);
+    $res = $stmt->fetchColumn();
     return $res;
   }
 

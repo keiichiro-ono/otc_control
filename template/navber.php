@@ -15,6 +15,8 @@
             <li><a href="warehousing.php" class="dropdown-item"><i class="bi bi-arrow-right"></i><i class="bi bi-shop-window"></i> 入庫入力</a></li>
             <li><a href="proceeds.php" class="dropdown-item"><i class="bi bi-arrow-right"></i><i class="bi bi-person-fill"></i> 売上登録</a></li>
             <li><a href="returned.php" class="dropdown-item"><i class="bi bi-reply-fill"></i> 返品登録</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a href="pre_order.php" class="dropdown-item"><i class="bi bi-basket"></i> プレ発注</a></li>
             </ul>
         </li>
         <li class="nav-item dropdown">
@@ -22,8 +24,9 @@
             一覧表示 
             </a>
             <ul class="dropdown-menu">
-              <li><a href="otc_list_alp.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> OTC一覧</a></li>
-              <li><a href="otc_list_new.php" class="dropdown-item"><i class="bi bi-stars"></i> 新入荷一覧</a></li>
+            <li><a href="otc_list_alp.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> OTC一覧</a></li>
+              <li class="ms-4"><a href="otc_search.php" class="dropdown-item"><i class="bi bi-search"></i> OTC検索</a></li>
+            <li><a href="otc_list_new.php" class="dropdown-item"><i class="bi bi-stars"></i> 新入荷一覧</a></li>
               <li><a href="kiki_list.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> 医療機器一覧</a></li>
               <li><a href="hygiene_list.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> 衛生用品一覧</a></li>
               <li><a href="otc48_list.php" class="dropdown-item"><i class="bi bi-list-columns-reverse"></i> OTC48一覧</a></li>

@@ -27,7 +27,7 @@ $title = 'OTC一覧画面(50音)';
 		vertical-align: middle!important;
 	}
 	.edit, .link{
-		color: blue;
+		color: blue!important;
 		cursor: pointer;
 	}
 	.gray{
@@ -42,7 +42,10 @@ $title = 'OTC一覧画面(50音)';
 
 	<div class="container mt-3">
 		<div class="page-header">
-			<h1>OTC一覧画面 【50音】 <i class="bi bi-list-columns-reverse" style="font-size: 3rem; color: cornflowerblue;"></i></h1>
+			<h1>
+				OTC一覧画面 【50音】 <i class="bi bi-list-columns-reverse" style="font-size: 3rem; color: cornflowerblue;"></i> 
+				<small class="h4 ps-3"><a href="otc_search.php" class="btn btn-success btn-sm">OTC検索 <i class="bi bi-search"></i></a></small>
+			</h1>
 			<button type="button" class="btn btn-secondary active" id="all_dis">全表示</button>
 			<div class="btn-group" role="group" id="mokuji">
 				<button type="button" class="btn btn-secondary" id="a_dis" data-chara="a">あ行</button>

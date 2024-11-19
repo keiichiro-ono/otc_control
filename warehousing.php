@@ -18,11 +18,11 @@ $data = $app->threeDay();
 	<?php include('template/navber.php'); ?>
 	<style>
 	.deleteSubRow, .deleteRow{
-		color: red;
+		color: red!important;
 		cursor: pointer
 	}
 	.inputLimit{
-		color: blue;
+		color: blue!important;
 		cursor: pointer;
 	}
 	.editSubRow{

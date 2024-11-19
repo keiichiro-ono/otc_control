@@ -34,13 +34,13 @@ $title = '月間売上';
 	<?php include('template/navber.php'); ?>
 	<style>
     .youbi_0{
-      color: red;
+      color: red!important;
     }
     .youbi_6{
-      color: blue;
+      color: blue!important;
     }
-		.youbi_tr_0{
-			background-color: #FCC
+		tr.youbi_tr_0 > td{
+			background-color: #FFF0F5;
 		}
 		th, td{
 			text-align: center;
@@ -88,28 +88,28 @@ $title = '月間売上';
 						?>
 							<tr class="youbi_tr_<?= h($youbi%7); ?>" data-ymd="<?= h($yearMonth."-".$j); ?>">
 								<td class="youbi_<?= h($youbi%7); ?>"><?= h($i+1); ?>日</td>
-								<td class="text-right" data-status="sale">
+								<td class="text-end" data-status="sale">
 									<?php
 										$sale = $app->getSale($yearMonth."-".$j);
 										$totalSale += $sale;
-										echo h(number_format($sale, 0));
+										echo h(number_format((float)$sale, 0));
 									?>円
 								</td>
-								<td class="text-right" data-status="returned">
+								<td class="text-end" data-status="returned">
 									<?php
 										$return = $app->getReturn($yearMonth."-".$j);
 										$totalReturned += $return;
-										echo h(number_format($return, 0));
+										echo h(number_format((float)$return, 0));
 									?>円
 								</td>
-								<td class="text-right" data-status="warehousing">
+								<td class="text-end" data-status="warehousing">
 									<?php
 										$ware = $app->getWarehousing($yearMonth."-".$j);
 										$totalWare += $ware;
-										echo h(number_format($ware, 0));
+										echo h(number_format((float)$ware, 0));
 									?>円
 								</td>
-								<td class="text-right">
+								<td class="text-end">
 									<?php
 										$total = $sale+$return-$ware;
 										$totalSum += $total;

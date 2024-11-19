@@ -31,7 +31,10 @@ footer {
 	table.table tbody{
 		margin-top:10px;
 	}
-	
+	div.no-print{
+		display: none;
+	}
+   
   }
 /* calender.php */
 /* .youbi_0{

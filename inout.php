@@ -7,7 +7,14 @@ $app = new \MyApp\Inout();
 if(isset($_GET['id']) && !empty($_GET['id'])){
 	$startItem = $app->getInventoryItem((int)$_GET['id']) ? $app->getInventoryItem((int)$_GET['id']): null;
 	$inventoryDate = isset($startItem->date) ? $startItem->date : '2020-01-01';
+
+	$changeDate = $app->change_log_late_date((int)$_GET['id'], $inventoryDate);
 	$inventoryNums = isset($startItem->nums) ? $startItem->nums : 0;
+
+	if($changeDate) $inventoryDate = $changeDate->created;
+	if($changeDate) $inventoryNums = $changeDate->new_nums;
+	
+	
 	if(isset($_GET['all']) && !empty($_GET['all']) && $_GET['all']==true){
 		$inventoryDate='2020-01-01';
 		$inventoryNums=0;
@@ -33,7 +40,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
 	$returned_price = $app->getRetrurnedPrice($_GET['id'], $inventoryDate) ? $app->getRetrurnedPrice($_GET['id'], $inventoryDate): 0;
 
 	$log = $app->check_change_log((int)$_GET['id'], $inventoryDate);
-	var_dump($log);
+	$log_diff_beforeafter = $app->log_change_diff((int)$_GET['id'], $inventoryDate);
 
 } else {
 	echo '不正なアクセスです';
@@ -196,10 +203,14 @@ $title = '入庫出庫一覧';
 					<p>
 						<?= '棚卸の日(数): '. ymd_wareki($inventoryDate); ?>
 						<?= '（'. h($inventoryNums).'個）'; ?><br>
+						<?= '棚卸からの理論値：'. h($calcNums). '個'; ?><br> 
+
 						<?= '現在の数：'. h($item->stock_nums). '個'; ?><br>
-						<?= '棚卸からの理論値：'. h($calcNums). '個'; ?> 
+						<!-- <?= '在庫から調整を加味：'. h($item->stock_nums+$log_diff_beforeafter). '個'; ?><br> -->
+
 						<?php if($log>0): ?>
 							<button id="log" class="btn btn-sm btn-warning">変更履歴 <span class="badge bg-secondary"><?= h($log); ?></span></button>
+
 						<?php endif; ?>
 						<?php if($item->stock_nums==$calcNums): ?>
 							<i class="bi-check2-square" style="font-size: 2rem; color: green;"></i>
@@ -329,6 +340,7 @@ $title = '入庫出庫一覧';
 							<th>ID</th>
 							<th>変更日時</th>
 							<th>変更前</th>
+							<th></th>
 							<th>変更後</th>
 							<th>理由</th>
 						</tr>
@@ -346,15 +358,6 @@ $title = '入庫出庫一覧';
 	</div>
 <script>
 $(function(){
-	// $('table>thead>tr>th').click(function(){
-	// 	var data = $(this).data('name');
-	// 	alert(data);
-	// });
-
-	// $('tbody#tb').on('click', '.edit', function(){
-	// 	var id = $(this).parent().data('id');
-	// 	window.location.href = "correct_otc.php?id=" + id;
-	// });
 	let url = new URL(window.location.href);
 	// URLSearchParamsオブジェクトを取得
 	let params = url.searchParams;
@@ -362,6 +365,7 @@ $(function(){
 	console.log(params.get('id')); 
 
 	$('#infoDiv').on('click', '#log', function(){
+		$('tbody#modalTable').empty();
 		$.post('_ajax.php', {
 			"url": "inout",
 			"mode": "change_log",
@@ -371,8 +375,9 @@ $(function(){
 				let e = '<tr>' +
 					'<td>'+ res[i]['id'] +'</td>' +
 					'<td>'+ res[i]['created'] +'</td>' +
-					'<td>'+ res[i]['old_nums'] +'</td>' +
-					'<td>'+ res[i]['new_nums'] +'</td>' +
+					'<td>'+ res[i]['old_nums'] +'個</td>' +
+					'<td>→</td>' +
+					'<td><b>'+ res[i]['new_nums'] +'個</b></td>' +
 					'<td>'+ res[i]['memo'] +'</td>' +
 					'</tr>';
 
