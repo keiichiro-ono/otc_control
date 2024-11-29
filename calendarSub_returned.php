@@ -22,6 +22,6 @@ $daySum = $app->getSumReturned($_GET['date']);
     <?php endforeach; ?>
 			<tr>
 				<td colspan="4">
-					合計：<?= h(number_format($daySum, 0));?>円
+					合計：<?= h($daySum ? number_format($daySum, 0): 0);?>円
 				</td>
 			</tr>

@@ -254,6 +254,12 @@ $title = 'OTC修正画面';
 					在庫の数を変更した理由を記載してください。
 					</div>
 				</div>
+				<div class="modal_btn_group">
+					<button class="btn btn-sm btn-light mb-1">現在庫と異なるため</button><br>
+					<button class="btn btn-sm btn-light mb-1">入庫の記録を忘れたため</button>
+					<button class="btn btn-sm btn-light mb-1">出庫の記録を忘れたため</button><br>
+					<button class="btn btn-sm btn-light mb-1">リセット</button>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -429,6 +435,15 @@ $(function(){
 		$('#inputMemo').val(memo);
 		$('#myform').submit();
 
+	});
+
+	$('.modal_btn_group').children('button').click(function(){
+		let txt = $(this).text();
+		if(txt=='リセット'){
+			$('#changeNumsMemo').text("");
+		} else {
+			$('#changeNumsMemo').text(txt);
+		}
 	});
 
 

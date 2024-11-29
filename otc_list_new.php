@@ -13,11 +13,9 @@ $title = '新入荷OTC一覧表示';
 		  vertical-align: middle!important;
 		}
 		.red{
-			background-color: #ffe0ff;
 			font-size: 1.8em;
 		}
 		.yellow{
-			background-color: #ffffe0;
 			font-size: 1.3em;
 		}
 	</style>
@@ -52,9 +50,9 @@ $title = '新入荷OTC一覧表示';
 					$today = new DateTime();
 					$diff = $created->diff($today)->days;
 					if($diff <= 15){
-						$diff_class = 'red';
+						$diff_class = 'table-danger red';
 					} elseif($diff <= 30){
-						$diff_class = 'yellow';
+						$diff_class = 'table-warning yellow';
 					} else {
 						$diff_class = '';
 					}

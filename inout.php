@@ -64,12 +64,8 @@ if(isset($total)){
 	}
 }
 
-// echo '<pre>';
-// var_dump('棚卸の日'. ymd_wareki($inventoryDate));
-// var_dump('棚卸の数：'. $inventoryNums);
-// var_dump('現在の数：'. $item->stock_nums);
-// var_dump('計算による現在の数：'. $calcNums);
-// echo '</pre>';
+$checkInventory = ($inventoryDate=='2020-01-01') ? false : true;
+
 $title = '入庫出庫一覧';
 
 ?>
@@ -201,9 +197,14 @@ $title = '入庫出庫一覧';
 				<div class="mb-1" id="infoDiv">
 				<?php if (!isset($_GET['all'])): ?>
 					<p>
-						<?= '棚卸の日(数): '. ymd_wareki($inventoryDate); ?>
-						<?= '（'. h($inventoryNums).'個）'; ?><br>
-						<?= '棚卸からの理論値：'. h($calcNums). '個'; ?><br> 
+						<?php if($checkInventory): ?>
+							<?= '棚卸の日(数): '. ymd_wareki($inventoryDate); ?>
+							<?= '（'. h($inventoryNums).'個）'; ?><br>
+							<?= '棚卸からの理論値：'. h($calcNums). '個'; ?><br> 
+						<?php else: ?>
+							<?= '棚卸の日(数): 未棚卸'; ?><br>
+							<?= '登録からの理論値：'. h($calcNums). '個'; ?><br> 
+						<?php endif; ?>
 
 						<?= '現在の数：'. h($item->stock_nums). '個'; ?><br>
 						<!-- <?= '在庫から調整を加味：'. h($item->stock_nums+$log_diff_beforeafter). '個'; ?><br> -->
